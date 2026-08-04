@@ -54,6 +54,25 @@ def detect_gpu() -> str:
     return "unknown"
 
 
+def _detect_quantization(model_tag: str) -> str:
+    """Detect quantization from model tag or ollama show."""
+    tag_lower = model_tag.lower()
+    for q in ("fp16", "fp32", "q8_0", "q6_k", "q5_k_m", "q5_k_s",
+              "q4_k_m", "q4_k_s", "q4_0", "q3_k_m", "q2_k"):
+        if q in tag_lower:
+            return q.upper()
+    # Default tag — query ollama show for actual quantization
+    try:
+        out = subprocess.run(["ollama", "show", model_tag],
+                             capture_output=True, text=True, timeout=10)
+        for line in out.stdout.splitlines():
+            if "quantization" in line.lower():
+                return line.split()[-1].strip()
+    except (OSError, subprocess.TimeoutExpired):
+        pass
+    return "unknown"
+
+
 def run_once(client: LLMClient, max_tokens: int) -> dict:
     return client.generate(BENCH_PROMPT, temperature=0.2, max_tokens=max_tokens)
 
@@ -77,7 +96,7 @@ def main() -> None:
         "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "label": args.label,
         "model": args.model,
-        "quantization_actual": "ollama-default (Q4_K_M for llama3.1:8b)" if ":" in args.model else "unknown",
+        "quantization_actual": _detect_quantization(args.model),
         "eval_count": r["eval_count"],
         "tokens_per_sec": round(tok_s, 2),
         "prompt_tokens_per_sec": round(prompt_tok_s, 2),

@@ -5,8 +5,10 @@ runs against a CUDA build (dev laptop) or a ROCm build (AMD demo box). Select
 with LLM_MODE=mock|ollama; point at a remote server with OLLAMA_HOST.
 """
 
+import concurrent.futures
 import json
 import os
+import time
 import urllib.error
 import urllib.request
 
@@ -96,4 +98,42 @@ class LLMClient:
             "load_duration_ns": body.get("load_duration", 0),
             "total_duration_ns": body.get("total_duration", 0),
             "tokens_per_sec": (eval_count / (eval_ns / 1e9)) if eval_ns else 0.0,
+        }
+
+    # --- Batching (additive, does not alter generate()) -------------------
+
+    def generate_batch(
+        self,
+        prompts: list[str],
+        system: str | None = None,
+        temperature: float = 0.2,
+        max_tokens: int = 512,
+    ) -> dict:
+        """Run multiple prompts concurrently and return timing comparison.
+
+        Returns {"results": [dict, ...], "wall_clock_s": float,
+                 "sequential_estimate_s": float, "speedup": float}.
+
+        Ollama serialises GPU work, so true parallelism is limited, but
+        overlapping network + prompt-eval with prior decode still helps.
+        """
+        t0 = time.perf_counter()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(prompts)) as pool:
+            futures = [
+                pool.submit(self.generate, p, system, temperature, max_tokens)
+                for p in prompts
+            ]
+            results = [f.result() for f in futures]
+        wall = time.perf_counter() - t0
+
+        # Estimate sequential time from individual total_duration_ns
+        seq_ns = sum(r.get("total_duration_ns", 0) for r in results)
+        seq_s = seq_ns / 1e9 if seq_ns else wall
+        speedup = seq_s / wall if wall > 0 else 1.0
+
+        return {
+            "results": results,
+            "wall_clock_s": round(wall, 3),
+            "sequential_estimate_s": round(seq_s, 3),
+            "speedup": round(speedup, 2),
         }
