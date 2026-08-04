@@ -38,13 +38,51 @@ def _now() -> str:
 
 
 def _extract_confidence(text: str, default: float = 0.5) -> float:
-    matches = re.findall(r"CONFIDENCE[:\s]+([01](?:\.\d+)?)", text, flags=re.IGNORECASE)
-    if not matches:
-        return default
-    try:
-        return max(0.0, min(1.0, float(matches[-1])))
-    except ValueError:
-        return default
+    """Extract a confidence score from LLM output.
+
+    Robust to real-model quirks: markdown formatting (**bold**),
+    varied labels (score/level), percentages, and buried-in-sentence values.
+    """
+    # Strip markdown bold/italic/code so "**CONFIDENCE**: 0.7" parses
+    cleaned = re.sub(r'[*_`]', '', text)
+
+    # 1. Explicit labeled pattern (highest priority, last match wins)
+    #    CONFIDENCE: 0.72 | REVISED CONFIDENCE = 0.66 | Confidence Score: 0.8
+    explicit = re.findall(
+        r'(?:REVISED\s+)?CONFIDENCE(?:\s+(?:SCORE|LEVEL))?'
+        r'\s*[:=\s]\s*'
+        r'([01](?:\.\d+)?|\.\d+)',
+        cleaned, re.IGNORECASE,
+    )
+    if explicit:
+        try:
+            return max(0.0, min(1.0, float(explicit[-1])))
+        except ValueError:
+            pass
+
+    # 2. Percentage after a confidence label: "CONFIDENCE: 72%"
+    pct = re.findall(
+        r'(?:REVISED\s+)?CONFIDENCE(?:\s+(?:SCORE|LEVEL))?'
+        r'\s*[:=\s]\s*(\d{1,3})\s*%',
+        cleaned, re.IGNORECASE,
+    )
+    if pct:
+        try:
+            return max(0.0, min(1.0, float(pct[-1]) / 100.0))
+        except ValueError:
+            pass
+
+    # 3. Fallback: any 0.XX on a line containing "confiden" (last match wins)
+    for line in reversed(cleaned.splitlines()):
+        if 'confiden' in line.lower():
+            nums = re.findall(r'\b([01]\.\d+)\b', line)
+            if nums:
+                try:
+                    return max(0.0, min(1.0, float(nums[-1])))
+                except ValueError:
+                    pass
+
+    return default
 
 
 class IncidentAgent:
@@ -68,10 +106,11 @@ class IncidentAgent:
         # 2. Root-cause hypothesis
         hyp = self.llm.generate(
             f"INCIDENT: {incident['title']}\n{incident['description']}\n\n"
-            f"RELEVANT CONTEXT (runbooks and similar past incidents):\n{context}\n\n"
-            "State your single most likely root-cause hypothesis with supporting "
-            "evidence from the context. End with a line exactly of the form "
-            "'CONFIDENCE: <0.0-1.0>'.",
+            f"RELEVANT CONTEXT:\n{context}\n\n"
+            "Respond in this exact format (no preamble, no extra sections):\n\n"
+            "HYPOTHESIS: <2-4 sentences: root cause with evidence from the "
+            "context above>\n\n"
+            "CONFIDENCE: <a single decimal 0.0-1.0>\n",
             system=SYSTEM_PROMPT,
         )
         hypothesis = hyp["text"].strip()
@@ -84,10 +123,12 @@ class IncidentAgent:
             f"INCIDENT: {incident['title']}\n{incident['description']}\n\n"
             f"CONTEXT:\n{context}\n\n"
             f"PROPOSED HYPOTHESIS:\n{hypothesis}\n\n"
-            "Act as a skeptical senior engineer. Try to disprove this hypothesis: "
-            "list evidence that contradicts it and at least one plausible "
-            "alternative cause. Then state whether the hypothesis survives. End "
-            "with a line exactly of the form 'REVISED CONFIDENCE: <0.0-1.0>'.",
+            "You are a skeptical senior SRE reviewing this hypothesis. "
+            "Respond in this exact format (no preamble):\n\n"
+            "COUNTER-EVIDENCE: <1-2 sentences: what weakens this hypothesis>\n"
+            "ALTERNATIVE CAUSE: <1 sentence: a different plausible root cause>\n"
+            "VERDICT: <1 sentence: does the hypothesis survive?>\n\n"
+            "REVISED CONFIDENCE: <a single decimal 0.0-1.0>\n",
             system=SYSTEM_PROMPT,
         )
         critique = crit["text"].strip()

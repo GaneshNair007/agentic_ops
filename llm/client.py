@@ -51,7 +51,7 @@ class LLMClient:
 
     def _generate_mock(self, prompt: str) -> dict:
         lower = prompt.lower()
-        if "critique" in lower or "disprove" in lower:
+        if any(w in lower for w in ("critique", "disprove", "skeptical", "counter-evidence")):
             text = _MOCK_RESPONSES["critique"]
         elif "hypothesis" in lower or "root cause" in lower:
             text = _MOCK_RESPONSES["hypothesis"]
