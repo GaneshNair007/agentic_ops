@@ -1,0 +1,12 @@
+{"ts": "2026-08-04T19:44:48.437209+00:00", "stage": "start", "incident_id": "demo-001", "llm_mode": "mock"}
+{"ts": "2026-08-04T19:44:48.440205+00:00", "stage": "retrieve", "incident_id": "demo-001", "doc_ids": ["runbook-db-pool", "incident-2025-11-03", "runbook-service-restart"]}
+{"ts": "2026-08-04T19:44:48.441206+00:00", "stage": "hypothesis", "incident_id": "demo-001", "confidence": 0.72}
+{"ts": "2026-08-04T19:44:48.442211+00:00", "stage": "self_critique", "incident_id": "demo-001", "revised_confidence": 0.66}
+{"ts": "2026-08-04T19:44:48.443196+00:00", "stage": "action_executed", "incident_id": "demo-001", "action": "restart_service", "risk": "low", "result": {"status": "ok", "detail": "[mock] restarted payments-api", "ts": "2026-08-04T19:44:48.443196+00:00"}}
+{"ts": "2026-08-04T19:44:48.446195+00:00", "stage": "remember", "incident_id": "demo-001"}
+{"ts": "2026-08-04T20:01:49.956596+00:00", "stage": "start", "incident_id": "demo-001", "llm_mode": "ollama"}
+{"ts": "2026-08-04T20:01:49.963588+00:00", "stage": "retrieve", "incident_id": "demo-001", "doc_ids": ["memory-demo-001", "runbook-db-pool", "incident-2025-11-03"]}
+{"ts": "2026-08-04T20:02:03.388116+00:00", "stage": "hypothesis", "incident_id": "demo-001", "confidence": 0.85}
+{"ts": "2026-08-04T20:02:18.120748+00:00", "stage": "self_critique", "incident_id": "demo-001", "revised_confidence": 0.65}
+{"ts": "2026-08-04T20:02:18.121768+00:00", "stage": "action_executed", "incident_id": "demo-001", "action": "restart_service", "risk": "low", "result": {"status": "ok", "detail": "[mock] restarted payments-api", "ts": "2026-08-04T20:02:18.121768+00:00"}}
+{"ts": "2026-08-04T20:02:18.122769+00:00", "stage": "remember", "incident_id": "demo-001"}
