@@ -6,11 +6,25 @@ with LLM_MODE=mock|ollama; point at a remote server with OLLAMA_HOST.
 """
 
 import concurrent.futures
+import datetime
 import json
 import os
+import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
+
+# Ensure project root is in sys.path for importing tools.actions
+_ROOT = str(Path(__file__).resolve().parents[1])
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
+try:
+    from tools.actions import emit_event
+except ImportError:
+    def emit_event(event: dict) -> None:
+        pass
 
 DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.1:8b")
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
@@ -47,9 +61,50 @@ class LLMClient:
     def generate(self, prompt: str, system: str | None = None,
                  temperature: float = 0.2, max_tokens: int = 512) -> dict:
         """Returns {"text", "mode", "model", and (ollama only) token/timing stats}."""
+        t0 = time.perf_counter()
         if self.mode == "mock":
-            return self._generate_mock(prompt)
-        return self._generate_ollama(prompt, system, temperature, max_tokens)
+            res = self._generate_mock(prompt)
+        else:
+            res = self._generate_ollama(prompt, system, temperature, max_tokens)
+        t1 = time.perf_counter()
+        elapsed = t1 - t0
+
+        tokens = res.get("eval_count", 0) or len(res.get("text", "").split())
+        latency_s = (
+            round(res.get("total_duration_ns", 0) / 1e9, 4)
+            if res.get("total_duration_ns")
+            else round(elapsed, 4)
+        )
+        if res.get("tokens_per_sec"):
+            tokens_per_sec = round(res.get("tokens_per_sec"), 2)
+        else:
+            tokens_per_sec = round(tokens / elapsed, 2) if elapsed > 0 else 0.0
+
+        try:
+            emit_event({
+                "ts": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                "stage": "telemetry",
+                "type": "telemetry",
+                "payload": {
+                    "tokens": tokens,
+                    "latency_s": latency_s,
+                    "tokens_per_sec": tokens_per_sec,
+                },
+                "tokens": tokens,
+                "latency_s": latency_s,
+                "tokens_per_sec": tokens_per_sec,
+                "mode": self.mode,
+                "model": self.model,
+            })
+        except Exception:
+            pass
+
+        return res
+
+    def chat(self, prompt: str, system: str | None = None,
+             temperature: float = 0.2, max_tokens: int = 512) -> dict:
+        """Alias for generate() to maintain complete interface compatibility."""
+        return self.generate(prompt, system=system, temperature=temperature, max_tokens=max_tokens)
 
     def _generate_mock(self, prompt: str) -> dict:
         lower = prompt.lower()
