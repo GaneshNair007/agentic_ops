@@ -40,3 +40,12 @@ scratch/
 # OS
 .DS_Store
 Thumbs.db
+
+# Runtime artifacts — generated at run time, not source
+tools/audit.log
+tools/events.jsonl
+data/memory_store.jsonl
+events.log
+
+# Dependency caches
+.pytest_cache/
