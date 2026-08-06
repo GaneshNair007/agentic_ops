@@ -21,9 +21,9 @@ CONFIDENCE_AUTO_EXECUTE = 0.6  # below this we only recommend, never act
 # risk levels for the mock action set; high-risk always requires human approval
 ACTION_RISK = {
     "restart_service": "low",
-    "open_ticket": "low",
-    "draft_postmortem": "low",
-    "rollback_deploy": "high",
+    "create_ticket": "low",
+    "generate_postmortem": "low",
+    "rollback_deployment": "high",
 }
 
 SYSTEM_PROMPT = (
@@ -101,28 +101,26 @@ class IncidentAgent:
 
     def handle_incident(self, incident: dict) -> dict:
         """Run the full pipeline for one incident dict {"id", "title", "description"}."""
-        emit_event({"ts": _now(), "type": "start", "stage": "start", "incident_id": incident["id"],
-                    "llm_mode": self.llm.mode})
+        emit_event({"type": "start", "payload": {
+            "incident_id": incident["id"], "llm_mode": self.llm.mode}})
 
         # 1. Retrieve relevant runbooks / past incidents
         query = f"{incident['title']} {incident['description']}"
         docs = retrieve(query, k=3)
-        emit_event({"ts": _now(), "type": "retrieve", "stage": "retrieve", "incident_id": incident["id"],
-                    "doc_ids": [d["id"] for d in docs]})
+        emit_event({"type": "retrieve", "payload": {
+            "incident_id": incident["id"], "doc_ids": [d["id"] for d in docs]}})
 
         if self.router:
             complexity, selected_model, routing_ms = self.router.classify_complexity(incident, docs)
-            emit_event({
-                "ts": _now(),
-                "type": "routing",
-                "stage": "routing",
+            emit_event({"type": "routing", "payload": {
                 "incident_id": incident["id"],
                 "complexity": complexity,
                 "selected_model": selected_model,
                 "routing_latency_ms": routing_ms,
-            })
+            }})
         context = "\n\n".join(
-            f"[{d['kind']}] {d['title']}\n{d['text']}" for d in docs
+            f"[{d.get('kind', d.get('document_type', 'doc'))}] {d['title']}\n{d['text']}"
+            for d in docs
         ) or "(no relevant documents found)"
 
         # 2. Root-cause hypothesis
@@ -137,8 +135,8 @@ class IncidentAgent:
         )
         hypothesis = hyp["text"].strip()
         confidence = _extract_confidence(hypothesis)
-        emit_event({"ts": _now(), "type": "hypothesis", "stage": "hypothesis", "incident_id": incident["id"],
-                    "confidence": confidence})
+        emit_event({"type": "hypothesis", "payload": {
+            "incident_id": incident["id"], "confidence": confidence}})
 
         # 3. Self-critique: actively try to disprove the hypothesis before acting
         crit = self.llm.generate(
@@ -155,8 +153,8 @@ class IncidentAgent:
         )
         critique = crit["text"].strip()
         revised = _extract_confidence(critique, default=confidence)
-        emit_event({"ts": _now(), "type": "self_critique", "stage": "self_critique", "incident_id": incident["id"],
-                    "revised_confidence": revised})
+        emit_event({"type": "self_critique", "payload": {
+            "incident_id": incident["id"], "revised_confidence": revised}})
 
         # 4. Confidence-gated action
         action_type, params = self._decide_action(incident, hypothesis)
@@ -164,18 +162,19 @@ class IncidentAgent:
         if risk == "high":
             action_result = {"status": "approval_required",
                              "reason": f"{action_type} is high-risk; human must approve"}
-            emit_event({"ts": _now(), "type": "action_gated", "stage": "action_gated", "incident_id": incident["id"],
-                        "action": action_type, "risk": risk})
+            emit_event({"type": "action_gated", "payload": {
+                "incident_id": incident["id"], "action": action_type, "risk": risk}})
         elif revised >= CONFIDENCE_AUTO_EXECUTE:
             action_result = execute_action(action_type, params)
-            emit_event({"ts": _now(), "type": "action_executed", "stage": "action_executed", "incident_id": incident["id"],
-                        "action": action_type, "risk": risk, "result": action_result})
+            emit_event({"type": "action_executed", "payload": {
+                "incident_id": incident["id"], "action": action_type,
+                "risk": risk, "result": action_result}})
         else:
             action_result = {"status": "recommended_only",
                              "reason": f"confidence {revised:.2f} below "
                                        f"{CONFIDENCE_AUTO_EXECUTE} auto-execute threshold"}
-            emit_event({"ts": _now(), "type": "action_withheld", "stage": "action_withheld", "incident_id": incident["id"],
-                        "action": action_type, "confidence": revised})
+            emit_event({"type": "action_withheld", "payload": {
+                "incident_id": incident["id"], "action": action_type, "confidence": revised}})
 
         # 5. Memory write-back so future similar incidents resolve faster
         record = {
@@ -189,7 +188,7 @@ class IncidentAgent:
             "resolved_at": _now(),
         }
         remember(record)
-        emit_event({"ts": _now(), "type": "remember", "stage": "remember", "incident_id": incident["id"]})
+        emit_event({"type": "remember", "payload": {"incident_id": incident["id"]}})
 
         return record
 
@@ -198,10 +197,11 @@ class IncidentAgent:
         text = f"{incident['description']} {hypothesis}".lower()
         service = incident.get("service", "payments-api")
         if "rollback" in text or "bad deploy" in text or "revert" in text:
-            return "rollback_deploy", {"service": service}
+            return "rollback_deployment", {"deployment": service, "revision": "previous stable version"}
         if any(w in text for w in ("restart", "pool exhaust", "connection pool",
                                    "memory leak", "hung")):
             return "restart_service", {"service": service}
-        return "open_ticket", {"service": service,
-                               "summary": incident["title"],
-                               "hypothesis": hypothesis[:400]}
+        return "create_ticket", {"service": service,
+                                 "summary": incident["title"],
+                                 "title": incident["title"],
+                                 "hypothesis": hypothesis[:400]}
