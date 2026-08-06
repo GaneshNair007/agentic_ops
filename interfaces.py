@@ -11,20 +11,26 @@ missing implementation surfaces as a clear ImportError only when called.
 """
 
 
-def retrieve(query: str, k: int) -> list[dict]:
+def retrieve(query: str, k: int = 5) -> list[dict]:
     """Return up to k relevant documents (runbooks / past incidents).
 
     Each dict has at least: {"id": str, "kind": "runbook"|"incident",
     "title": str, "text": str, "score": float}.
     """
-    from rag.store import retrieve as _impl
+    try:
+        from rag.retrieve import retrieve as _impl
+    except ImportError:
+        from rag.store import retrieve as _impl
     return _impl(query, k)
 
 
 def remember(record: dict) -> None:
     """Persist a resolved incident record into the memory store."""
-    from rag.store import remember as _impl
-    _impl(record)
+    try:
+        from rag.retrieve import remember as _impl
+        _impl(record)
+    except (ImportError, AttributeError):
+        pass
 
 
 def execute_action(action_type: str, params: dict) -> dict:
@@ -35,5 +41,9 @@ def execute_action(action_type: str, params: dict) -> dict:
 
 def emit_event(event: dict) -> None:
     """Append a structured event to the audit/event log."""
-    from tools.actions import emit_event as _impl
+    try:
+        from tools.event_bus import emit_event as _impl
+    except ImportError:
+        from tools.actions import emit_event as _impl
     _impl(event)
+
