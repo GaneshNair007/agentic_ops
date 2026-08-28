@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANALOG · VAULT | Record Label & Physical Catalogue</title>
+    <!-- Google Fonts: Syne & Sora -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           SPECIFICATION & PALETTE
+           Ground: #0A0C0E | Sec Ground: #101317 | Ink: #EDE7DC | Sec Ink: #9EA5A8
+           Muted: #6C7378 | Amber: #E8913C | Teal: #2E6B72 | Hairline: rgba(237,231,220,.13)
+           Typography: 'Syne' (headings/wordmarks -0.025em), 'Sora' (small type)
+           Strict Rule: NO filled area for accents. NO gradient banners, NO bento grids, 
+           NO glow or drop-shadow anywhere except deck cards.
+           ========================================================================== */
+
+        :root {
+            --bg-ground: #0A0C0E;
+            --bg-secondary: #101317;
+            --color-ink: #EDE7DC;
+            --color-ink-sec: #9EA5A8;
+            --color-muted: #6C7378;
+            --accent-amber: #E8913C;
+            --accent-teal: #2E6B72;
+            --hairline: rgba(237, 231, 220, 0.13);
+            --font-display: 'Syne', sans-serif;
+            --font-sans: 'Sora', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background-color: var(--bg-ground);
+            color: var(--color-ink);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--bg-ground);
+            color: var(--color-ink);
+            overflow-x: hidden;
+        }
+
+        /* Typography Defaults */
+        h1, h2, h3, h4, .font-display {
+            font-family: var(--font-display);
+            letter-spacing: -0.025em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .label-text {
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--color-ink-sec);
+        }
+
+        .accent-amber {
+            color: var(--accent-amber) !important;
+        }
+
+        .accent-teal {
+            color: var(--accent-teal) !important;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        /* Buttons */
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border: 1px solid var(--hairline);
+            background: transparent;
+            color: var(--color-ink);
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            cursor: pointer;
+            transition: border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+            border-radius: 999px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
+            transform: translateY(-1px);
+        }
+
+        /* Hairlines */
+        .hairline-b {
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .hairline-t {
+            border-top: 1px solid var(--hairline);
+        }
+
+        /* ==========================================================================
+           SECTION 1: FIXED NAVIGATION BAR (58px)
+           ========================================================================== */
+        nav.navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 58px;
+            background: rgba(10, 12, 14, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--hairline);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 10.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--color-ink-sec);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-amber);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .backend-indicator {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--accent-amber);
+        }
+
+        /* ==========================================================================
+           SECTION 2: PORTAL HERO (~2.5 Viewports Stage)
+           ========================================================================== */
+        section.portal-hero-container {
+            position: relative;
+            height: 250vh; /* 2.5 viewports to drive scroll positioning */
+            width: 100%;
+        }
+
+        .hero-sticky-stage {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            isolation: isolate;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Layer 1: Background Full-Bleed Image */
+        .hero-bg-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.18);
+            will-change: transform;
+            z-index: 1;
+        }
+
+        /* Layer 2: Duotone Wash Overlay */
+        .hero-duotone-wash {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-amber), var(--accent-teal));
+            mix-blend-mode: overlay;
+            opacity: 0;
+            will-change: opacity;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Layer 3: Radial Veil */
+        .hero-radial-veil {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 30%, rgba(10, 12, 14, 0.85) 90%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Layer 4: Two Solid Panels (Closed in Middle initially) */
+        .hero-panel {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50.5%; /* A little over half width to meet in middle */
+            background-color: var(--bg-ground);
+            z-index: 4;
+            will-change: transform;
+        }
+
+        .hero-panel-left {
+            left: 0;
+        }
+
+        .hero-panel-right {
+            right: 0;
+        }
+
+        /* Layer 5: Accent Dots */
+        .hero-accent-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            z-index: 5;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .dot-amber {
+            background-color: var(--accent-amber);
+            top: 50%;
+            left: 49.5%;
+        }
+
+        .dot-teal {
+            background-color: var(--accent-teal);
+            top: 50%;
+            left: 50.5%;
+        }
+
+        /* Layer 6: Signature Portal Title Wordmark */
+        .hero-wordmark-wrap {
+            position: relative;
+            z-index: 6;
+            text-align: center;
+            user-select: none;
+            pointer-events: none;
+            will-change: transform, letter-spacing;
+        }
+
+        .hero-wordmark {
+            font-family: var(--font-display);
+            font-size: clamp(48px, 9vw, 140px);
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: var(--color-ink);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.2em;
+        }
+
+        .wordmark-span {
+            display: inline-block;
+            will-change: transform;
+        }
+
+        /* Layer 7: Corner Metadata Pins */
+        .hero-meta-pin {
+            position: absolute;
+            z-index: 7;
+            font-size: 10.5px;
+            letter-spacing: 0.15em;
+            color: var(--color-ink-sec);
+            text-transform: uppercase;
+        }
+
+        .meta-top-left { top: 78px; left: 32px; }
+        .meta-top-right { top: 78px; right: 32px; text-align: right; }
+        .meta-bottom-left { bottom: 32px; left: 32px; }
+        .meta-bottom-right { bottom: 32px; right: 32px; text-align: right; }
+
+        /* ==========================================================================
+           SECTION 3: STATEMENT FOLD (Full Height)
+           ========================================================================== */
+        section.statement-fold {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            background-color: var(--bg-ground);
+            display: flex;
+            align-items: center;
+            padding: 120px 8vw;
+            border-bottom: 1px solid var(--hairline);
+            overflow: hidden;
+        }
+
+        .statement-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .statement-text {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 3.6vw, 52px);
+            font-weight: 700;
+            line-height: 1.18;
+            letter-spacing: -0.025em;
+            margin-top: 24px;
+            margin-bottom: 40px;
+            max-width: 22ch;
+        }
+
+        .numeral-outline {
+            position: absolute;
+            top: 40px;
+            right: 12vw;
+            font-family: var(--font-display);
+            font-size: clamp(120px, 20vw, 320px);
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(237, 231, 220, 0.18);
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Floating Circular Image drifting on scroll */
+        .statement-floating-circle {
+            position: absolute;
+            right: -60px;
+            top: 20%;
+            width: clamp(260px, 30vw, 480px);
+            height: clamp(260px, 30vw, 480px);
+            border-radius: 50%;
+            overflow: hidden;
+            opacity: 0.45;
+            border: 1px solid var(--hairline);
+            z-index: 1;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .statement-floating-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ==========================================================================
+           SECTION 4: RELEASES & THROWABLE SLEEVE DECK
+           ========================================================================== */
+        section.releases-section {
+            padding: 120px 8vw;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--hairline);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            section.releases-section {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+        }
+
+        .releases-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 480px;
+        }
+
+        .releases-title {
+            font-size: clamp(32px, 4vw, 56px);
+            line-height: 1.05;
+        }
+
+        .releases-lede {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-ink-sec);
+        }
+
+        .releases-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Throwable Deck Container */
+        .deck-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .deck-container {
+            position: relative;
+            width: clamp(280px, 28vw, 420px);
+            height: clamp(280px, 28vw, 420px);
+            perspective: 1000px;
+            touch-action: pan-y;
+            user-select: none;
+            outline: none;
+        }
+
+        /* Individual Card Sleeves */
+        .deck-card {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #141922;
+            border: 1px solid var(--hairline);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: grab;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
+        }
+
+        .deck-card:active {
+            cursor: grabbing;
+        }
+
+        .card-cover {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .card-vinyl-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+        }
+
+        .card-meta {
+            padding: 16px 20px;
+            background-color: rgba(10, 12, 14, 0.95);
+            border-top: 1px solid var(--hairline);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .card-artist {
+            font-size: 11px;
+            color: var(--color-ink-sec);
+            margin-top: 2px;
+        }
+
+        .card-cat {
+            font-family: var(--font-sans);
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--accent-amber);
+            letter-spacing: 0.1em;
+        }
+
+        /* Deck Progress Indicators */
+        .deck-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .deck-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .deck-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--color-muted);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .deck-dot.active {
+            background-color: var(--accent-amber);
+            transform: scale(1.4);
+        }
+
+        .deck-hint {
+            font-size: 10.5px;
+            letter-spacing: 0.12em;
+            color: var(--color-muted);
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           SECTION 5: ROSTER & DATES TABLE
+           ========================================================================== */
+        section.roster-dates-section {
+            padding: 120px 8vw;
+            background-color: var(--bg-ground);
+            border-bottom: 1px solid var(--hairline);
+        }
+
+        .roster-header {
+            margin-bottom: 40px;
+        }
+
+        /* Roster Rows */
+        .roster-list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 100px;
+        }
+
+        .roster-row {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--hairline);
+            display: grid;
+            grid-template-columns: 140px 1fr 120px;
+            align-items: center;
+            transition: background-color 0.2s ease, padding-left 0.25s ease;
+        }
+
+        .roster-row:hover {
+            background-color: rgba(237, 231, 220, 0.02);
+            padding-left: 12px;
+        }
+
+        .roster-name {
+            font-size: clamp(20px, 2.5vw, 36px);
+            font-weight: 700;
+        }
+
+        .roster-count {
+            text-align: right;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            color: var(--color-muted);
+        }
+
+        /* Dates Table */
+        .dates-table-container {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .dates-table-header {
+            display: grid;
+            grid-template-columns: 2fr 3fr 2fr 1.5fr;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--hairline);
+            font-size: 10.5px;
+            letter-spacing: 0.15em;
+            color: var(--color-ink-sec);
+            text-transform: uppercase;
+        }
+
+        .dates-row {
+            display: grid;
+            grid-template-columns: 2fr 3fr 2fr 1.5fr;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--hairline);
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .dates-row .date-title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .dates-row .date-status {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .dates-table-header {
+                display: none;
+            }
+            .dates-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+        }
+
+        /* ==========================================================================
+           SECTION 6: CLOSE SECTION WITH CROPPED WORDMARK
+           ========================================================================== */
+        section.close-section {
+            position: relative;
+            padding: 120px 8vw 0 8vw;
+            background-color: var(--bg-ground);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 80vh;
+        }
+
+        .close-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .close-headline {
+            font-size: clamp(32px, 5vw, 68px);
+            max-width: 600px;
+            line-height: 1.05;
+        }
+
+        .close-subtext {
+            font-size: 12px;
+            color: var(--color-ink-sec);
+            margin-top: 16px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .close-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-strip {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--hairline);
+            font-size: 10.5px;
+            letter-spacing: 0.12em;
+            color: var(--color-muted);
+            text-transform: uppercase;
+        }
+
+        /* Cropped Huge Wordmark */
+        .close-wordmark-wrap {
+            width: 100%;
+            text-align: center;
+            line-height: 0.8;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .close-wordmark {
+            font-family: var(--font-display);
+            font-size: clamp(60px, 16vw, 240px);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: rgba(237, 231, 220, 0.12);
+            transform: translateY(30%); /* Translated down so page edge crops bottom half */
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: FIXED NAVIGATION BAR (58px) -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            ANALOG · VAULT<span class="accent-amber">.</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#statement">Manifesto</a></li>
+            <li><a href="#releases">Catalogue</a></li>
+            <li><a href="#roster">Roster</a></li>
+            <li><a href="#dates">Dates</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="backend-indicator">
+                <div class="status-dot"></div>
+                <span>AGENTIC API ONLINE</span>
+            </div>
+            <a href="#releases" class="btn-outline">DISCOVER DISCS</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 2: PORTAL HERO (2.5 Viewports Stage) -->
+    <section class="portal-hero-container" id="heroPortal">
+        <div class="hero-sticky-stage" id="stickyStage">
+            
+            <!-- Layer 1: Background Full-Bleed Photography -->
+            <img src="https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?auto=format&fit=crop&w=2000&q=85" alt="Analog Sound Studio" class="hero-bg-image" id="heroBgImage">
+            
+            <!-- Layer 2: Duotone Wash Overlay -->
+            <div class="hero-duotone-wash" id="heroDuotone"></div>
+
+            <!-- Layer 3: Radial Veil -->
+            <div class="hero-radial-veil"></div>
+
+            <!-- Layer 4: Two Solid Panels (Starts CLOSED meeting in middle) -->
+            <div class="hero-panel hero-panel-left" id="panelLeft"></div>
+            <div class="hero-panel hero-panel-right" id="panelRight"></div>
+
+            <!-- Layer 5: Accent Dots -->
+            <div class="hero-accent-dot dot-amber" id="dotAmber"></div>
+            <div class="hero-accent-dot dot-teal" id="dotTeal"></div>
+
+            <!-- Layer 6: Signature Portal Title Wordmark -->
+            <div class="hero-wordmark-wrap" id="wordmarkWrap">
+                <h1 class="hero-wordmark">
+                    <span class="wordmark-span" id="spanLeft">ANALOG</span>
+                    <span class="wordmark-span" id="spanRight">VAULT</span>
+                </h1>
+            </div>
+
+            <!-- Layer 7: Corner Metadata Pins -->
+            <div class="hero-meta-pin meta-top-left">EST. 2026 // EDITION 044</div>
+            <div class="hero-meta-pin meta-top-right">40.7128° N, 74.0060° W</div>
+            <div class="hero-meta-pin meta-bottom-left">PHYSICAL ANALOG ARCHIVE</div>
+            <div class="hero-meta-pin meta-bottom-right"><span class="accent-amber">SCROLL TO UNCOVER ↓</span></div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: STATEMENT FOLD -->
+    <section class="statement-fold" id="statement">
+        <div class="numeral-outline">01</div>
+        
+        <div class="statement-content">
+            <div class="label-text">// MANIFESTO & PHILOSOPHY</div>
+            <h2 class="statement-text">
+                WE PRESS SOUND INTO PHYSICAL GRAIN. IMMUTABLE ACOUSTICS <span class="accent-amber">CAPTURED IN WARM BONE INK</span> FOR DISCERNING LISTENTERS.
+            </h2>
+            <a href="#releases" class="btn-outline">EXPLORE SOUND VAULT</a>
+        </div>
+
+        <!-- Floating Circular Image drifting on scroll -->
+        <div class="statement-floating-circle" id="floatingCircle">
+            <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80" alt="Vinyl Machine Record">
+        </div>
+    </section>
+
+    <!-- SECTION 4: RELEASES & THROWABLE SLEEVE DECK -->
+    <section class="releases-section" id="releases">
+        <div class="releases-info">
+            <div class="label-text">// DISCOGRAPHY & PHYSICAL SLEEVES</div>
+            <h2 class="releases-title">CATALOGUE ARCHIVE<span class="accent-amber">.</span></h2>
+            <p class="releases-lede">
+                Every release is a master cut. Heavyweight 180g virgin vinyl housed in matte board sleeves with bespoke duotone typography. Throw through the deck to audition the collection.
+            </p>
+            <div class="releases-actions">
+                <a href="#roster" class="btn-outline">ROSTER INDEX</a>
+                <button class="btn-outline" style="border-color: var(--accent-amber); color: var(--accent-amber);" onclick="alert('API Connection: Querying local RAG store via http://localhost:8000/api/rag/retrieve...')">TEST RAG RETRIEVAL</button>
+            </div>
+        </div>
+
+        <!-- Throwable Physical Deck -->
+        <div class="deck-wrapper">
+            <div class="deck-container" id="deckContainer" tabindex="0" aria-label="Throwable album sleeves deck. Use Left and Right arrow keys to navigate.">
+                
+                <!-- Card 1 -->
+                <div class="deck-card" data-index="0">
+                    <div class="card-cover">
+                        <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" alt="Sleeve 01">
+                        <div class="card-vinyl-ring"></div>
+                    </div>
+                    <div class="card-meta">
+                        <div>
+                            <div class="card-title">FREQUENCIES IN DUST</div>
+                            <div class="card-artist">VARIOUS ARTISTS</div>
+                        </div>
+                        <div class="card-cat">AV-001</div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="deck-card" data-index="1">
+                    <div class="card-cover">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80" alt="Sleeve 02">
+                        <div class="card-vinyl-ring"></div>
+                    </div>
+                    <div class="card-meta">
+                        <div>
+                            <div class="card-title">SUB-TAPE ECHOES</div>
+                            <div class="card-artist">HECTOR VALE</div>
+                        </div>
+                        <div class="card-cat">AV-002</div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="deck-card" data-index="2">
+                    <div class="card-cover">
+                        <img src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&w=800&q=80" alt="Sleeve 03">
+                        <div class="card-vinyl-ring"></div>
+                    </div>
+                    <div class="card-meta">
+                        <div>
+                            <div class="card-title">MONOLITH RESONANCE</div>
+                            <div class="card-artist">SORA QUINTET</div>
+                        </div>
+                        <div class="card-cat">AV-003</div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="deck-card" data-index="3">
+                    <div class="card-cover">
+                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80" alt="Sleeve 04">
+                        <div class="card-vinyl-ring"></div>
+                    </div>
+                    <div class="card-meta">
+                        <div>
+                            <div class="card-title">LOW PASS DUST</div>
+                            <div class="card-artist">ANALOG TRIO</div>
+                        </div>
+                        <div class="card-cat">AV-004</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Deck Controls & Progress -->
+            <div class="deck-controls">
+                <div class="deck-dots" id="deckDots">
+                    <div class="deck-dot active"></div>
+                    <div class="deck-dot"></div>
+                    <div class="deck-dot"></div>
+                    <div class="deck-dot"></div>
+                </div>
+                <div class="deck-hint">DRAG SLEEVE OR PRESS ← → KEYS</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: ROSTER & DATES TABLE -->
+    <section class="roster-dates-section" id="roster">
+        <div class="roster-header">
+            <div class="label-text">// LABEL ARTIST ROSTER</div>
+            <h2 style="font-size: clamp(28px, 3.5vw, 48px); margin-top: 12px;">CURATED ARTISTS</h2>
+        </div>
+
+        <div class="roster-list">
+            <div class="roster-row">
+                <div class="label-text">ARTIST 01</div>
+                <div class="roster-name">HECTOR VALE</div>
+                <div class="roster-count">12 RELEASES</div>
+            </div>
+            <div class="roster-row">
+                <div class="label-text">ARTIST 02</div>
+                <div class="roster-name">SORA QUINTET</div>
+                <div class="roster-count">08 RELEASES</div>
+            </div>
+            <div class="roster-row">
+                <div class="label-text">ARTIST 03</div>
+                <div class="roster-name">ANALOG TRIO</div>
+                <div class="roster-count">05 RELEASES</div>
+            </div>
+            <div class="roster-row">
+                <div class="label-text">ARTIST 04</div>
+                <div class="roster-name">VALT ACOUSTICS</div>
+                <div class="roster-count">14 RELEASES</div>
+            </div>
+        </div>
+
+        <!-- Dates Table -->
+        <div id="dates" style="padding-top: 40px;">
+            <div class="label-text">// UPCOMING PERFORMANCE DATES</div>
+            <h2 style="font-size: clamp(28px, 3.5vw, 48px); margin-top: 12px;">LIVE CONCERT SCHEDULE</h2>
+
+            <div class="dates-table-container">
+                <div class="dates-table-header">
+                    <div>DATE</div>
+                    <div>EVENT / VENUE</div>
+                    <div>LOCATION</div>
+                    <div>STATUS</div>
+                </div>
+
+                <div class="dates-row">
+                    <div class="date-title">OCT 14 // 2026</div>
+                    <div>METROPOLIS HALL</div>
+                    <div style="color: var(--color-ink-sec);">BERLIN</div>
+                    <div class="date-status accent-amber">TICKETS RELEASED</div>
+                </div>
+
+                <div class="dates-row">
+                    <div class="date-title">NOV 02 // 2026</div>
+                    <div>THE ACOUSTIC DOME</div>
+                    <div style="color: var(--color-ink-sec);">LONDON</div>
+                    <div class="date-status accent-teal">LIMITED CAPACITY</div>
+                </div>
+
+                <div class="dates-row">
+                    <div class="date-title">DEC 18 // 2026</div>
+                    <div>KINETIC AMPLIFIER</div>
+                    <div style="color: var(--color-ink-sec);">TOKYO</div>
+                    <div class="date-status accent-amber">ANNOUNCED</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: CLOSE SECTION WITH CROPPED WORDMARK -->
+    <section class="close-section">
+        <div class="close-top">
+            <div>
+                <div class="label-text">// DISPATCH & INQUIRIES</div>
+                <h2 class="close-headline">JOIN THE SOUND VAULT<span class="accent-amber">.</span></h2>
+                <p class="close-subtext">COMMUNIQUÉ & EXCLUSIVE PRESSINGS DISPATCHED MONTHLY.</p>
+            </div>
+            <div class="close-actions">
+                <button class="btn-outline" style="border-color: var(--accent-amber); color: var(--accent-amber);" onclick="alert('Subscribed to Vault Communiqué.')">SUBSCRIBE TO DISPATCH</button>
+                <button class="btn-outline" onclick="alert('Demo submissions: demos@analogvault.com')">DEMO SUBMISSION</button>
+            </div>
+        </div>
+
+        <div>
+            <div class="footer-strip">
+                <div>© 2026 ANALOG VAULT RECORDS</div>
+                <div>ALL RIGHTS RESERVED</div>
+                <div>40.7128° N, 74.0060° W</div>
+            </div>
+
+            <!-- Massive Wordmark Translated Down So Page Edge Crops Bottom Half -->
+            <div class="close-wordmark-wrap">
+                <div class="close-wordmark">ANALOG VAULT</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         JAVASCRIPT MOTION MODELS & THROWABLE DECK ENGINE
+         ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* -----------------------------------------------------------------
+               1. PORTAL HERO SCROLL MOTION MODEL (Strictly bound to scroll)
+               ----------------------------------------------------------------- */
+            const heroContainer = document.getElementById('heroPortal');
+            const bgImage = document.getElementById('heroBgImage');
+            const duotone = document.getElementById('heroDuotone');
+            const panelLeft = document.getElementById('panelLeft');
+            const panelRight = document.getElementById('panelRight');
+            const dotAmber = document.getElementById('dotAmber');
+            const dotTeal = document.getElementById('dotTeal');
+            const wordmarkWrap = document.getElementById('wordmarkWrap');
+            const spanLeft = document.getElementById('spanLeft');
+            const spanRight = document.getElementById('spanRight');
+            const floatingCircle = document.getElementById('floatingCircle');
+
+            function handleScroll() {
+                const scrollY = window.scrollY || window.pageYOffset;
+                const heroTop = heroContainer.offsetTop;
+                const heroHeight = heroContainer.offsetHeight - window.innerHeight;
+                
+                // Progress through hero section [0.0 to 1.0]
+                let progress = (scrollY - heroTop) / heroHeight;
+                progress = Math.max(0, Math.min(1, progress));
+
+                // 1. Panels translate outward past full width
+                const panelShift = progress * 105; // 0% to 105%
+                panelLeft.style.transform = `translateX(-${panelShift}%)`;
+                panelRight.style.transform = `translateX(${panelShift}%)`;
+
+                // 2. Image settles down from 1.18 to 1.0
+                const imageScale = 1.18 - (progress * 0.18);
+                bgImage.style.transform = `scale(${imageScale})`;
+
+                // 3. Duotone wash opacity rises from 0 to 0.25
+                duotone.style.opacity = progress * 0.25;
+
+                // 4. Wordmark title grows UP while tracking tightens and halves separate
+                const titleScale = 1 + (progress * 0.35); // Scale 1.0 -> 1.35
+                const tracking = 0.05 - (progress * 0.08); // Letter spacing 0.05em -> -0.03em
+                const spanShift = progress * 28; // Translate left/right spans
+
+                wordmarkWrap.style.transform = `scale(${titleScale})`;
+                wordmarkWrap.style.letterSpacing = `${tracking}em`;
+                spanLeft.style.transform = `translateX(-${spanShift}vw)`;
+                spanRight.style.transform = `translateX(${spanShift}vw)`;
+
+                // 5. Accent dots travel out toward opposite corners
+                const dotX = progress * 40; // 0vw to 40vw
+                const dotY = progress * 35; // 0vh to 35vh
+                dotAmber.style.transform = `translate(-${dotX}vw, -${dotY}vh)`;
+                dotTeal.style.transform = `translate(${dotX}vw, ${dotY}vh)`;
+
+                // 6. Statement fold floating circle drift & rotate on scroll
+                if (floatingCircle) {
+                    const circleRot = scrollY * 0.08;
+                    const circleY = scrollY * 0.12;
+                    floatingCircle.style.transform = `translateY(${circleY}px) rotate(${circleRot}deg)`;
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll(); // Initial position check
+
+
+            /* -----------------------------------------------------------------
+               2. THROWABLE SLEEVE CARD DECK ENGINE
+               ----------------------------------------------------------------- */
+            const deckContainer = document.getElementById('deckContainer');
+            const cards = Array.from(deckContainer.querySelectorAll('.deck-card'));
+            const dots = Array.from(document.querySelectorAll('.deck-dot'));
+            let activeStack = [...cards];
+            
+            // Initial stack configuration offsets
+            const stackConfig = [
+                { x: 0, y: 0, scale: 1.0, rot: 0 },
+                { x: 14, y: -10, scale: 0.96, rot: 3 },
+                { x: 28, y: -20, scale: 0.92, rot: -4 },
+                { x: 42, y: -30, scale: 0.88, rot: 2 }
+            ];
+
+            function applyStackLayout() {
+                activeStack.forEach((card, idx) => {
+                    card.style.zIndex = activeStack.length - idx;
+                    if (idx < stackConfig.length) {
+                        const cfg = stackConfig[idx];
+                        card.style.transform = `translate3d(${cfg.x}px, ${cfg.y}px, 0) scale(${cfg.scale}) rotate(${cfg.rot}deg)`;
+                    } else {
+                        const lastCfg = stackConfig[stackConfig.length - 1];
+                        card.style.transform = `translate3d(${lastCfg.x}px, ${lastCfg.y}px, 0) scale(${lastCfg.scale}) rotate(0deg)`;
+                    }
+                });
+
+                // Update active dot indicator
+                const currentTopCard = activeStack[0];
+                const cardIndex = parseInt(currentTopCard.getAttribute('data-index'), 10);
+                dots.forEach((dot, idx) => {
+                    if (idx === cardIndex) dot.classList.add('active');
+                    else dot.classList.remove('active');
+                });
+            }
+
+            applyStackLayout();
+
+            // Drag & Pointer Capture Mechanics
+            let isDragging = false;
+            let startX = 0;
+            let startY = 0;
+            let currentX = 0;
+            let currentY = 0;
+            let topCard = null;
+
+            function onPointerDown(e) {
+                if (isDragging) return;
+                topCard = activeStack[0];
+                if (!topCard) return;
+
+                isDragging = true;
+                topCard.setPointerCapture(e.pointerId);
+                topCard.style.transition = 'none'; // Drop transition for instant 1:1 drag response
+
+                startX = e.clientX;
+                startY = e.clientY;
+                currentX = 0;
+                currentY = 0;
+            }
+
+            function onPointerMove(e) {
+                if (!isDragging || !topCard) return;
+
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
+                const rot = currentX * 0.08; // Rotation proportional to horizontal displacement
+
+                topCard.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(1.03) rotate(${rot}deg)`;
+            }
+
+            function throwCard(directionRight) {
+                if (!topCard) return;
+                const throwX = directionRight ? deckContainer.offsetWidth * 1.3 : -deckContainer.offsetWidth * 1.3;
+                const rollRot = directionRight ? 35 : -35;
+
+                topCard.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                topCard.style.transform = `translate3d(${throwX}px, -40px, 0) scale(1.05) rotate(${rollRot}deg)`;
+
+                setTimeout(() => {
+                    topCard.style.transition = 'none';
+                    // Re-stack: move thrown card from top to bottom
+                    const thrown = activeStack.shift();
+                    activeStack.push(thrown);
+                    applyStackLayout();
+                    topCard = null;
+                }, 400);
+            }
+
+            function onPointerUp(e) {
+                if (!isDragging || !topCard) return;
+                isDragging = false;
+
+                try {
+                    topCard.releasePointerCapture(e.pointerId);
+                } catch(err) {}
+
+                const threshold = deckContainer.offsetWidth * 0.12; // ~10-12% threshold
+
+                if (Math.abs(currentX) > threshold) {
+                    throwCard(currentX > 0);
+                } else {
+                    // Reset card back to top stack position
+                    topCard.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                    applyStackLayout();
+                }
+            }
+
+            // Bind Pointer events to top card stack
+            deckContainer.addEventListener('pointerdown', onPointerDown);
+            deckContainer.addEventListener('pointermove', onPointerMove);
+            deckContainer.addEventListener('pointerup', onPointerUp);
+            deckContainer.addEventListener('pointercancel', onPointerUp);
+
+            // Keyboard Arrow Handlers for Accessibility (Tabindex 0)
+            deckContainer.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    topCard = activeStack[0];
+                    throwCard(true);
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    topCard = activeStack[0];
+                    throwCard(false);
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

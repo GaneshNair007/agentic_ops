@@ -15,6 +15,7 @@ from typing import Dict, Any, List, Optional
 from pydantic import BaseModel
 import uvicorn
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 # Add project root to sys.path
@@ -37,6 +38,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def read_root():
+    index_path = PROJECT_ROOT / "index.html"
+    if index_path.exists():
+        return FileResponse(index_path)
+    return {"message": "Analog Vault Record Label & AI SRE Backend API"}
+
 
 # -----------------------------------------------------------------------------
 # Request Schemas
