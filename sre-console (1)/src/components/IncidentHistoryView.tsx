@@ -49,11 +49,11 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto flex flex-col gap-8 animate-fadeIn">
+    <div className="w-full max-w-[1760px] mx-auto flex flex-col gap-8 animate-fadeIn">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-[#ffffff1a] pb-6">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Incident Archives</span>
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Incident Archives</span>
           <h1 className="font-serif text-3xl md:text-4xl text-[#ffffff] font-normal mt-1">
             Incident <span className="italic text-[#d4af37] font-light">History & Anomalies</span>
           </h1>
@@ -65,14 +65,14 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button
             onClick={onOpenFilterModal}
-            className="flex items-center gap-2 px-4 py-2 bg-[#141414] border border-[#ffffff1a] hover:border-[#d4af3766] rounded text-xs font-code-sm hover:text-[#d4af37] transition-all text-[#f5f5f5] cursor-pointer uppercase tracking-wider"
+            className="flex items-center gap-2 px-4 py-2 bg-[#141414] border border-[#ffffff1a] hover:border-[#d4af3766] rounded text-sm font-code-sm hover:text-[#d4af37] transition-all text-[#f5f5f5] cursor-pointer uppercase tracking-wider"
           >
             <span className="material-symbols-outlined text-sm">filter_list</span>
             Filter
           </button>
           <button
             onClick={handleExportCsv}
-            className="flex items-center gap-2 px-4 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded text-xs font-code-sm transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
+            className="flex items-center gap-2 px-4 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded text-sm font-code-sm transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
           >
             <span className="material-symbols-outlined text-sm">download</span>
             Export CSV
@@ -83,7 +83,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
       {/* Metrics Summary Cards (Bento style) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <div className="glass-panel p-5 flex flex-col justify-between group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex items-center justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex items-center justify-between">
             <span>TOTAL INCIDENTS</span>
             <span className="material-symbols-outlined text-[16px] text-[#d4af37]">calendar_today</span>
           </div>
@@ -91,7 +91,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
         </div>
 
         <div className="glass-panel p-5 flex flex-col justify-between group hover:border-[#ef444444] transition-all">
-          <div className="text-[#ffb4ab] font-label-caps text-[10px] tracking-[0.2em] flex items-center justify-between">
+          <div className="text-[#ffb4ab] font-label-caps text-[12px] tracking-[0.2em] flex items-center justify-between">
             <span>P1 SEV</span>
             <span className="material-symbols-outlined text-[16px] text-[#ef4444]">priority_high</span>
           </div>
@@ -99,7 +99,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
         </div>
 
         <div className="glass-panel p-5 flex flex-col justify-between group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex items-center justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex items-center justify-between">
             <span>MTTR</span>
             <span className="material-symbols-outlined text-[16px] text-[#d4af37]">timer</span>
           </div>
@@ -107,7 +107,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
         </div>
 
         <div className="glass-panel p-5 flex flex-col justify-between group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex items-center justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex items-center justify-between">
             <span>RESOLUTION RATE</span>
             <span className="material-symbols-outlined text-[16px] text-[#00ff88]">check_circle</span>
           </div>
@@ -130,18 +130,18 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Filter ID or Service..."
-              className="input-tactical w-full bg-[#141414] border border-[#ffffff1a] rounded py-1.5 pl-9 pr-3 text-xs font-code-sm text-[#f5f5f5] placeholder-[#a3a3a3] transition-colors h-9"
+              className="input-tactical w-full bg-[#141414] border border-[#ffffff1a] rounded py-1.5 pl-9 pr-3 text-sm font-code-sm text-[#f5f5f5] placeholder-[#a3a3a3] transition-colors h-9"
             />
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-code-sm text-[#a3a3a3] w-full sm:w-auto justify-between sm:justify-end">
+          <div className="flex items-center gap-4 text-sm font-code-sm text-[#a3a3a3] w-full sm:w-auto justify-between sm:justify-end">
             {/* Quick Severity Buttons */}
             <div className="flex bg-[#141414] border border-[#ffffff1a] rounded p-1">
               {['ALL', 'P1', 'P2', 'P3'].map((sev) => (
                 <button
                   key={sev}
                   onClick={() => setSeverityFilter(sev)}
-                  className={`px-2.5 py-0.5 text-[10px] rounded font-label-caps cursor-pointer transition-all ${
+                  className={`px-2.5 py-0.5 text-[12px] rounded font-label-caps cursor-pointer transition-all ${
                     severityFilter === sev
                       ? 'bg-[#d4af37] text-[#0a0a0a] font-bold'
                       : 'text-[#a3a3a3] hover:text-[#f5f5f5]'
@@ -152,7 +152,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
               ))}
             </div>
 
-            <span className="text-[11px]">Showing 1-{filteredIncidents.length} of 142</span>
+            <span className="text-[12px]">Showing 1-{filteredIncidents.length} of 142</span>
             <div className="flex border border-[#ffffff1a] rounded overflow-hidden h-8">
               <button className="px-2 hover:bg-[#1f1f1f] border-r border-[#ffffff1a] flex items-center justify-center cursor-pointer text-[#a3a3a3]">
                 <span className="material-symbols-outlined text-sm">chevron_left</span>
@@ -168,9 +168,9 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-[#0a0a0a] border-b border-[#ffffff1a] text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em]">
+              <tr className="bg-[#0a0a0a] border-b border-[#ffffff1a] text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em]">
                 <th className="py-3 px-4 font-semibold tracking-wider cursor-pointer hover:text-[#f5f5f5] transition-colors w-28">
-                  ID <span className="material-symbols-outlined text-[10px] align-middle">arrow_downward</span>
+                  ID <span className="material-symbols-outlined text-[12px] align-middle">arrow_downward</span>
                 </th>
                 <th className="py-3 px-4 font-semibold tracking-wider">SERVICE</th>
                 <th className="py-3 px-4 font-semibold tracking-wider">SEVERITY</th>
@@ -180,7 +180,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
                 <th className="py-3 px-4 font-semibold tracking-wider text-right">ACTIONS</th>
               </tr>
             </thead>
-            <tbody className="font-code-sm text-xs text-[#f5f5f5]">
+            <tbody className="font-code-sm text-sm text-[#f5f5f5]">
               {filteredIncidents.map((inc) => {
                 const isP1 = inc.severity === 'P1';
                 return (
@@ -195,7 +195,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
                     <td className="py-3.5 px-4 text-[#f5f5f5]">{inc.service}</td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`border rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase inline-flex items-center gap-1 ${
+                        className={`border rounded-sm px-2 py-0.5 text-[12px] font-bold uppercase inline-flex items-center gap-1 ${
                           inc.severity === 'P1'
                             ? 'badge-p1'
                             : inc.severity === 'P2'
@@ -204,7 +204,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
                         }`}
                       >
                         {inc.severity === 'P1' && (
-                          <span className="material-symbols-outlined text-[10px]">priority_high</span>
+                          <span className="material-symbols-outlined text-[12px]">priority_high</span>
                         )}
                         {inc.severity}
                       </span>
@@ -239,7 +239,7 @@ export const IncidentHistoryView: React.FC<IncidentHistoryViewProps> = ({
         </div>
 
         {/* Bottom Status Bar */}
-        <div className="mt-auto p-3 bg-[#0d0d0d] border-t border-[#ffffff1a] text-[10px] font-code-sm text-[#a3a3a3] flex justify-between items-center px-4">
+        <div className="mt-auto p-3 bg-[#0d0d0d] border-t border-[#ffffff1a] text-[12px] font-code-sm text-[#a3a3a3] flex justify-between items-center px-4">
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#00ff88]"></span> Database Connection Stable
           </span>

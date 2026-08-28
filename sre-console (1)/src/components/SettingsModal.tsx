@@ -22,7 +22,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-fadeIn">
-      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col">
+      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-md w-full max-w-lg overflow-hidden shadow-2xl flex flex-col">
         <div className="p-5 border-b border-[#ffffff1a] bg-[#141414] flex justify-between items-center">
           <div className="flex items-center gap-2.5">
             <span className="material-symbols-outlined text-[#d4af37]">settings</span>
@@ -35,11 +35,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
           </button>
         </div>
 
-        <div className="p-6 space-y-4 font-code-sm text-xs">
+        <div className="p-6 space-y-4 font-code-sm text-sm">
           <div className="flex items-center justify-between bg-[#141414] p-3.5 rounded border border-[#ffffff1a]">
             <div>
               <div className="text-[#f5f5f5] font-bold">Autonomous Remediation</div>
-              <div className="text-[#a3a3a3] text-[11px] font-light">Allow OpsCenter AI to execute tier-1 runbooks</div>
+              <div className="text-[#a3a3a3] text-[12px] font-light">Allow OpsCenter AI to execute tier-1 runbooks</div>
             </div>
             <input
               type="checkbox"
@@ -50,7 +50,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
           </div>
 
           <div>
-            <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[10px] tracking-wider uppercase">Gemini Model Engine</label>
+            <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[12px] tracking-wider uppercase">Gemini Model Engine</label>
             <select
               value={geminiModel}
               onChange={(e) => setGeminiModel(e.target.value)}
@@ -63,10 +63,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
         </div>
 
         <div className="p-4 border-t border-[#ffffff1a] bg-[#141414] flex justify-between items-center">
-          {saved && <span className="text-[#00ff88] font-code-sm text-xs">Settings Saved!</span>}
+          {saved && <span className="text-[#00ff88] font-code-sm text-sm">Settings Saved!</span>}
           <button
             onClick={handleSave}
-            className="ml-auto px-5 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-bold font-label-caps text-xs rounded transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
+            className="ml-auto px-5 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-bold font-label-caps text-sm rounded transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
           >
             Save Preferences
           </button>

@@ -33,7 +33,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
   };
 
   return (
-    <section id="simulator" className="w-full min-h-screen bg-[#F5F3EE] text-[#202020] py-24 border-b border-[#D8D6D0]">
+    <section id="simulator" className="w-full min-h-screen bg-[#F5F3EE] text-[#202020] py-[96px] border-b border-[#D8D6D0]">
       <div className="container-full space-y-12">
         {/* Header */}
         <div className="border-b border-[#D8D6D0] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -43,7 +43,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
               AUTOMATED TRIAGE CONSOLE
             </h2>
           </div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 border border-[#050505] text-xs font-mono uppercase tracking-wider text-[#050505] font-bold">
+          <div className="inline-flex items-center gap-2 px-4 py-2 border border-[#050505] text-sm font-mono uppercase tracking-wider text-[#050505] font-bold">
             <ShieldAlert className="w-4 h-4 text-[#050505]" />
             SIMULATION MODE — NO LIVE INFRASTRUCTURE IS MODIFIED
           </div>
@@ -82,7 +82,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
                       type="button"
                       key={level}
                       onClick={() => setSeverity(level)}
-                      className={`flex-1 py-3 font-mono text-xs uppercase border transition-all ${
+                      className={`flex-1 py-3 font-mono text-sm uppercase border transition-all ${
                         severity === level
                           ? 'bg-[#050505] text-[#F1F1F1] border-[#050505] font-bold'
                           : 'bg-[#F5F3EE] text-[#4A4A4A] border-[#D8D6D0] hover:border-[#050505]'
@@ -131,7 +131,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
             </form>
 
             {error && (
-              <div className="p-4 border border-[#050505] bg-[#050505] text-[#F1F1F1] text-xs font-mono">
+              <div className="p-4 border border-[#050505] bg-[#050505] text-[#F1F1F1] text-sm font-mono">
                 [PIPELINE ERROR] {error}
               </div>
             )}
@@ -140,7 +140,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
           {/* 60% Right Animated Pipeline Output Stage */}
           <div className="lg:col-span-7">
             <div className="bg-[#050505] text-[#F1F1F1] border border-[#050505] p-8 space-y-6 min-h-[500px]">
-              <div className="flex items-center justify-between border-b border-white/20 pb-4 font-mono text-xs">
+              <div className="flex items-center justify-between border-b border-white/20 pb-4 font-mono text-sm">
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-4 h-4 text-[#FFFFFF]" />
                   <span className="font-bold uppercase tracking-wider">
@@ -151,12 +151,12 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
               </div>
 
               {!pipelineOutput ? (
-                <div className="h-80 flex flex-col items-center justify-center text-center text-[#8E8E8E] font-mono text-xs space-y-3">
+                <div className="h-80 flex flex-col items-center justify-center text-center text-[#8E8E8E] font-mono text-sm space-y-3">
                   <Cpu className="w-8 h-8 text-[#8E8E8E]" />
                   <div>Select target service and click RUN CONTROLLED TRIAGE to execute.</div>
                 </div>
               ) : (
-                <div className="space-y-4 font-mono text-xs">
+                <div className="space-y-4 font-mono text-sm">
                   {/* Event Timeline Sequence */}
                   {pipelineOutput.events.map((ev, idx) => (
                     <div key={ev.event_id || idx} className="border border-white/15 p-4 space-y-2 bg-[#141414]">
@@ -164,7 +164,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
                         <span className="font-bold text-[#FFFFFF]">[{idx + 1}] STAGE: {ev.type.toUpperCase().replace('_', ' ')}</span>
                         <span className="text-[#8E8E8E]">{ev.timestamp ? ev.timestamp.slice(11, 19) : ''}</span>
                       </div>
-                      <pre className="text-[#C8C8C8] text-[11px] overflow-x-auto whitespace-pre-wrap">
+                      <pre className="text-[#C8C8C8] text-[12px] overflow-x-auto whitespace-pre-wrap">
                         {JSON.stringify(ev.payload, null, 2)}
                       </pre>
                     </div>
@@ -173,10 +173,10 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({ onPipeline
                   {/* Controlled Action Output */}
                   {pipelineOutput.action_result && (
                     <div className="border border-white/30 p-5 space-y-2 bg-[#141414]">
-                      <div className="text-xs font-mono font-bold uppercase text-[#FFFFFF] flex items-center gap-2">
+                      <div className="text-sm font-mono font-bold uppercase text-[#FFFFFF] flex items-center gap-2">
                         <Wrench className="w-4 h-4" /> CONTROLLED ACTION EXECUTION RESULT
                       </div>
-                      <div className="font-mono text-xs text-[#C8C8C8] space-y-1">
+                      <div className="font-mono text-sm text-[#C8C8C8] space-y-1">
                         <div>ACTION: {pipelineOutput.action_result.action}</div>
                         <div>STATUS: {pipelineOutput.action_result.status.toUpperCase()}</div>
                         <div>MESSAGE: {pipelineOutput.action_result.message}</div>

@@ -50,7 +50,7 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
           className="absolute inset-0 w-full h-full flex items-center justify-center transition-transform duration-75"
           style={{ transform: `scale(${topologyScale})` }}
         >
-          <svg className="w-full h-full max-w-5xl max-h-[600px] p-6 text-[#9EA5A8]/30" viewBox="0 0 800 500" fill="none">
+          <svg className="w-full h-full w-full max-w-[1760px] max-h-[600px] p-6 text-[#9EA5A8]/30" viewBox="0 0 800 500" fill="none">
             {/* Connection Lines */}
             <path d="M 400 100 L 250 250" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
             <path d="M 400 100 L 550 250" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 4" />
@@ -69,13 +69,13 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
           </svg>
 
           {/* Node Cards */}
-          <div className="absolute inset-0 max-w-5xl max-h-[600px] m-auto pointer-events-none">
+          <div className="absolute inset-0 w-full max-w-[1760px] max-h-[600px] m-auto pointer-events-none">
             {/* Gateway */}
             <div className="absolute top-[80px] left-[50%] -translate-x-[50%] bg-[#101317] border border-[#EDE7DC]/13 px-4 py-2 rounded flex items-center gap-2">
               <Server className="w-4 h-4 text-[#2E6B72]" />
               <div>
-                <div className="text-[10px] font-mono text-[#9EA5A8]">INGRESS</div>
-                <div className="font-display text-xs text-[#EDE7DC]">api-gateway</div>
+                <div className="text-[12px] font-mono text-[#9EA5A8]">INGRESS</div>
+                <div className="font-display text-sm text-[#EDE7DC]">api-gateway</div>
               </div>
             </div>
 
@@ -83,8 +83,8 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
             <div className="absolute top-[230px] left-[28%] -translate-x-[50%] bg-[#101317] border border-[#E8913C] px-4 py-2 rounded flex items-center gap-2">
               <Activity className="w-4 h-4 text-[#E8913C]" />
               <div>
-                <div className="text-[10px] font-mono text-[#E8913C]">TARGET SERVICE</div>
-                <div className="font-display text-xs text-[#EDE7DC]">payment-api (P1)</div>
+                <div className="text-[12px] font-mono text-[#E8913C]">TARGET SERVICE</div>
+                <div className="font-display text-sm text-[#EDE7DC]">payment-api (P1)</div>
               </div>
             </div>
 
@@ -92,8 +92,8 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
             <div className="absolute top-[230px] left-[72%] -translate-x-[50%] bg-[#101317] border border-[#EDE7DC]/13 px-4 py-2 rounded flex items-center gap-2">
               <Cpu className="w-4 h-4 text-[#2E6B72]" />
               <div>
-                <div className="text-[10px] font-mono text-[#9EA5A8]">AUTH / WORKER</div>
-                <div className="font-display text-xs text-[#EDE7DC]">identity-provider</div>
+                <div className="text-[12px] font-mono text-[#9EA5A8]">AUTH / WORKER</div>
+                <div className="font-display text-sm text-[#EDE7DC]">identity-provider</div>
               </div>
             </div>
 
@@ -101,8 +101,8 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
             <div className="absolute top-[380px] left-[20%] -translate-x-[50%] bg-[#101317] border border-[#EDE7DC]/13 px-4 py-2 rounded flex items-center gap-2">
               <Database className="w-4 h-4 text-[#2E6B72]" />
               <div>
-                <div className="text-[10px] font-mono text-[#9EA5A8]">DATABASE</div>
-                <div className="font-display text-xs text-[#EDE7DC]">postgres-cluster</div>
+                <div className="text-[12px] font-mono text-[#9EA5A8]">DATABASE</div>
+                <div className="font-display text-sm text-[#EDE7DC]">postgres-cluster</div>
               </div>
             </div>
 
@@ -110,8 +110,8 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
             <div className="absolute top-[380px] left-[40%] -translate-x-[50%] bg-[#101317] border border-[#EDE7DC]/13 px-4 py-2 rounded flex items-center gap-2">
               <Server className="w-4 h-4 text-[#2E6B72]" />
               <div>
-                <div className="text-[10px] font-mono text-[#9EA5A8]">CACHE</div>
-                <div className="font-display text-xs text-[#EDE7DC]">redis-cache</div>
+                <div className="text-[12px] font-mono text-[#9EA5A8]">CACHE</div>
+                <div className="font-display text-sm text-[#EDE7DC]">redis-cache</div>
               </div>
             </div>
           </div>
@@ -171,26 +171,26 @@ export const PortalHero: React.FC<PortalHeroProps> = ({ isPipelineRunning = fals
         </div>
 
         {/* Layer 6: Corner Pins */}
-        <div className="absolute top-20 left-8 z-50 text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest">
+        <div className="absolute top-20 left-8 z-50 text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest">
           RAG INCIDENT TRIAGE // CONTROLLED REMEDIATION
         </div>
-        <div className="absolute top-20 right-8 z-50 text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest text-right">
+        <div className="absolute top-20 right-8 z-50 text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest text-right">
           AUDITABLE WORKFLOW
         </div>
-        <div className="absolute bottom-8 left-8 z-50 text-[11px] font-mono text-[#6C7378] uppercase tracking-widest">
+        <div className="absolute bottom-8 left-8 z-50 text-[12px] font-mono text-[#6C7378] uppercase tracking-widest">
           EMBEDDINGS: ALL-MINILM-L6-V2 // CHROMADB
         </div>
-        <div className="absolute bottom-8 right-8 z-50 text-[11px] font-mono text-[#E8913C] uppercase tracking-widest">
+        <div className="absolute bottom-8 right-8 z-50 text-[12px] font-mono text-[#E8913C] uppercase tracking-widest">
           SCROLL TO UNCOVER TOPOLOGY ↓
         </div>
       </div>
 
       {/* Statement Fold Below Hero */}
       <div className="w-full min-h-[60vh] bg-[#0A0C0E] border-b border-[#EDE7DC]/13 flex flex-col justify-center px-8 md:px-24 py-16">
-        <div className="text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-4">
+        <div className="text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-4">
           // OPERATIONAL PRINCIPLE
         </div>
-        <h2 className="font-display text-3xl md:text-6xl text-[#EDE7DC] max-w-4xl leading-tight">
+        <h2 className="font-display text-3xl md:text-6xl text-[#EDE7DC] w-full max-w-[1760px] leading-tight">
           Diagnose with evidence. <br />
           Respond <span className="text-[#E8913C]">with control</span>. <br />
           Leave an audit trail.

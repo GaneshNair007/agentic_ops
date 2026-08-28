@@ -75,19 +75,19 @@ export const Navbar: React.FC<NavbarProps> = ({ isBackendOnline }) => {
 
       {/* Mobile Bottom Navigation Bar with Labels & Icons */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#050505] border-t-2 border-white z-50 flex items-center justify-around px-2 text-[#F1F1F1]">
-        <button onClick={() => scrollToSection('workflow')} className="flex flex-col items-center gap-1 text-xs font-mono uppercase font-bold">
+        <button onClick={() => scrollToSection('workflow')} className="flex flex-col items-center gap-1 text-sm font-mono uppercase font-bold">
           <Cpu className="w-5 h-5" />
           <span>Workflow</span>
         </button>
-        <button onClick={() => scrollToSection('simulator')} className="flex flex-col items-center gap-1 text-xs font-mono uppercase font-bold">
+        <button onClick={() => scrollToSection('simulator')} className="flex flex-col items-center gap-1 text-sm font-mono uppercase font-bold">
           <Terminal className="w-5 h-5" />
           <span>Console</span>
         </button>
-        <button onClick={() => scrollToSection('evidence')} className="flex flex-col items-center gap-1 text-xs font-mono uppercase font-bold">
+        <button onClick={() => scrollToSection('evidence')} className="flex flex-col items-center gap-1 text-sm font-mono uppercase font-bold">
           <Search className="w-5 h-5" />
           <span>Evidence</span>
         </button>
-        <button onClick={() => scrollToSection('safety')} className="flex flex-col items-center gap-1 text-xs font-mono uppercase font-bold">
+        <button onClick={() => scrollToSection('safety')} className="flex flex-col items-center gap-1 text-sm font-mono uppercase font-bold">
           <Shield className="w-5 h-5" />
           <span>Safety</span>
         </button>

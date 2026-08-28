@@ -116,14 +116,14 @@ export const ActionControl: React.FC = () => {
     <div className="w-full space-y-8">
       {/* Header */}
       <div className="border-b border-[#EDE7DC]/13 pb-6">
-        <div className="text-[11px] font-mono text-[#E8913C] uppercase tracking-widest flex items-center gap-2">
+        <div className="text-[12px] font-mono text-[#E8913C] uppercase tracking-widest flex items-center gap-2">
           <Wrench className="w-4 h-4 text-[#E8913C]" />
           CONTROLLED INFRASTRUCTURE ACTIONS & SAFETY AUDIT
         </div>
         <h2 className="font-display text-2xl md:text-3xl text-[#EDE7DC] mt-1">
           ACTION CONTROL ENGINE
         </h2>
-        <p className="text-xs text-[#9EA5A8] mt-2">
+        <p className="text-sm text-[#9EA5A8] mt-2">
           Controlled simulation action — writes immutable record to audit log.
         </p>
       </div>
@@ -131,7 +131,7 @@ export const ActionControl: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Action Selection List */}
         <div className="space-y-3">
-          <div className="text-xs font-mono text-[#9EA5A8] uppercase tracking-widest">
+          <div className="text-sm font-mono text-[#9EA5A8] uppercase tracking-widest">
             PREDEFINED ACTION CATALOGUE
           </div>
           {CONTROLLED_ACTIONS.map((act) => {
@@ -151,12 +151,12 @@ export const ActionControl: React.FC = () => {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="font-display text-xs text-[#EDE7DC]">{act.name}</span>
+                  <span className="font-display text-sm text-[#EDE7DC]">{act.name}</span>
                   <span className={`text-[9px] font-mono border px-1.5 py-0.5 rounded uppercase ${catBadge}`}>
                     {act.category.replace('_', ' ')}
                   </span>
                 </div>
-                <div className="text-[11px] font-mono text-[#9EA5A8] line-clamp-1">{act.description}</div>
+                <div className="text-[12px] font-mono text-[#9EA5A8] line-clamp-1">{act.description}</div>
               </button>
             );
           })}
@@ -167,28 +167,28 @@ export const ActionControl: React.FC = () => {
           <div className="bg-[#101317] border border-[#EDE7DC]/13 rounded p-6 space-y-6">
             <div className="flex items-center justify-between border-b border-[#EDE7DC]/10 pb-4">
               <div>
-                <div className="text-[10px] font-mono text-[#9EA5A8] uppercase">ACTION TYPE</div>
+                <div className="text-[12px] font-mono text-[#9EA5A8] uppercase">ACTION TYPE</div>
                 <div className="font-display text-lg text-[#EDE7DC]">{selectedAction.name}</div>
               </div>
-              <div className="text-xs font-mono text-[#E8913C] bg-[#0A0C0E] border border-[#EDE7DC]/10 px-3 py-1.5 rounded">
+              <div className="text-sm font-mono text-[#E8913C] bg-[#0A0C0E] border border-[#EDE7DC]/10 px-3 py-1.5 rounded">
                 {selectedAction.type}
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
+              <label className="block text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
                 ACTION PARAMETERS (JSON)
               </label>
               <textarea
                 value={paramsJson}
                 onChange={(e) => setParamsJson(e.target.value)}
                 rows={6}
-                className="w-full bg-[#0A0C0E] border border-[#EDE7DC]/13 rounded p-4 text-xs font-mono text-[#EDE7DC] focus:border-[#E8913C] outline-none"
+                className="w-full bg-[#0A0C0E] border border-[#EDE7DC]/13 rounded p-4 text-sm font-mono text-[#EDE7DC] focus:border-[#E8913C] outline-none"
               />
             </div>
 
             {error && (
-              <div className="p-3 border border-[#E63946] bg-[#E63946]/10 text-[#E63946] rounded text-xs font-mono">
+              <div className="p-3 border border-[#E63946] bg-[#E63946]/10 text-[#E63946] rounded text-sm font-mono">
                 [ERROR] {error}
               </div>
             )}
@@ -196,7 +196,7 @@ export const ActionControl: React.FC = () => {
             <button
               onClick={handleTriggerAction}
               disabled={isLoading}
-              className={`w-full btn-sre-outline py-3 text-xs flex items-center justify-center gap-2 ${
+              className={`w-full btn-sre-outline py-3 text-sm flex items-center justify-center gap-2 ${
                 selectedAction.category === 'high_impact'
                   ? 'btn-sre-danger'
                   : selectedAction.category === 'review_required'
@@ -213,16 +213,16 @@ export const ActionControl: React.FC = () => {
           {lastResponse && (
             <div className="bg-[#101317] border border-[#2E6B72] rounded p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-[#EDE7DC]/10 pb-3">
-                <div className="text-xs font-mono text-[#2E6B72] uppercase tracking-widest flex items-center gap-2">
+                <div className="text-sm font-mono text-[#2E6B72] uppercase tracking-widest flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#2E6B72]" />
                   ACTION EXECUTION AUDITED
                 </div>
-                <div className="text-xs font-mono text-[#9EA5A8]">
+                <div className="text-sm font-mono text-[#9EA5A8]">
                   STATUS: {lastResponse.status.toUpperCase()}
                 </div>
               </div>
 
-              <div className="bg-[#0A0C0E] p-4 rounded border border-[#EDE7DC]/10 font-mono text-xs space-y-2">
+              <div className="bg-[#0A0C0E] p-4 rounded border border-[#EDE7DC]/10 font-mono text-sm space-y-2">
                 <div><span className="text-[#6C7378]">ACTION ID:</span> <span className="text-[#EDE7DC]">{lastResponse.action_id}</span></div>
                 <div><span className="text-[#6C7378]">MESSAGE:</span> <span className="text-[#E8913C]">{lastResponse.message}</span></div>
                 <div><span className="text-[#6C7378]">LATENCY:</span> <span className="text-[#EDE7DC]">{lastResponse.execution_time_ms} ms</span></div>
@@ -241,12 +241,12 @@ export const ActionControl: React.FC = () => {
             <div className="flex items-center gap-3 text-[#E63946] border-b border-[#EDE7DC]/13 pb-4">
               <ShieldAlert className="w-6 h-6 text-[#E63946]" />
               <div>
-                <div className="text-[11px] font-mono uppercase tracking-widest">HIGH-IMPACT ACTION CONFIRMATION</div>
+                <div className="text-[12px] font-mono uppercase tracking-widest">HIGH-IMPACT ACTION CONFIRMATION</div>
                 <div className="font-display text-lg text-[#EDE7DC]">{selectedAction.name}</div>
               </div>
             </div>
 
-            <div className="space-y-3 font-mono text-xs">
+            <div className="space-y-3 font-mono text-sm">
               <div className="text-[#9EA5A8]">
                 Targeting high-impact remediation endpoint. Please review action parameters before proceeding:
               </div>
@@ -262,7 +262,7 @@ export const ActionControl: React.FC = () => {
                 onChange={(e) => setHasConfirmed(e.target.checked)}
                 className="accent-[#E63946] w-4 h-4"
               />
-              <span className="text-xs font-mono text-[#EDE7DC]">
+              <span className="text-sm font-mono text-[#EDE7DC]">
                 I understand this is a simulated, predefined remediation action.
               </span>
             </label>

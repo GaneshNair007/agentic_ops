@@ -42,7 +42,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#EDE7DC]/13 pb-6">
         <div>
-          <div className="text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest flex items-center gap-2">
+          <div className="text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#E8913C]" />
             INCIDENT RISK TRIAGE & RESPONSE PIPELINE
           </div>
@@ -50,7 +50,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
             INCIDENT COMPOSER & SIMULATION TRACE
           </h2>
         </div>
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#E8913C] rounded text-[11px] font-mono text-[#E8913C] uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#E8913C] rounded text-[12px] font-mono text-[#E8913C] uppercase tracking-wider">
           <ShieldAlert className="w-4 h-4 text-[#E8913C]" />
           SIMULATION MODE
         </div>
@@ -61,7 +61,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Target Service */}
           <div>
-            <label className="block text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
+            <label className="block text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
               TARGET SERVICE
             </label>
             <input
@@ -76,7 +76,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
 
           {/* Severity Level */}
           <div>
-            <label className="block text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
+            <label className="block text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
               SEVERITY LEVEL
             </label>
             <div className="flex gap-2">
@@ -85,7 +85,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
                   type="button"
                   key={level}
                   onClick={() => setSeverity(level)}
-                  className={`flex-1 py-2 rounded font-mono text-xs uppercase border transition-colors ${
+                  className={`flex-1 py-2 rounded font-mono text-sm uppercase border transition-colors ${
                     severity === level
                       ? level === 'P1'
                         ? 'bg-[#E63946]/10 border-[#E63946] text-[#E63946] font-bold'
@@ -104,7 +104,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full btn-sre-outline btn-sre-amber py-2.5 text-xs flex items-center justify-center gap-2"
+              className="w-full btn-sre-outline btn-sre-amber py-2.5 text-sm flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -123,7 +123,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
 
         {/* Symptom Input */}
         <div>
-          <label className="block text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
+          <label className="block text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest mb-2">
             INCIDENT SYMPTOM DESCRIPTION
           </label>
           <input
@@ -139,7 +139,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
 
       {/* Error Banner */}
       {error && (
-        <div className="p-4 border border-[#E63946] bg-[#E63946]/10 text-[#E63946] rounded text-xs font-mono">
+        <div className="p-4 border border-[#E63946] bg-[#E63946]/10 text-[#E63946] rounded text-sm font-mono">
           [ERROR] {error}
         </div>
       )}
@@ -148,17 +148,17 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
       {pipelineOutput && (
         <div className="space-y-6">
           <div className="flex items-center justify-between border-b border-[#EDE7DC]/13 pb-3">
-            <div className="text-xs font-mono text-[#E8913C] uppercase tracking-widest flex items-center gap-2">
+            <div className="text-sm font-mono text-[#E8913C] uppercase tracking-widest flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-[#2E6B72]" />
               COMMAND TRACE — PIPELINE COMPLETED IN {pipelineOutput.total_duration_sec}s
             </div>
-            <div className="text-xs font-mono text-[#9EA5A8]">
+            <div className="text-sm font-mono text-[#9EA5A8]">
               STATUS: {pipelineOutput.status.toUpperCase()}
             </div>
           </div>
 
           {/* Event Timeline Trace */}
-          <div className="space-y-4 font-mono text-xs">
+          <div className="space-y-4 font-mono text-sm">
             {pipelineOutput.events.map((ev, idx) => (
               <div
                 key={ev.event_id || idx}
@@ -171,11 +171,11 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
                       {ev.type.replace('_', ' ')}
                     </span>
                   </div>
-                  <span className="text-[#6C7378] text-[11px]">
+                  <span className="text-[#6C7378] text-[12px]">
                     {ev.timestamp ? ev.timestamp.slice(11, 19) : ''}
                   </span>
                 </div>
-                <div className="text-[#9EA5A8] bg-[#0A0C0E] p-3 rounded border border-[#EDE7DC]/10 text-[11px] overflow-x-auto">
+                <div className="text-[#9EA5A8] bg-[#0A0C0E] p-3 rounded border border-[#EDE7DC]/10 text-[12px] overflow-x-auto">
                   {JSON.stringify(ev.payload, null, 2)}
                 </div>
               </div>
@@ -185,7 +185,7 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
           {/* Retrieved Evidence Summary */}
           {pipelineOutput.retrieved_docs.length > 0 && (
             <div className="bg-[#101317] border border-[#EDE7DC]/13 rounded p-6 space-y-4">
-              <div className="text-xs font-mono text-[#2E6B72] uppercase tracking-widest flex items-center gap-2">
+              <div className="text-sm font-mono text-[#2E6B72] uppercase tracking-widest flex items-center gap-2">
                 <FileText className="w-4 h-4 text-[#2E6B72]" />
                 RAG EVIDENCE RETRIEVED ({pipelineOutput.retrieved_docs.length} DOCUMENTS)
               </div>
@@ -193,11 +193,11 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
                 {pipelineOutput.retrieved_docs.map((doc) => (
                   <div key={doc.id} className="bg-[#0A0C0E] border border-[#EDE7DC]/10 p-4 rounded space-y-2">
                     <div className="flex justify-between items-start">
-                      <span className="text-[10px] font-mono text-[#2E6B72] uppercase">{doc.id}</span>
-                      <span className="text-[10px] font-mono text-[#E8913C]">SCORE: {doc.score.toFixed(3)}</span>
+                      <span className="text-[12px] font-mono text-[#2E6B72] uppercase">{doc.id}</span>
+                      <span className="text-[12px] font-mono text-[#E8913C]">SCORE: {doc.score.toFixed(3)}</span>
                     </div>
-                    <div className="font-display text-xs text-[#EDE7DC] line-clamp-1">{doc.title}</div>
-                    <div className="text-[11px] text-[#9EA5A8] line-clamp-2">{doc.text}</div>
+                    <div className="font-display text-sm text-[#EDE7DC] line-clamp-1">{doc.title}</div>
+                    <div className="text-[12px] text-[#9EA5A8] line-clamp-2">{doc.text}</div>
                   </div>
                 ))}
               </div>
@@ -207,11 +207,11 @@ export const IncidentSimulator: React.FC<IncidentSimulatorProps> = ({
           {/* Controlled Action Output */}
           {pipelineOutput.action_result && (
             <div className="bg-[#101317] border border-[#E8913C]/40 rounded p-6 space-y-3">
-              <div className="text-xs font-mono text-[#E8913C] uppercase tracking-widest flex items-center gap-2">
+              <div className="text-sm font-mono text-[#E8913C] uppercase tracking-widest flex items-center gap-2">
                 <Wrench className="w-4 h-4 text-[#E8913C]" />
                 CONTROLLED ACTION EXECUTION RESULT
               </div>
-              <div className="bg-[#0A0C0E] p-4 rounded border border-[#EDE7DC]/10 font-mono text-xs space-y-2">
+              <div className="bg-[#0A0C0E] p-4 rounded border border-[#EDE7DC]/10 font-mono text-sm space-y-2">
                 <div className="text-[#EDE7DC]">ACTION: <span className="text-[#E8913C]">{pipelineOutput.action_result.action}</span></div>
                 <div className="text-[#9EA5A8]">MESSAGE: {pipelineOutput.action_result.message}</div>
                 <div className="text-[#6C7378]">ACTION ID: {pipelineOutput.action_result.action_id} | EXECUTION LATENCY: {pipelineOutput.action_result.execution_time_ms}ms</div>

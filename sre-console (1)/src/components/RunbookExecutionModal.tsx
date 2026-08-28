@@ -64,7 +64,7 @@ export const RunbookExecutionModal: React.FC<RunbookExecutionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-fadeIn">
-      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-md w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="p-5 border-b border-[#ffffff1a] bg-[#141414] flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -75,7 +75,7 @@ export const RunbookExecutionModal: React.FC<RunbookExecutionModalProps> = ({
               <h2 className="font-serif text-lg text-[#ffffff] font-normal">
                 Runbook Interactive Runner: {doc.code}
               </h2>
-              <p className="font-code-sm text-xs text-[#a3a3a3]">{doc.title}</p>
+              <p className="font-code-sm text-sm text-[#a3a3a3]">{doc.title}</p>
             </div>
           </div>
           <button onClick={onClose} className="text-[#a3a3a3] hover:text-[#f5f5f5] cursor-pointer">
@@ -86,7 +86,7 @@ export const RunbookExecutionModal: React.FC<RunbookExecutionModalProps> = ({
         {/* Content */}
         <div className="p-6 space-y-4 font-sans flex-1 overflow-y-auto">
           {/* Progress Indicator */}
-          <div className="flex items-center justify-between bg-[#141414] p-3 rounded border border-[#ffffff1a] font-code-sm text-xs">
+          <div className="flex items-center justify-between bg-[#141414] p-3 rounded border border-[#ffffff1a] font-code-sm text-sm">
             <span className="text-[#a3a3a3] uppercase tracking-wider">Status:</span>
             <span
               className={`font-bold uppercase tracking-wider ${
@@ -106,7 +106,7 @@ export const RunbookExecutionModal: React.FC<RunbookExecutionModalProps> = ({
           </div>
 
           {/* Terminal View */}
-          <div className="bg-[#0a0a0a] p-4 rounded-lg border border-[#ffffff1a] font-code-sm text-xs text-[#00ff88] space-y-1.5 min-h-[220px] max-h-[300px] overflow-y-auto leading-relaxed shadow-inner">
+          <div className="bg-[#0a0a0a] p-4 rounded-lg border border-[#ffffff1a] font-code-sm text-sm text-[#00ff88] space-y-1.5 min-h-[220px] max-h-[300px] overflow-y-auto leading-relaxed shadow-inner">
             {terminalLogs.map((log, i) => (
               <div key={i}>{log}</div>
             ))}
@@ -117,14 +117,14 @@ export const RunbookExecutionModal: React.FC<RunbookExecutionModalProps> = ({
         <div className="p-4 border-t border-[#ffffff1a] bg-[#141414] flex justify-between items-center">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-[#a3a3a3] hover:text-[#f5f5f5] font-label-caps text-xs cursor-pointer uppercase tracking-wider"
+            className="px-4 py-2 text-[#a3a3a3] hover:text-[#f5f5f5] font-label-caps text-sm cursor-pointer uppercase tracking-wider"
           >
             Close
           </button>
           <button
             onClick={handleStartExecution}
             disabled={executionState !== 'idle'}
-            className={`px-5 py-2 font-bold font-label-caps text-xs rounded transition-all cursor-pointer flex items-center gap-1 uppercase tracking-wider ${
+            className={`px-5 py-2 font-bold font-label-caps text-sm rounded transition-all cursor-pointer flex items-center gap-1 uppercase tracking-wider ${
               executionState === 'idle'
                 ? 'bg-[#d4af37] text-[#0a0a0a] hover:bg-[#e2bd46] shadow-md shadow-[#d4af371a]'
                 : 'bg-[#141414] border border-[#ffffff1a] text-[#a3a3a3] cursor-not-allowed'

@@ -19,11 +19,11 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
   onSelectService,
 }) => {
   return (
-    <div className="max-w-[1600px] mx-auto flex flex-col gap-8 animate-fadeIn">
+    <div className="w-full max-w-[1760px] mx-auto flex flex-col gap-8 animate-fadeIn">
       {/* Overview Header */}
       <div className="flex justify-between items-end border-b border-[#ffffff1a] pb-6">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Command Dashboard</span>
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Command Dashboard</span>
           <h1 className="font-serif text-3xl md:text-4xl text-[#ffffff] font-normal mt-1">
             Aethelgard <span className="italic text-[#d4af37] font-light">SRE Orchestrator</span>
           </h1>
@@ -32,7 +32,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </p>
         </div>
         <div className="text-right hidden sm:block">
-          <div className="text-[10px] uppercase tracking-[0.2em] text-[#a3a3a3]">Active Node</div>
+          <div className="text-[12px] uppercase tracking-[0.2em] text-[#a3a3a3]">Active Node</div>
           <div className="font-serif text-sm text-[#d4af37] font-medium">Autonomous Node 01</div>
         </div>
       </div>
@@ -41,7 +41,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Document Count */}
         <div className="glass-panel p-5 flex flex-col justify-between gap-3 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between items-center">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between items-center">
             Document Count
             <span className="material-symbols-outlined text-[18px] text-[#d4af37]">description</span>
           </div>
@@ -49,7 +49,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <div className="font-serif text-3xl md:text-4xl text-[#ffffff] font-light">
               {kpiMetrics.documentCount}
             </div>
-            <div className="font-code-sm text-xs text-[#00ff88] flex items-center gap-1 mt-1 font-medium">
+            <div className="font-code-sm text-sm text-[#00ff88] flex items-center gap-1 mt-1 font-medium">
               <span className="material-symbols-outlined text-[14px]">arrow_upward</span>{' '}
               {kpiMetrics.documentCountChange}
             </div>
@@ -58,7 +58,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 
         {/* Avg Retrieval */}
         <div className="glass-panel p-5 flex flex-col justify-between gap-3 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between items-center">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between items-center">
             Avg Retrieval
             <span className="material-symbols-outlined text-[18px] text-[#d4af37]">timer</span>
           </div>
@@ -66,7 +66,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <div className="font-serif text-3xl md:text-4xl text-[#ffffff] font-light">
               {kpiMetrics.avgRetrievalMs}<span className="text-lg text-[#d4af37] font-normal ml-0.5">ms</span>
             </div>
-            <div className="font-code-sm text-xs text-[#a3a3a3] flex items-center gap-1 mt-1 font-normal">
+            <div className="font-code-sm text-sm text-[#a3a3a3] flex items-center gap-1 mt-1 font-normal">
               P99: {kpiMetrics.p99RetrievalMs}ms
             </div>
           </div>
@@ -74,7 +74,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 
         {/* Execution Latency */}
         <div className="glass-panel p-5 flex flex-col justify-between gap-3 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between items-center">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between items-center">
             Execution Latency
             <span className="material-symbols-outlined text-[18px] text-[#d4af37]">speed</span>
           </div>
@@ -82,7 +82,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <div className="font-serif text-3xl md:text-4xl text-[#ffffff] font-light">
               {kpiMetrics.executionLatencyMs}<span className="text-lg text-[#d4af37] font-normal ml-0.5">ms</span>
             </div>
-            <div className="font-code-sm text-xs text-[#d4af37] flex items-center gap-1 mt-1 font-medium">
+            <div className="font-code-sm text-sm text-[#d4af37] flex items-center gap-1 mt-1 font-medium">
               Optimal Range
             </div>
           </div>
@@ -90,7 +90,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 
         {/* System Readiness */}
         <div className="glass-panel p-5 flex flex-col justify-between gap-3 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between items-center">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between items-center">
             System Readiness
             <span className="material-symbols-outlined text-[18px] text-[#d4af37]">verified_user</span>
           </div>
@@ -98,7 +98,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <div className="font-serif text-3xl md:text-4xl text-[#d4af37] font-light">
               {kpiMetrics.systemReadiness}
             </div>
-            <div className="font-code-sm text-xs text-[#00ff88] flex items-center gap-1 mt-1 font-medium">
+            <div className="font-code-sm text-sm text-[#00ff88] flex items-center gap-1 mt-1 font-medium">
               All systems nominal
             </div>
           </div>
@@ -116,16 +116,16 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             </h2>
             <button
               onClick={onViewTopology}
-              className="font-code-sm text-xs text-[#d4af37] hover:text-[#f5f5f5] transition-colors flex items-center gap-1 cursor-pointer tracking-wider uppercase"
+              className="font-code-sm text-sm text-[#d4af37] hover:text-[#f5f5f5] transition-colors flex items-center gap-1 cursor-pointer tracking-wider uppercase"
             >
               View Topology <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
             </button>
           </div>
 
           <div className="flex-1 p-5 overflow-x-auto">
-            <table className="w-full text-left font-code-sm text-xs">
+            <table className="w-full text-left font-code-sm text-sm">
               <thead>
-                <tr className="text-[#a3a3a3] font-label-caps border-b border-[#ffffff1a] text-[10px] tracking-[0.2em]">
+                <tr className="text-[#a3a3a3] font-label-caps border-b border-[#ffffff1a] text-[12px] tracking-[0.2em]">
                   <th className="pb-3 font-semibold">Service</th>
                   <th className="pb-3 font-semibold text-right">RPS</th>
                   <th className="pb-3 font-semibold text-right">Error Rate</th>
@@ -191,7 +191,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             <span className="w-2 h-2 rounded-full bg-[#d4af37] pulse-dot"></span>
           </div>
 
-          <div className="flex-1 p-5 overflow-y-auto flex flex-col gap-4 font-code-sm text-xs">
+          <div className="flex-1 p-5 overflow-y-auto flex flex-col gap-4 font-code-sm text-sm">
             {autonomousActions.map((action, index) => (
               <React.Fragment key={action.id}>
                 {index > 0 && <div className="h-px bg-[#ffffff0a] w-full"></div>}
@@ -201,7 +201,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                   </div>
                   <div className="flex-1">
                     <div className="text-[#f5f5f5] font-medium leading-snug">{action.title}</div>
-                    <div className="text-[#a3a3a3] text-[11px] mt-1 opacity-90">
+                    <div className="text-[#a3a3a3] text-[12px] mt-1 opacity-90">
                       {action.timeAgo} • {action.reason}
                     </div>
                   </div>
@@ -213,7 +213,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           <div className="p-4 border-t border-[#d4af3722] text-center bg-[#0a0a0a]/40 rounded-b-lg">
             <button
               onClick={onViewFullLogs}
-              className="font-label-caps text-xs text-[#d4af37] hover:text-[#f5f5f5] transition-colors cursor-pointer tracking-[0.2em] uppercase"
+              className="font-label-caps text-sm text-[#d4af37] hover:text-[#f5f5f5] transition-colors cursor-pointer tracking-[0.2em] uppercase"
             >
               View Full Log →
             </button>

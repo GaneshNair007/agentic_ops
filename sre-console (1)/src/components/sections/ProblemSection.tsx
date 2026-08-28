@@ -77,7 +77,7 @@ export const ProblemSection: React.FC = () => {
                       isActive ? 'opacity-100 translate-x-0' : 'opacity-25 -translate-x-2'
                     }`}
                   >
-                    <div className="font-mono text-xs text-[#686868] mb-2 uppercase tracking-widest font-bold">
+                    <div className="font-mono text-sm text-[#686868] mb-2 uppercase tracking-widest font-bold">
                       [{st.step}] {st.subtitle} — {st.fact}
                     </div>
                     <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-extrabold text-[#202020] leading-none mb-3">
@@ -108,9 +108,9 @@ export const ProblemSection: React.FC = () => {
               <img
                 src={STAGES[activeStage].image}
                 alt={STAGES[activeStage].title}
-                className="w-full h-full object-cover grayscale-0 scale-105 transition-all duration-700"
+                className="w-full h-full object-cover  scale-105 transition-all duration-700"
               />
-              <div className="absolute bottom-6 left-6 bg-[#050505] text-[#F1F1F1] px-4 py-2 text-xs font-mono uppercase tracking-widest border border-white/20">
+              <div className="absolute bottom-6 left-6 bg-[#050505] text-[#F1F1F1] px-4 py-2 text-sm font-mono uppercase tracking-widest border border-white/20">
                 FIG {STAGES[activeStage].step} // {STAGES[activeStage].title}
               </div>
             </div>

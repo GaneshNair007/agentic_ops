@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="font-display text-sm font-extrabold tracking-tight text-[#EDE7DC] uppercase">
             AI SRE<span className="text-[#E8913C]">.</span>
           </div>
-          <div className="hidden lg:block text-[11px] font-mono text-[#9EA5A8] border-l border-[#EDE7DC]/13 pl-4">
+          <div className="hidden lg:block text-[12px] font-mono text-[#9EA5A8] border-l border-[#EDE7DC]/13 pl-4">
             AGENTIC INCIDENT RISK TRIAGE & RESPONSE SYSTEM
           </div>
         </div>
@@ -41,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               key={v.id}
               onClick={() => onViewChange(v.id)}
-              className={`text-[11px] font-mono uppercase tracking-wider transition-colors flex items-center gap-2 py-1 ${
+              className={`text-[12px] font-mono uppercase tracking-wider transition-colors flex items-center gap-2 py-1 ${
                 activeView === v.id
                   ? 'text-[#E8913C] border-b border-[#E8913C] font-bold'
                   : 'text-[#9EA5A8] hover:text-[#EDE7DC]'
@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Backend Status Badge */}
-        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider">
+        <div className="flex items-center gap-2 text-[12px] font-mono uppercase tracking-wider">
           <span
             className={`w-2 h-2 rounded-full ${
               isBackendOnline ? 'bg-[#2E6B72] animate-pulse' : 'bg-[#E8913C]'

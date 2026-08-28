@@ -27,7 +27,7 @@ export const EntryLoader: React.FC<{ onComplete: () => void }> = ({ onComplete }
 
   return (
     <div className="fixed inset-0 bg-[#050505] text-[#FFFFFF] z-[100] flex flex-col justify-between p-8 md:p-16 font-mono select-none">
-      <div className="flex justify-between items-center text-xs tracking-widest text-[#8E8E8E] uppercase">
+      <div className="flex justify-between items-center text-sm tracking-widest text-[#8E8E8E] uppercase">
         <div>AI SRE // SYSTEM INITIALISING</div>
         <div>[01/03]</div>
       </div>
@@ -45,14 +45,14 @@ export const EntryLoader: React.FC<{ onComplete: () => void }> = ({ onComplete }
           />
         </div>
 
-        <div className="flex justify-around text-xs tracking-widest text-[#C7C7C7] uppercase pt-2">
+        <div className="flex justify-around text-sm tracking-widest text-[#C7C7C7] uppercase pt-2">
           <span className={stage >= 1 ? 'text-[#FFFFFF] font-bold' : 'text-[#686868]'}>MEMORY</span>
           <span className={stage >= 2 ? 'text-[#FFFFFF] font-bold' : 'text-[#686868]'}>RETRIEVAL</span>
           <span className={stage >= 3 ? 'text-[#FFFFFF] font-bold' : 'text-[#686868]'}>CONTROL</span>
         </div>
       </div>
 
-      <div className="text-[11px] text-[#8E8E8E] text-center tracking-widest uppercase">
+      <div className="text-[12px] text-[#8E8E8E] text-center tracking-widest uppercase">
         FASTAPI · CHROMADB · ALL-MINILM-L6-V2
       </div>
     </div>

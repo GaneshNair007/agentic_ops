@@ -46,7 +46,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
       {/* Left Column: Search & Results (1/3 width on desktop) */}
       <div className="w-full lg:w-1/3 flex flex-col gap-4 h-full shrink-0">
         {/* Semantic Search Bar */}
-        <div className="relative w-full bg-[#141414] border border-[#ffffff1a] rounded-xl focus-within:border-[#d4af37] transition-all p-1 flex items-center shadow-sm">
+        <div className="relative w-full bg-[#141414] border border-[#ffffff1a] rounded-md focus-within:border-[#d4af37] transition-all p-1 flex items-center shadow-sm">
           <span className="material-symbols-outlined text-[#a3a3a3] ml-3 mr-2">search</span>
           <input
             type="text"
@@ -56,7 +56,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
             className="w-full bg-transparent border-none text-[#f5f5f5] placeholder-[#a3a3a3] focus:ring-0 font-body-md py-2 text-sm focus:outline-none"
           />
           <div className="hidden sm:flex items-center justify-center bg-[#0a0a0a] rounded px-2 py-1 mr-2 border border-[#ffffff1a]">
-            <span className="font-code-sm text-[11px] text-[#a3a3a3]">⌘K</span>
+            <span className="font-code-sm text-[12px] text-[#a3a3a3]">⌘K</span>
           </div>
         </div>
 
@@ -66,7 +66,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
             <button
               key={src}
               onClick={() => setActiveSourceFilter(src)}
-              className={`font-code-sm text-[11px] px-2.5 py-1 border rounded transition-all cursor-pointer flex items-center gap-1 ${
+              className={`font-code-sm text-[12px] px-2.5 py-1 border rounded transition-all cursor-pointer flex items-center gap-1 ${
                 activeSourceFilter === src
                   ? 'border-[#d4af37] bg-[#d4af371f] text-[#d4af37] font-semibold'
                   : 'border-[#ffffff1a] text-[#a3a3a3] hover:text-[#f5f5f5] bg-[#141414]'
@@ -77,7 +77,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
           ))}
           <button
             onClick={onCreateRunbook}
-            className="ml-auto font-label-caps text-[10px] text-[#d4af37] hover:underline flex items-center gap-1 cursor-pointer tracking-wider uppercase"
+            className="ml-auto font-label-caps text-[12px] text-[#d4af37] hover:underline flex items-center gap-1 cursor-pointer tracking-wider uppercase"
           >
             <span className="material-symbols-outlined text-[14px]">add</span> New Runbook
           </button>
@@ -91,7 +91,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
               <div
                 key={doc.id}
                 onClick={() => onSelectDoc(doc.id)}
-                className={`border rounded-xl p-4 cursor-pointer relative transition-all ${
+                className={`border rounded-md p-4 cursor-pointer relative transition-all ${
                   isSelected
                     ? 'bg-[#141414] border-[#d4af3799] shadow-lg shadow-[#d4af370d]'
                     : 'bg-[#0a0a0a] border-[#ffffff1a] hover:bg-[#141414]'
@@ -122,7 +122,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
                     </h3>
                   </div>
                   <span
-                    className={`font-code-sm text-[11px] font-bold ${
+                    className={`font-code-sm text-[12px] font-bold ${
                       doc.matchScore > 90 ? 'text-[#d4af37]' : 'text-[#38bdf8]'
                     }`}
                   >
@@ -130,7 +130,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
                   </span>
                 </div>
 
-                <p className="font-body-md text-xs text-[#a3a3a3] pl-2 mb-3 line-clamp-2 leading-relaxed font-light">
+                <p className="font-body-md text-sm text-[#a3a3a3] pl-2 mb-3 line-clamp-2 leading-relaxed font-light">
                   {doc.summary}
                 </p>
 
@@ -145,7 +145,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
                   {doc.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="font-code-sm text-[10px] border border-[#ffffff1a] px-2 py-0.5 rounded text-[#a3a3a3] bg-[#141414]"
+                      className="font-code-sm text-[12px] border border-[#ffffff1a] px-2 py-0.5 rounded text-[#a3a3a3] bg-[#141414]"
                     >
                       {tag}
                     </span>
@@ -158,7 +158,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
       </div>
 
       {/* Right Column: Document Preview (Observation Deck) */}
-      <div className="hidden lg:flex flex-col flex-grow bg-[#0a0a0a] border border-[#ffffff1a] rounded-xl overflow-hidden h-full shadow-lg">
+      <div className="hidden lg:flex flex-col flex-grow bg-[#0a0a0a] border border-[#ffffff1a] rounded-md overflow-hidden h-full shadow-lg">
         {/* Doc Header */}
         <div className="flex justify-between items-center p-4 border-b border-[#ffffff1a] bg-[#141414]">
           <div className="flex items-center gap-3">
@@ -169,7 +169,7 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
               <h2 className="font-serif text-lg text-[#ffffff] font-normal">
                 {selectedDoc.title}
               </h2>
-              <div className="font-code-sm text-[11px] text-[#a3a3a3] mt-0.5">
+              <div className="font-code-sm text-[12px] text-[#a3a3a3] mt-0.5">
                 Last updated: {selectedDoc.lastUpdated} • ID: {selectedDoc.docId}
               </div>
             </div>
@@ -178,13 +178,13 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
           <div className="flex gap-2">
             <button
               onClick={() => onEditRunbook(selectedDoc)}
-              className="px-3.5 py-1.5 border border-[#ffffff1a] rounded font-label-caps text-xs hover:bg-[#1f1f1f] transition-all text-[#f5f5f5] cursor-pointer uppercase tracking-wider"
+              className="px-3.5 py-1.5 border border-[#ffffff1a] rounded font-label-caps text-sm hover:bg-[#1f1f1f] transition-all text-[#f5f5f5] cursor-pointer uppercase tracking-wider"
             >
               Edit
             </button>
             <button
               onClick={() => onExecuteRunbook(selectedDoc)}
-              className="px-3.5 py-1.5 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded font-label-caps text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
+              className="px-3.5 py-1.5 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded font-label-caps text-sm flex items-center gap-1 transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
             >
               <span className="material-symbols-outlined text-[16px]">play_arrow</span> Execute
             </button>
@@ -232,18 +232,18 @@ export const KnowledgeBaseView: React.FC<KnowledgeBaseViewProps> = ({
             </h3>
             <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-lg overflow-hidden shadow-inner">
               <div className="flex justify-between items-center bg-[#141414] px-4 py-2 border-b border-[#ffffff1a]">
-                <span className="font-code-sm text-[11px] text-[#d4af37]">
+                <span className="font-code-sm text-[12px] text-[#d4af37]">
                   {selectedDoc.codeLanguage}
                 </span>
                 <button
                   onClick={handleCopyCode}
-                  className="text-[#a3a3a3] hover:text-[#d4af37] transition-colors flex items-center gap-1 cursor-pointer text-xs font-code-sm"
+                  className="text-[#a3a3a3] hover:text-[#d4af37] transition-colors flex items-center gap-1 cursor-pointer text-sm font-code-sm"
                 >
                   <span className="material-symbols-outlined text-[16px]">content_copy</span>
                   {copied ? 'Copied!' : 'Copy'}
                 </button>
               </div>
-              <div className="p-4 font-code-sm text-xs md:text-sm text-[#f5f5f5] whitespace-pre overflow-x-auto leading-relaxed">
+              <div className="p-4 font-code-sm text-sm md:text-sm text-[#f5f5f5] whitespace-pre overflow-x-auto leading-relaxed">
                 {selectedDoc.codeSnippet}
               </div>
             </div>

@@ -27,7 +27,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             </div>
           </div>
           <span className="font-serif text-xl md:text-2xl text-[#d4af37] font-semibold tracking-wider uppercase">
-            Aethelgard <span className="text-xs font-sans text-[#a3a3a3] tracking-widest font-normal uppercase ml-1 opacity-70">SRE Console</span>
+            Aethelgard <span className="text-sm font-sans text-[#a3a3a3] tracking-widest font-normal uppercase ml-1 opacity-70">SRE Console</span>
           </span>
         </div>
         <div className="h-5 w-px bg-[#ffffff1a] hidden md:block"></div>
@@ -41,7 +41,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
                 : 'bg-[#d4af37]'
             }`}
           ></span>
-          <span className="font-code-sm text-[10px] text-[#a3a3a3] uppercase tracking-[0.15em] font-semibold">
+          <span className="font-code-sm text-[12px] text-[#a3a3a3] uppercase tracking-[0.15em] font-semibold">
             {systemStatus === 'optimal'
               ? 'System Optimal'
               : systemStatus === 'degraded'
@@ -60,10 +60,10 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
           <span className="material-symbols-outlined text-[18px] text-[#a3a3a3] group-hover:text-[#d4af37]">
             search
           </span>
-          <span className="font-code-sm text-xs text-[#a3a3a3] group-hover:text-[#f5f5f5] w-40 truncate">
+          <span className="font-code-sm text-sm text-[#a3a3a3] group-hover:text-[#f5f5f5] w-40 truncate">
             Search resources...
           </span>
-          <span className="font-code-sm text-[10px] text-[#d4af37] bg-[#0a0a0a] rounded px-2 py-0.5 border border-[#d4af3733]">
+          <span className="font-code-sm text-[12px] text-[#d4af37] bg-[#0a0a0a] rounded px-2 py-0.5 border border-[#d4af3733]">
             ⌘K
           </span>
         </button>
@@ -104,7 +104,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({
             <span className="text-[9px] uppercase tracking-[0.2em] text-[#d4af37] font-semibold opacity-90">
               Verified Tier
             </span>
-            <span className="text-xs text-[#f5f5f5] font-medium tracking-wide">
+            <span className="text-sm text-[#f5f5f5] font-medium tracking-wide">
               Platinum Elite
             </span>
           </div>

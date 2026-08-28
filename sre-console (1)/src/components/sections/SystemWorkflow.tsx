@@ -1,67 +1,91 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import imgStage1 from '../../assets/images/5_control_room.jpg';
+import imgStage2 from '../../assets/images/3_cables.jpg';
+import imgStage3 from '../../assets/images/7_switch.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const STAGES = [
   {
     step: '01',
-    title: 'INCIDENT RECEIVED',
-    tech: 'POST /api/pipeline/run',
-    copy: 'Alertmanager or operator submits target service name, severity tier (P1–P3), and incident symptom payload to initiate automated agent triage.',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90'
+    tech: 'SILENCE, THEN FAILURE – 38 INCIDENTS INDEXED',
+    title: 'ALERT\nRECEIVED',
+    copy: 'When an incident begins, the hardest problem is not receiving another alert. It is finding the right evidence and choosing a safe response under extreme time pressure.',
+    fact: 'AUTOMATED LOG TRIAGE',
+    image: imgStage1,
+    maskId: 'blindMask'
   },
   {
     step: '02',
-    title: 'EVIDENCE RETRIEVED',
-    tech: 'retrieve(query, k=5)',
-    copy: 'ChromaDB queries 35 indexed operational documents using sentence-transformers all-MiniLM-L6-v2 embeddings for relevant past incidents and runbooks.',
-    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90'
+    tech: 'CHROMADB DENSE SEARCH – 16 RUNBOOKS',
+    title: 'EVIDENCE\nRETRIEVED',
+    copy: 'Instead of searching wikis, the agent queries ChromaDB for relevant past incidents and runbooks using sentence-transformers all-MiniLM-L6-v2 embeddings.',
+    fact: 'DENSE VECTOR COSINE SIMILARITY (98.4%)',
+    image: imgStage2,
+    maskId: 'gridMask'
   },
   {
     step: '03',
-    title: 'RECOMMENDATION CREATED',
-    tech: 'orchestrator.agent',
-    copy: 'Diagnostic agent compares evidence relevance scores and synthesizes a structured recovery plan grounded in operational runbooks.',
-    image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1600&q=90'
-  },
-  {
-    step: '04',
-    title: 'CONTROLLED ACTION SELECTED',
-    tech: 'execute_action(action, params)',
-    copy: 'Selects from 8 predefined mock actions (restart_service, scale_deployment, rollback_deployment) with strict parameter validation and safety bounds.',
-    image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1600&q=90'
-  },
-  {
-    step: '05',
-    title: 'AUDIT EVENT RECORDED',
-    tech: 'emit_event() & audit.log',
-    copy: 'Every event timeline payload and action execution is appended to tools/events.jsonl and tools/audit.log for forensic accountability.',
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=90'
+    tech: 'AUDITABLE REMEDIATION – 8 CONTROLLED ACTIONS',
+    title: 'RESPONSE\nCONTROLLED',
+    copy: 'The agent selects a controlled action from predefined boundaries, safely executing remediation while logging every step to an immutable audit trail.',
+    fact: 'TOOLS/AUDIT.LOG APPENDED (ID: evt_8f92)',
+    image: imgStage3,
+    maskId: 'diagMask'
   }
 ];
 
 export const SystemWorkflow: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const [activeIdx, setActiveIdx] = useState(0);
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const imagesRef = useRef<(SVGImageElement | null)[]>([]);
+  const masksRef = useRef<(SVGElement | null)[]>([]);
+  const progressLineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      if (!containerRef.current || !stageRef.current) return;
+      if (!containerRef.current) return;
 
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
-        pin: stageRef.current,
-        scrub: 0.5,
-        onUpdate: (self) => {
-          const idx = Math.min(STAGES.length - 1, Math.floor(self.progress * STAGES.length));
-          setActiveIdx(idx);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          pin: stageRef.current,
+          scrub: 1,
         }
       });
+
+      // Initial Setup
+      gsap.set(itemsRef.current[0], { opacity: 1, x: 0 });
+      gsap.set(itemsRef.current.slice(1), { opacity: 0.25, x: -10 });
+      
+      // Setup masks
+      // Blind mask starts closed except for first image which doesn't use a mask initially (or we just fade it)
+      // Actually image 1 is base, image 2 uses blind mask, image 3 uses grid mask
+      
+      // Animate Vertical Progress Line
+      tl.to(progressLineRef.current, {
+        height: '100%',
+        ease: 'none'
+      }, 0);
+
+      // Section divisions
+      const step = 1 / (STAGES.length - 1);
+
+      // Transition to Stage 2
+      tl.to(itemsRef.current[0], { opacity: 0.25, x: -10, duration: 0.2 }, step * 0.5)
+        .to(itemsRef.current[1], { opacity: 1, x: 0, duration: 0.2 }, step * 0.5)
+        .to('.blind-rect', { scaleY: 1, duration: 0.5, stagger: 0.1, ease: 'power2.inOut' }, step * 0.4);
+
+      // Transition to Stage 3
+      tl.to(itemsRef.current[1], { opacity: 0.25, x: -10, duration: 0.2 }, step * 1.5)
+        .to(itemsRef.current[2], { opacity: 1, x: 0, duration: 0.2 }, step * 1.5)
+        .to('.grid-rect', { opacity: 1, scale: 1, duration: 0.5, stagger: { amount: 0.5, from: "random" }, ease: 'power2.inOut' }, step * 1.4);
+
     }, containerRef);
 
     return () => ctx.revert();
@@ -69,61 +93,84 @@ export const SystemWorkflow: React.FC = () => {
 
   return (
     <section id="workflow" ref={containerRef} className="relative w-full h-[300vh] bg-[#F5F3EE] text-[#202020]">
-      {/* GSAP Pinned Stage (Full-Width Unboxed 12-Column Layout) */}
-      <div ref={stageRef} className="w-full h-screen border-b border-[#D8D6D0] flex items-center px-6 md:px-16 lg:px-24">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div ref={stageRef} className="w-full h-screen border-b border-[#D8D6D0] flex items-center px-6 md:px-12 lg:px-16 overflow-hidden">
+        <div className="w-full max-w-[1760px] mx-auto h-full max-h-[900px] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           
-          {/* Left Side (5 Cols): Typographic Stage Timeline (NO BOXED CARDS) */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="label-caps text-[#686868]">// PIPELINE EXECUTION STAGES</div>
-
-            <div className="space-y-6">
-              {STAGES.map((st, idx) => {
-                const isActive = activeIdx === idx;
-                return (
-                  <div
-                    key={st.step}
-                    onClick={() => setActiveIdx(idx)}
-                    className={`cursor-pointer transition-all duration-300 ${
-                      isActive ? 'opacity-100 translate-x-0' : 'opacity-30 -translate-x-2'
-                    }`}
-                  >
-                    <div className="flex justify-between items-center font-mono text-xs text-[#686868] mb-1 font-bold">
-                      <span>[{st.step}] {st.tech}</span>
-                      {isActive && <span className="text-[#050505] font-extrabold uppercase">ACTIVE STAGE</span>}
-                    </div>
-                    <h3 className="font-display text-3xl md:text-5xl font-extrabold text-[#202020] leading-none mb-2">
-                      {st.title}
-                    </h3>
-                    {isActive && (
-                      <p className="prose-editorial text-base md:text-lg text-[#4A4A4A] font-sans font-normal mt-2">
-                        {st.copy}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
+          {/* Left: 5 Columns with Vertical Progress Line */}
+          <div className="lg:col-span-5 h-full flex items-center relative pl-8">
+            {/* Vertical Progress Track */}
+            <div className="absolute left-0 top-1/4 bottom-1/4 w-[2px] bg-[#D8D6D0]">
+              <div ref={progressLineRef} className="w-full h-0 bg-[#050505]" />
             </div>
 
-            {/* Stage Progress Line */}
-            <div className="w-full h-1 bg-[#D8D6D0] overflow-hidden">
-              <div 
-                className="h-full bg-[#050505] transition-all duration-300"
-                style={{ width: `${(activeIdx + 1) * 20}%` }}
-              />
+            <div className="flex flex-col gap-12 lg:gap-16 w-full">
+              {STAGES.map((st, i) => (
+                <div
+                  key={st.step}
+                  ref={el => itemsRef.current[i] = el}
+                  className="flex flex-col gap-3 relative transition-all"
+                >
+                  <div className="font-mono text-xs md:text-sm text-[#686868] font-bold uppercase tracking-widest leading-relaxed flex flex-col gap-1">
+                    <span>[{st.step}] {st.tech}</span>
+                    <span className="text-[#E8913C]">// {st.fact}</span>
+                  </div>
+                  <h3 className="font-display text-5xl md:text-[4rem] lg:text-[5.5rem] leading-[0.85] font-black text-[#050505] tracking-tighter whitespace-pre-line">
+                    {st.title}
+                  </h3>
+                  <p className="font-sans text-lg md:text-xl text-[#4A4A4A] leading-relaxed max-w-[48ch] mt-4">
+                    {st.copy}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Side (7 Cols): Full-Colour High-Res Infrastructure Photography */}
-          <div className="lg:col-span-7">
-            <div className="w-full h-[75vh] bg-[#050505] overflow-hidden relative shadow-2xl">
-              <img
-                src={STAGES[activeIdx].image}
-                alt={STAGES[activeIdx].title}
-                className="w-full h-full object-cover grayscale-0 scale-105 transition-all duration-700"
-              />
-              <div className="absolute bottom-6 left-6 bg-[#050505] text-[#F1F1F1] px-4 py-2 text-xs font-mono uppercase tracking-widest border border-white/20">
-                STAGE {STAGES[activeIdx].step} // {STAGES[activeIdx].title}
+          {/* Right: 7 Columns Photography with SVG Masks */}
+          <div className="lg:col-span-7 h-full flex items-center py-12 lg:py-24">
+            <div className="w-full h-[70vh] lg:h-[80vh] relative bg-[#050505] shadow-2xl">
+              
+              <svg width="100%" height="100%" preserveAspectRatio="none" className="absolute inset-0 z-0">
+                <defs>
+                  {/* Mask 1: Blinds (Vertical stripes growing downwards) */}
+                  <mask id="blindMask">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <rect key={i} className="blind-rect" x={`${i * 10}%`} y="0" width="10%" height="100%" fill="white" style={{ transformOrigin: 'top', transform: 'scaleY(0)' }} />
+                    ))}
+                  </mask>
+
+                  {/* Mask 2: Grid blocks revealing randomly */}
+                  <mask id="gridMask">
+                    {Array.from({ length: 25 }).map((_, i) => {
+                      const row = Math.floor(i / 5);
+                      const col = i % 5;
+                      return (
+                        <rect 
+                          key={i} 
+                          className="grid-rect" 
+                          x={`${col * 20}%`} 
+                          y={`${row * 20}%`} 
+                          width="20%" 
+                          height="20%" 
+                          fill="white" 
+                          style={{ opacity: 0, transformOrigin: 'center', transform: 'scale(0)' }} 
+                        />
+                      );
+                    })}
+                  </mask>
+                </defs>
+
+                {/* Base Image (Stage 1) */}
+                <image href={imgStage1} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+                
+                {/* Layer 2 (Stage 2) using Blind Mask */}
+                <image href={imgStage2} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" mask="url(#blindMask)" />
+                
+                {/* Layer 3 (Stage 3) using Grid Mask */}
+                <image href={imgStage3} width="100%" height="100%" preserveAspectRatio="xMidYMid slice" mask="url(#gridMask)" />
+              </svg>
+
+              <div className="absolute bottom-6 left-6 bg-[#050505] text-[#F1F1F1] px-4 py-3 text-xs md:text-sm font-mono uppercase tracking-widest border border-white/20 z-10 shadow-lg">
+                // REAL-TIME INCIDENT STATE
               </div>
             </div>
           </div>

@@ -46,7 +46,7 @@ export const AuditTimeline: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#EDE7DC]/13 pb-6">
         <div>
-          <div className="text-[11px] font-mono text-[#2E6B72] uppercase tracking-widest flex items-center gap-2">
+          <div className="text-[12px] font-mono text-[#2E6B72] uppercase tracking-widest flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-[#2E6B72]" />
             IMMUTABLE AUDIT TRAIL & EVENT LOGGING
           </div>
@@ -58,14 +58,14 @@ export const AuditTimeline: React.FC = () => {
           <button
             onClick={fetchData}
             disabled={isLoading}
-            className="btn-sre-outline btn-sre-teal text-xs py-2 px-4 flex items-center gap-2"
+            className="btn-sre-outline btn-sre-teal text-sm py-2 px-4 flex items-center gap-2"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             REFRESH TIMELINE
           </button>
           <button
             onClick={handleClearEvents}
-            className="btn-sre-outline text-xs py-2 px-4 flex items-center gap-2 text-[#9EA5A8] hover:text-[#E63946] hover:border-[#E63946]"
+            className="btn-sre-outline text-sm py-2 px-4 flex items-center gap-2 text-[#9EA5A8] hover:text-[#E63946] hover:border-[#E63946]"
           >
             <Trash2 className="w-3.5 h-3.5" />
             CLEAR SESSION EVENTS
@@ -74,7 +74,7 @@ export const AuditTimeline: React.FC = () => {
       </div>
 
       {/* View Switcher Tabs */}
-      <div className="flex border-b border-[#EDE7DC]/13 gap-6 font-mono text-xs">
+      <div className="flex border-b border-[#EDE7DC]/13 gap-6 font-mono text-sm">
         <button
           onClick={() => setActiveTab('events')}
           className={`pb-3 uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${
@@ -100,7 +100,7 @@ export const AuditTimeline: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-4 border border-[#E63946] bg-[#E63946]/10 text-[#E63946] rounded text-xs font-mono">
+        <div className="p-4 border border-[#E63946] bg-[#E63946]/10 text-[#E63946] rounded text-sm font-mono">
           [ERROR] {error}
         </div>
       )}
@@ -109,13 +109,13 @@ export const AuditTimeline: React.FC = () => {
       {activeTab === 'events' && (
         <div className="space-y-4">
           {events.length === 0 ? (
-            <div className="p-8 text-center bg-[#101317] border border-[#EDE7DC]/13 rounded text-xs font-mono text-[#9EA5A8]">
+            <div className="p-8 text-center bg-[#101317] border border-[#EDE7DC]/13 rounded text-sm font-mono text-[#9EA5A8]">
               No events recorded in current session timeline. Run a pipeline simulation to record events.
             </div>
           ) : (
             <div className="bg-[#101317] border border-[#EDE7DC]/13 rounded overflow-hidden">
-              <table className="w-full text-left font-mono text-xs">
-                <thead className="bg-[#0A0C0E] border-b border-[#EDE7DC]/13 text-[#9EA5A8] uppercase text-[10px]">
+              <table className="w-full text-left font-mono text-sm">
+                <thead className="bg-[#0A0C0E] border-b border-[#EDE7DC]/13 text-[#9EA5A8] uppercase text-[12px]">
                   <tr>
                     <th className="p-4">EVENT ID</th>
                     <th className="p-4">TYPE</th>
@@ -129,7 +129,7 @@ export const AuditTimeline: React.FC = () => {
                       <td className="p-4 text-[#2E6B72]">{ev.event_id ? ev.event_id.slice(0, 8) : `EV-${idx + 1}`}</td>
                       <td className="p-4 font-bold uppercase text-[#E8913C]">{ev.type}</td>
                       <td className="p-4 text-[#9EA5A8]">{ev.timestamp ? ev.timestamp.slice(11, 19) : 'N/A'}</td>
-                      <td className="p-4 font-mono text-[11px] text-[#9EA5A8] max-w-md truncate">
+                      <td className="p-4 font-mono text-[12px] text-[#9EA5A8] max-w-md truncate">
                         {JSON.stringify(ev.payload)}
                       </td>
                     </tr>
@@ -145,13 +145,13 @@ export const AuditTimeline: React.FC = () => {
       {activeTab === 'audit' && (
         <div className="space-y-4">
           {auditLogs.length === 0 ? (
-            <div className="p-8 text-center bg-[#101317] border border-[#EDE7DC]/13 rounded text-xs font-mono text-[#9EA5A8]">
+            <div className="p-8 text-center bg-[#101317] border border-[#EDE7DC]/13 rounded text-sm font-mono text-[#9EA5A8]">
               No audit log entries recorded in tools/audit.log.
             </div>
           ) : (
             <div className="bg-[#101317] border border-[#EDE7DC]/13 rounded overflow-hidden">
-              <table className="w-full text-left font-mono text-xs">
-                <thead className="bg-[#0A0C0E] border-b border-[#EDE7DC]/13 text-[#9EA5A8] uppercase text-[10px]">
+              <table className="w-full text-left font-mono text-sm">
+                <thead className="bg-[#0A0C0E] border-b border-[#EDE7DC]/13 text-[#9EA5A8] uppercase text-[12px]">
                   <tr>
                     <th className="p-4">ACTION ID</th>
                     <th className="p-4">ACTION TYPE</th>

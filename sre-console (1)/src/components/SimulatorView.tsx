@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SimulationScenario } from '../types';
+import { Play, Square } from 'lucide-react';
 
 interface SimulatorViewProps {
   scenarios: SimulationScenario[];
@@ -15,18 +16,13 @@ export const SimulatorView: React.FC<SimulatorViewProps> = ({
   onSimulationComplete,
 }) => {
   const [isSimulating, setIsSimulating] = useState(false);
-  const [currentStage, setCurrentStage] = useState<number>(0); // 0: Idle, 1: Detected, 2: Diagnosis, 3: Retrieval, 4: Action, 5: Resolved
+  const [currentStage, setCurrentStage] = useState<number>(0);
   const [timerSeconds, setTimerSeconds] = useState(0);
-  const [aiDiagnosis, setAiDiagnosis] = useState<{
-    diagnosis?: string;
-    mitigation?: string[];
-    confidenceScore?: number;
-  } | null>(null);
-  const [isLoadingAi, setIsLoadingAi] = useState(false);
+  const [terminalLogs, setTerminalLogs] = useState<string[]>([]);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
   const selectedScenario = scenarios.find((s) => s.id === activeScenarioId) || scenarios[0];
 
-  // Timer tick for simulation
   useEffect(() => {
     let interval: any = null;
     if (isSimulating) {
@@ -37,322 +33,185 @@ export const SimulatorView: React.FC<SimulatorViewProps> = ({
     return () => clearInterval(interval);
   }, [isSimulating]);
 
-  const handleArmSimulation = async () => {
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [terminalLogs]);
+
+  const addLog = (msg: string) => {
+    setTerminalLogs(prev => [...prev, `[${new Date().toISOString()}] ${msg}`]);
+  };
+
+  const handleArmSimulation = () => {
     if (isSimulating) {
-      // Reset simulation
       setIsSimulating(false);
       setCurrentStage(0);
       setTimerSeconds(0);
-      setAiDiagnosis(null);
+      setTerminalLogs([]);
       return;
     }
 
     setIsSimulating(true);
     setCurrentStage(1);
     setTimerSeconds(0);
-    setAiDiagnosis(null);
-    setIsLoadingAi(true);
-
-    // Fetch AI Diagnosis from backend
-    try {
-      const res = await fetch('/api/ai/diagnose', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          scenarioTitle: selectedScenario.title,
-          scenarioDescription: selectedScenario.description,
-          serviceName: selectedScenario.targetService,
-          metrics: { rps: 8400, errorRate: 3.8, p99Ms: 620 },
-        }),
-      });
-      const data = await res.json();
-      setAiDiagnosis(data);
-    } catch (err) {
-      console.error('Failed to run AI diagnosis:', err);
-    } finally {
-      setIsLoadingAi(false);
-    }
-
-    // Progress timeline stages
-    setTimeout(() => setCurrentStage(2), 2500);
-    setTimeout(() => setCurrentStage(3), 5000);
-    setTimeout(() => setCurrentStage(4), 8000);
-    setTimeout(() => {
-      setCurrentStage(5);
-      if (onSimulationComplete) {
-        onSimulationComplete(selectedScenario);
+    setTerminalLogs([]);
+    
+    // Rapid scrolling logs simulation
+    let logCount = 0;
+    const logInterval = setInterval(() => {
+      if (logCount < 40) {
+        addLog(`SYS_THREAD_${Math.floor(Math.random() * 9999)}: Processing metric payload chunk 0x${Math.floor(Math.random() * 10000).toString(16).toUpperCase()}`);
+        logCount++;
       }
+    }, 100);
+
+    setTimeout(() => {
+      clearInterval(logInterval);
+      addLog(`CRITICAL: ${selectedScenario.title} detected on ${selectedScenario.targetService}`);
+      setCurrentStage(2);
+    }, 2500);
+
+    setTimeout(() => {
+      addLog(`AI DIAGNOSIS: Initiating dense vector retrieval from ChromaDB...`);
+      setCurrentStage(3);
+    }, 5000);
+
+    setTimeout(() => {
+      addLog(`ACTION: Synthesizing recovery plan. Executing safe runbook procedures...`);
+      setCurrentStage(4);
+    }, 8000);
+
+    setTimeout(() => {
+      addLog(`SUCCESS: Audit log committed. Incident resolved.`);
+      setCurrentStage(5);
+      if (onSimulationComplete) onSimulationComplete(selectedScenario);
     }, 11000);
   };
 
-  const formatTime = (secs: number) => {
-    const m = Math.floor(secs / 60)
-      .toString()
-      .padStart(2, '0');
-    const s = (secs % 60).toString().padStart(2, '0');
-    return `00:${m}:${s}`;
-  };
-
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 md:space-y-8 animate-fadeIn">
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-[#ffffff1a] pb-6">
-        <div>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Chaos & Injection Lab</span>
-          <h1 className="font-serif text-3xl md:text-4xl text-[#ffffff] font-normal mt-1">
-            Incident <span className="italic text-[#d4af37] font-light">Simulator</span>
-          </h1>
-          <p className="text-[#a3a3a3] font-body-md text-sm mt-1 font-light">
-            Configure and execute synthetic chaos engineering scenarios and auto-mitigation workflows.
-          </p>
+    <div className={`w-full min-h-screen transition-colors duration-500 ${isSimulating ? 'bg-[#1a0505]' : 'bg-[#050505]'} text-[#F1F1F1] font-sans flex flex-col p-6 md:p-12 border-t border-[#333]`}>
+      
+      {/* Header & Horizontal Selector */}
+      <div className="w-full flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-8 pb-8 border-b border-[#333]">
+        <div className="w-full xl:w-2/3">
+          <div className="label-caps text-[#8E8E8E] mb-4">// SIMULATION SCENARIO SELECTOR</div>
+          <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
+            {scenarios.map((scen) => (
+              <button
+                key={scen.id}
+                onClick={() => !isSimulating && onSelectScenario(scen.id)}
+                className={`whitespace-nowrap font-display text-2xl md:text-4xl font-extrabold pb-2 transition-all ${
+                  scen.id === activeScenarioId
+                    ? 'text-[#FFFFFF] border-b-4 border-[#E8913C]'
+                    : 'text-[#4A4A4A] border-b-4 border-transparent hover:text-[#8E8E8E]'
+                }`}
+              >
+                {scen.title.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
           onClick={handleArmSimulation}
-          className={`px-6 py-3 rounded font-label-caps text-xs transition-all active:scale-95 flex items-center gap-2 font-bold tracking-wider cursor-pointer shadow-md ${
+          className={`flex-shrink-0 px-10 py-5 font-mono text-lg font-bold uppercase tracking-widest transition-all ${
             isSimulating
-              ? 'bg-[#ef4444] text-[#ffffff] hover:bg-[#dc2626] shadow-[#ef444433]'
-              : 'bg-[#d4af37] text-[#0a0a0a] hover:bg-[#e2bd46] shadow-[#d4af3733]'
+              ? 'bg-[#FF3333] text-white shadow-[0_0_30px_rgba(255,51,51,0.5)]'
+              : 'bg-[#E8913C] text-[#050505] hover:bg-[#F1F1F1] hover:text-[#050505]'
           }`}
         >
-          <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-            {isSimulating ? 'stop_circle' : 'play_arrow'}
-          </span>
-          {isSimulating ? 'HALT SIMULATION' : 'ARM SIMULATION'}
+          {isSimulating ? (
+            <span className="flex items-center gap-3"><Square className="w-6 h-6 fill-current" /> HALT SIMULATION</span>
+          ) : (
+            <span className="flex items-center gap-3"><Play className="w-6 h-6 fill-current" /> ARM SIMULATION</span>
+          )}
         </button>
       </div>
 
-      {/* Bento Grid Layout */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        {/* Left Column: Configuration (8 cols) */}
-        <div className="xl:col-span-8 space-y-6">
-          {/* Scenario Selection */}
-          <div className="glass-panel p-6 border border-[#ffffff1a]">
-            <h2 className="font-serif text-xl text-[#ffffff] mb-5 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#d4af37] text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-                target
-              </span>
-              Target Scenario
-            </h2>
+      {/* Operations Floor Layout */}
+      <div className="flex-1 grid grid-cols-1 xl:grid-cols-4 gap-8">
+        
+        {/* Left/Middle: Massive Terminal */}
+        <div className="xl:col-span-3 flex flex-col bg-[#0A0A0A] border-2 border-[#333] relative overflow-hidden">
+          
+          {/* Terminal Header */}
+          <div className="flex justify-between items-center bg-[#111] px-6 py-4 border-b border-[#333]">
+            <div className="font-mono text-base font-bold text-[#E8913C]">
+              {isSimulating ? '>>> ACTIVE SIMULATION STREAM' : '>>> TERMINAL STANDBY'}
+            </div>
+            <div className="font-mono text-base text-[#8E8E8E]">
+              T-MINUS {timerSeconds.toString().padStart(2, '0')}:{(timerSeconds % 60).toString().padStart(2, '0')}
+            </div>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {scenarios.map((scen) => {
-                const isSelected = scen.id === activeScenarioId;
+          {/* Terminal Body */}
+          <div 
+            ref={terminalRef}
+            className="flex-1 p-6 font-mono text-[16px] leading-[1.6] text-[#C8C8C8] overflow-y-auto h-[600px]"
+          >
+            {!isSimulating && terminalLogs.length === 0 && (
+              <div className="h-full flex items-center justify-center text-[#4A4A4A] animate-pulse text-lg">
+                WAITING FOR SIMULATION TRIGGER...
+              </div>
+            )}
+            
+            {terminalLogs.map((log, i) => (
+              <div key={i} className={`mb-1 ${log.includes('CRITICAL') ? 'text-[#FF3333] font-bold' : log.includes('SUCCESS') ? 'text-[#00FF00] font-bold' : log.includes('AI DIAGNOSIS') ? 'text-[#E8913C]' : ''}`}>
+                {log}
+              </div>
+            ))}
+            {isSimulating && (
+              <div className="animate-pulse text-[#E8913C] mt-2">_</div>
+            )}
+          </div>
+          
+          {/* Flashing Status Indicator if Simulating */}
+          {isSimulating && (
+            <div className="absolute top-4 right-4 w-4 h-4 bg-[#FF3333] rounded-full animate-ping shadow-[0_0_20px_#FF3333]" />
+          )}
+        </div>
+
+        {/* Right: Execution Timeline */}
+        <div className="xl:col-span-1 flex flex-col gap-6">
+          <div className="bg-[#0A0A0A] border-2 border-[#333] p-6 flex-1 flex flex-col">
+            <h3 className="font-display text-2xl font-extrabold text-[#FFFFFF] mb-8 uppercase tracking-widest border-b border-[#333] pb-4">
+              EXECUTION STATE
+            </h3>
+            
+            <div className="flex flex-col gap-8 flex-1">
+              {[
+                { stage: 1, label: 'SIGNAL DETECTED' },
+                { stage: 2, label: 'AI DIAGNOSIS' },
+                { stage: 3, label: 'VECTOR RETRIEVAL' },
+                { stage: 4, label: 'CONTROLLED ACTION' },
+                { stage: 5, label: 'AUDIT COMMIT' }
+              ].map((step) => {
+                const isActive = currentStage === step.stage;
+                const isPast = currentStage > step.stage;
                 return (
-                  <div
-                    key={scen.id}
-                    onClick={() => !isSimulating && onSelectScenario(scen.id)}
-                    className={`rounded-lg p-5 transition-all cursor-pointer relative overflow-hidden ${
-                      isSelected
-                        ? 'bg-[#141414] border-l-4 border-l-[#d4af37] border border-[#d4af3766] shadow-lg shadow-[#d4af370d]'
-                        : 'bg-[#0a0a0a] border border-[#ffffff1a] hover:bg-[#141414] opacity-80 hover:opacity-100'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <div
-                        className={`font-label-caps text-[10px] tracking-widest ${
-                          isSelected ? 'text-[#d4af37]' : 'text-[#a3a3a3]'
-                        }`}
-                      >
-                        {scen.code}
-                      </div>
-                      {isSelected && (
-                        <span className="material-symbols-outlined text-[#d4af37] text-sm">
-                          check_circle
-                        </span>
-                      )}
+                  <div key={step.stage} className={`flex flex-col transition-all duration-300 ${isActive || isPast ? 'opacity-100' : 'opacity-30'}`}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-mono text-base font-bold text-[#8E8E8E]">STAGE 0{step.stage}</span>
+                      {isActive && <span className="font-mono text-sm text-[#E8913C] animate-pulse">ACTIVE</span>}
+                      {isPast && <span className="font-mono text-sm text-[#00FF00]">COMPLETE</span>}
                     </div>
-                    <h3 className="font-serif text-lg text-[#ffffff] mb-1 font-normal">
-                      {scen.title}
-                    </h3>
-                    <p className="text-[#a3a3a3] text-xs font-light mb-4 leading-relaxed">
-                      {scen.description}
-                    </p>
-                    <div className="flex gap-2">
-                      <span className="px-2 py-0.5 bg-[#0a0a0a] border border-[#ffffff1a] rounded font-code-sm text-[10px] text-[#d4af37]">
-                        {scen.databaseOrTech}
-                      </span>
-                      <span className="px-2 py-0.5 bg-[#0a0a0a] border border-[#ffffff1a] rounded font-code-sm text-[10px] text-[#a3a3a3]">
-                        {scen.impactLevel}
-                      </span>
+                    <div className="font-display text-xl font-bold text-[#FFFFFF] mb-3 uppercase">
+                      {step.label}
+                    </div>
+                    {/* Progress Bar */}
+                    <div className="w-full h-2 bg-[#222]">
+                      <div 
+                        className={`h-full transition-all duration-1000 ease-out ${isPast ? 'w-full bg-[#00FF00]' : isActive ? 'w-3/4 bg-[#E8913C] animate-pulse' : 'w-0 bg-transparent'}`} 
+                      />
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-
-          {/* Telemetry Preview */}
-          <div className="glass-panel p-6 h-64 relative overflow-hidden flex flex-col border border-[#ffffff1a]">
-            <div className="flex justify-between items-center mb-4 z-10">
-              <h2 className="font-serif text-xl text-[#ffffff] flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#d4af37] text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  stacked_line_chart
-                </span>
-                Predicted Impact Telemetry
-              </h2>
-              <span className="font-code-sm text-xs text-[#d4af37] font-semibold">
-                T-Minus {formatTime(timerSeconds)}
-              </span>
-            </div>
-
-            <div className="flex-1 w-full bg-[#0a0a0a] border border-[#ffffff1a] rounded relative flex items-end p-4 gap-2 overflow-hidden">
-              {/* Simulated metric bars */}
-              <div
-                className="w-full bg-[#d4af37] rounded-t transition-all duration-500"
-                style={{ height: isSimulating ? '35%' : '15%' }}
-              ></div>
-              <div
-                className="w-full bg-[#d4af37] rounded-t transition-all duration-500"
-                style={{ height: isSimulating ? '55%' : '20%' }}
-              ></div>
-              <div
-                className="w-full bg-[#d4af37] rounded-t transition-all duration-500"
-                style={{ height: isSimulating ? '75%' : '25%' }}
-              ></div>
-              <div
-                className="w-full bg-[#ef4444] rounded-t transition-all duration-500"
-                style={{ height: isSimulating ? '95%' : '18%' }}
-              ></div>
-              <div
-                className="w-full bg-[#ef4444] rounded-t transition-all duration-500"
-                style={{ height: isSimulating ? '88%' : '22%' }}
-              ></div>
-              <div
-                className="w-full bg-[#d4af37] rounded-t transition-all duration-500"
-                style={{ height: isSimulating ? '45%' : '15%' }}
-              ></div>
-
-              {!isSimulating && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/50 backdrop-blur-xs">
-                  <span className="font-code-sm text-xs text-[#d4af37] bg-[#0a0a0a] px-4 py-2 rounded border border-[#d4af3766] uppercase tracking-wider">
-                    Awaiting Simulation Start
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
         </div>
 
-        {/* Right Column: Execution Timeline (4 cols) */}
-        <div className="xl:col-span-4 h-full">
-          <div className="glass-panel p-6 h-full border-l-4 border-l-[#d4af37] border border-[#ffffff1a] bg-[#141414]/90">
-            <h2 className="font-serif text-xl text-[#ffffff] mb-6 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#d4af37] text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-                history
-              </span>
-              Execution Timeline
-            </h2>
-
-            <div className="relative pl-6 space-y-7 before:absolute before:inset-y-0 before:left-2 before:w-px before:bg-[#ffffff1a]">
-              {/* Stage 1 */}
-              <div className={`relative ${currentStage >= 1 ? 'opacity-100' : 'opacity-40'}`}>
-                <div
-                  className={`absolute -left-[29px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#141414] ${
-                    currentStage >= 1 ? 'bg-[#d4af37] pulse-dot' : 'bg-[#ffffff1a]'
-                  }`}
-                ></div>
-                <div className="font-label-caps text-[10px] text-[#d4af37] mb-0.5 tracking-wider">
-                  STAGE 1 • {currentStage >= 1 ? formatTime(timerSeconds) : '--:--:--'}
-                </div>
-                <h4 className="font-serif text-base text-[#ffffff] mb-1.5 font-normal">Detected</h4>
-                <div className="bg-[#0a0a0a] p-3 rounded border border-[#ffffff1a]">
-                  <div className="flex justify-between items-center text-xs font-code-sm">
-                    <span className="text-[#a3a3a3] text-[11px]">Signal Noise Ratio</span>
-                    <span className="text-[#ffffff] font-semibold">
-                      {currentStage >= 1 ? '98.4%' : 'Pending'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stage 2 */}
-              <div className={`relative ${currentStage >= 2 ? 'opacity-100' : 'opacity-40'}`}>
-                <div
-                  className={`absolute -left-[29px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#141414] ${
-                    currentStage >= 2 ? 'bg-[#d4af37] pulse-dot' : 'bg-[#ffffff1a]'
-                  }`}
-                ></div>
-                <div className="font-label-caps text-[10px] text-[#d4af37] mb-0.5 tracking-wider">
-                  STAGE 2 • {currentStage >= 2 ? formatTime(timerSeconds) : '--:--:--'}
-                </div>
-                <h4 className="font-serif text-base text-[#ffffff] mb-1.5 font-normal">Diagnosis</h4>
-                <div className="bg-[#0a0a0a] p-3 rounded border border-[#ffffff1a] font-code-sm text-xs text-[#a3a3a3]">
-                  {isLoadingAi ? (
-                    <span className="text-[#d4af37] animate-pulse">Running AI Root Cause Analysis...</span>
-                  ) : aiDiagnosis ? (
-                    <div className="space-y-1 text-[11px]">
-                      <p className="text-[#f5f5f5]">{aiDiagnosis.diagnosis}</p>
-                      {aiDiagnosis.confidenceScore && (
-                        <p className="text-[#00ff88] font-bold">Confidence: {aiDiagnosis.confidenceScore}%</p>
-                      )}
-                    </div>
-                  ) : (
-                    'Awaiting metric anomalies.'
-                  )}
-                </div>
-              </div>
-
-              {/* Stage 3 */}
-              <div className={`relative ${currentStage >= 3 ? 'opacity-100' : 'opacity-40'}`}>
-                <div
-                  className={`absolute -left-[29px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#141414] ${
-                    currentStage >= 3 ? 'bg-[#d4af37] pulse-dot' : 'bg-[#ffffff1a]'
-                  }`}
-                ></div>
-                <div className="font-label-caps text-[10px] text-[#d4af37] mb-0.5 tracking-wider">
-                  STAGE 3 • {currentStage >= 3 ? formatTime(timerSeconds) : '--:--:--'}
-                </div>
-                <h4 className="font-serif text-base text-[#ffffff] mb-1.5 flex items-center gap-2 font-normal">
-                  Retrieval <span className="material-symbols-outlined text-[14px] text-[#d4af37]">memory</span>
-                </h4>
-                <div className="bg-[#0a0a0a] p-3 rounded border border-[#ffffff1a] space-y-1.5">
-                  <div className="flex justify-between items-center font-code-sm text-[11px]">
-                    <span className="text-[#a3a3a3]">RAG Precision</span>
-                    <span className="text-[#f5f5f5]">{currentStage >= 3 ? '94.2%' : '--%'}</span>
-                  </div>
-                  <div className="flex justify-between items-center font-code-sm text-[11px]">
-                    <span className="text-[#a3a3a3]">Retrieval Latency</span>
-                    <span className="text-[#f5f5f5]">{currentStage >= 3 ? '18ms' : '--ms'}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stage 4 */}
-              <div className={`relative ${currentStage >= 4 ? 'opacity-100' : 'opacity-40'}`}>
-                <div
-                  className={`absolute -left-[29px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#141414] ${
-                    currentStage >= 4 ? 'bg-[#d4af37] pulse-dot' : 'bg-[#ffffff1a]'
-                  }`}
-                ></div>
-                <div className="font-label-caps text-[10px] text-[#d4af37] mb-0.5 tracking-wider">
-                  STAGE 4 • {currentStage >= 4 ? formatTime(timerSeconds) : '--:--:--'}
-                </div>
-                <h4 className="font-serif text-base text-[#ffffff] mb-1 font-normal">Action</h4>
-                {currentStage >= 4 && aiDiagnosis?.mitigation && (
-                  <div className="bg-[#0a0a0a] p-2.5 rounded border border-[#ffffff1a] font-code-sm text-[11px] text-[#a3a3a3]">
-                    {aiDiagnosis.mitigation[0]}
-                  </div>
-                )}
-              </div>
-
-              {/* Stage 5 */}
-              <div className={`relative ${currentStage >= 5 ? 'opacity-100' : 'opacity-40'}`}>
-                <div
-                  className={`absolute -left-[29px] top-1 w-3.5 h-3.5 rounded-full border-2 border-[#141414] ${
-                    currentStage >= 5 ? 'bg-[#00ff88]' : 'bg-[#ffffff1a]'
-                  }`}
-                ></div>
-                <div className="font-label-caps text-[10px] text-[#00ff88] mb-0.5 tracking-wider">
-                  STAGE 5 • {currentStage >= 5 ? formatTime(timerSeconds) : '--:--:--'}
-                </div>
-                <h4 className="font-serif text-base text-[#ffffff] font-normal">
-                  {currentStage >= 5 ? 'Resolved & Restored' : 'Resolved'}
-                </h4>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

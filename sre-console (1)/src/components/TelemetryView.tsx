@@ -22,11 +22,11 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
   }, []);
 
   return (
-    <div className="max-w-[1600px] mx-auto flex flex-col gap-8 animate-fadeIn">
+    <div className="w-full max-w-[1760px] mx-auto flex flex-col gap-8 animate-fadeIn">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-[#ffffff1a] pb-6">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Observability Matrix</span>
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Observability Matrix</span>
           <h1 className="font-serif text-3xl md:text-4xl text-[#ffffff] font-normal mt-1">
             Telemetry & <span className="italic text-[#d4af37] font-light">Metrics</span> Stream
           </h1>
@@ -41,7 +41,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
               <button
                 key={r}
                 onClick={() => setRegion(r)}
-                className={`px-3 py-1 font-code-sm text-xs rounded transition-all cursor-pointer ${
+                className={`px-3 py-1 font-code-sm text-sm rounded transition-all cursor-pointer ${
                   region === r
                     ? 'bg-[#d4af37] text-[#0a0a0a] font-bold shadow-sm'
                     : 'text-[#a3a3a3] hover:text-[#f5f5f5]'
@@ -54,7 +54,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
 
           <button
             onClick={onOpenTopology}
-            className="flex items-center gap-2 px-4 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded text-xs font-label-caps transition-all cursor-pointer shadow-md shadow-[#d4af371a] tracking-wider uppercase"
+            className="flex items-center gap-2 px-4 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded text-sm font-label-caps transition-all cursor-pointer shadow-md shadow-[#d4af371a] tracking-wider uppercase"
           >
             <span className="material-symbols-outlined text-sm">hub</span>
             Topology Map
@@ -66,7 +66,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Metric 1: CPU Load */}
         <div className="glass-panel p-5 flex flex-col gap-2 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between">
             <span>CLUSTER CPU LOAD</span>
             <span className="text-[#00ff88]">NORMAL</span>
           </div>
@@ -86,7 +86,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
 
         {/* Metric 2: Memory Saturation */}
         <div className="glass-panel p-5 flex flex-col gap-2 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between">
             <span>MEMORY SATURATION</span>
             <span className="text-[#d4af37]">64.2 GB / 128 GB</span>
           </div>
@@ -98,24 +98,24 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
 
         {/* Metric 3: Total RPS */}
         <div className="glass-panel p-5 flex flex-col gap-2 relative overflow-hidden group hover:border-[#d4af3744] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between">
             <span>AGGREGATE RPS</span>
             <span className="text-[#00ff88]">↑ 8% vs Avg</span>
           </div>
           <div className="font-serif text-3xl md:text-4xl text-[#ffffff] font-light">28,630</div>
-          <div className="font-code-sm text-xs text-[#a3a3a3] mt-2">
+          <div className="font-code-sm text-sm text-[#a3a3a3] mt-2">
             Peak: 34,200 RPS @ 10:04 UTC
           </div>
         </div>
 
         {/* Metric 4: P99 Latency */}
         <div className="glass-panel p-5 flex flex-col gap-2 relative overflow-hidden group hover:border-[#ef444444] transition-all">
-          <div className="text-[#a3a3a3] font-label-caps text-[10px] tracking-[0.2em] flex justify-between">
+          <div className="text-[#a3a3a3] font-label-caps text-[12px] tracking-[0.2em] flex justify-between">
             <span>P99 LATENCY</span>
             <span className="text-[#ef4444]">SPIKE DETECTED</span>
           </div>
           <div className="font-serif text-3xl md:text-4xl text-[#ef4444] font-light">450ms</div>
-          <div className="font-code-sm text-xs text-[#a3a3a3] mt-2">
+          <div className="font-code-sm text-sm text-[#a3a3a3] mt-2">
             Target Service: payment-processing
           </div>
         </div>
@@ -127,7 +127,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
           <span className="material-symbols-outlined text-[#d4af37] text-lg">memory</span> Active Node Fleet Health ({region})
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 font-code-sm text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 font-code-sm text-sm">
           {Array.from({ length: 12 }).map((_, i) => {
             const isAlerting = i === 4;
             return (
@@ -139,7 +139,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
                     : 'bg-[#0a0a0a] border-[#ffffff1a] text-[#f5f5f5] hover:border-[#d4af3766]'
                 }`}
               >
-                <div className="flex justify-between items-center text-[10px] text-[#a3a3a3] tracking-wider uppercase">
+                <div className="flex justify-between items-center text-[12px] text-[#a3a3a3] tracking-wider uppercase">
                   <span>NODE-{String(i + 1).padStart(2, '0')}</span>
                   <span
                     className={`w-2 h-2 rounded-full ${
@@ -150,7 +150,7 @@ export const TelemetryView: React.FC<TelemetryViewProps> = ({ services, onOpenTo
                 <div className="font-bold text-sm tracking-tight">
                   {isAlerting ? '94.2% CPU' : `${Math.floor(20 + i * 4)}% CPU`}
                 </div>
-                <div className="text-[10px] text-[#a3a3a3] opacity-80 uppercase tracking-wider">
+                <div className="text-[12px] text-[#a3a3a3] opacity-80 uppercase tracking-wider">
                   {isAlerting ? 'Degraded' : 'Nominal'}
                 </div>
               </div>

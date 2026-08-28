@@ -29,7 +29,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/85 backdrop-blur-md p-4 animate-fadeIn">
-      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col">
+      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-md w-full max-w-xl overflow-hidden shadow-2xl flex flex-col">
         <div className="p-4 border-b border-[#ffffff1a] bg-[#141414] flex items-center gap-3">
           <span className="material-symbols-outlined text-[#d4af37]">search</span>
           <input
@@ -53,7 +53,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                 onNavigateTab(item.tab);
                 onClose();
               }}
-              className="p-3 rounded-lg border border-[#ffffff1a] bg-[#141414] hover:bg-[#1f1f1f] hover:border-[#d4af37] transition-all cursor-pointer flex items-center gap-3 font-code-sm text-xs text-[#f5f5f5]"
+              className="p-3 rounded-lg border border-[#ffffff1a] bg-[#141414] hover:bg-[#1f1f1f] hover:border-[#d4af37] transition-all cursor-pointer flex items-center gap-3 font-code-sm text-sm text-[#f5f5f5]"
             >
               <span className="material-symbols-outlined text-[#d4af37] text-sm">{item.icon}</span>
               <span>{item.label}</span>

@@ -90,7 +90,7 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-fadeIn">
-      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+      <div className="bg-[#0a0a0a] border border-[#ffffff1a] rounded-md w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="p-5 border-b border-[#ffffff1a] bg-[#141414] flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -101,7 +101,7 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
               <h2 className="font-serif text-lg text-[#ffffff] font-normal">
                 Deploy Emergency Hotfix Patch
               </h2>
-              <p className="font-code-sm text-xs text-[#a3a3a3]">
+              <p className="font-code-sm text-sm text-[#a3a3a3]">
                 SRE Orchestrated Rolling Deployment Engine
               </p>
             </div>
@@ -116,9 +116,9 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
 
         {/* Modal Content */}
         <div className="p-6 overflow-y-auto space-y-5 font-sans">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-code-sm text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-code-sm text-sm">
             <div>
-              <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[10px] tracking-wider uppercase">Target Service</label>
+              <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[12px] tracking-wider uppercase">Target Service</label>
               <select
                 value={selectedService}
                 onChange={(e) => {
@@ -138,7 +138,7 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[10px] tracking-wider uppercase">Patch Version / Tag</label>
+              <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[12px] tracking-wider uppercase">Patch Version / Tag</label>
               <input
                 type="text"
                 value={patchVersion}
@@ -150,14 +150,14 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
 
           {/* Script Editor */}
           <div>
-            <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[10px] tracking-wider uppercase">
+            <label className="block text-[#a3a3a3] mb-1.5 font-label-caps text-[12px] tracking-wider uppercase">
               Deployment Script Manifest
             </label>
             <textarea
               rows={4}
               value={scriptText}
               onChange={(e) => setScriptText(e.target.value)}
-              className="w-full bg-[#141414] border border-[#ffffff1a] rounded p-3 text-xs font-code-sm text-[#f5f5f5] focus:border-[#d4af37]"
+              className="w-full bg-[#141414] border border-[#ffffff1a] rounded p-3 text-sm font-code-sm text-[#f5f5f5] focus:border-[#d4af37]"
             />
           </div>
 
@@ -165,7 +165,7 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
           <div className="flex items-center justify-between bg-[#141414] p-3 rounded border border-[#ffffff1a]">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#d4af37] text-sm">flaky</span>
-              <span className="font-code-sm text-xs text-[#f5f5f5]">Dry Run Execution Mode</span>
+              <span className="font-code-sm text-sm text-[#f5f5f5]">Dry Run Execution Mode</span>
             </div>
             <input
               type="checkbox"
@@ -177,18 +177,18 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
 
           {/* AI Safety Report */}
           {aiSafetyReport && (
-            <div className="p-3.5 bg-[#d4af370f] border border-[#d4af3766] rounded font-code-sm text-xs space-y-1">
+            <div className="p-3.5 bg-[#d4af370f] border border-[#d4af3766] rounded font-code-sm text-sm space-y-1">
               <div className="flex justify-between items-center text-[#d4af37] font-bold">
                 <span>AI Safety Verification</span>
                 <span>Safety Score: {aiSafetyReport.safetyScore}/100</span>
               </div>
-              <p className="text-[#a3a3a3] text-[11px] font-light">{aiSafetyReport.analysis}</p>
+              <p className="text-[#a3a3a3] text-[12px] font-light">{aiSafetyReport.analysis}</p>
             </div>
           )}
 
           {/* Deployment Console Logs */}
           {deployLogs.length > 0 && (
-            <div className="bg-[#0a0a0a] p-3 rounded border border-[#ffffff1a] font-code-sm text-[11px] text-[#00ff88] space-y-1 max-h-36 overflow-y-auto">
+            <div className="bg-[#0a0a0a] p-3 rounded border border-[#ffffff1a] font-code-sm text-[12px] text-[#00ff88] space-y-1 max-h-36 overflow-y-auto">
               {deployLogs.map((log, i) => (
                 <div key={i}>{log}</div>
               ))}
@@ -201,7 +201,7 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
           <button
             onClick={handleVerifySafety}
             disabled={isAuditing}
-            className="px-4 py-2 border border-[#ffffff1a] text-[#f5f5f5] hover:bg-[#1f1f1f] font-label-caps text-xs rounded transition-all cursor-pointer uppercase tracking-wider"
+            className="px-4 py-2 border border-[#ffffff1a] text-[#f5f5f5] hover:bg-[#1f1f1f] font-label-caps text-sm rounded transition-all cursor-pointer uppercase tracking-wider"
           >
             {isAuditing ? 'Auditing...' : 'Run AI Safety Audit'}
           </button>
@@ -209,14 +209,14 @@ export const DeployPatchModal: React.FC<DeployPatchModalProps> = ({
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-[#a3a3a3] hover:text-[#f5f5f5] font-label-caps text-xs cursor-pointer uppercase tracking-wider"
+              className="px-4 py-2 text-[#a3a3a3] hover:text-[#f5f5f5] font-label-caps text-sm cursor-pointer uppercase tracking-wider"
             >
               Cancel
             </button>
             <button
               onClick={handleExecuteDeploy}
               disabled={isDeploying}
-              className="px-5 py-2 bg-[#d4af37] text-[#0a0a0a] font-bold font-label-caps text-xs rounded hover:bg-[#e2bd46] transition-all cursor-pointer shadow-md shadow-[#d4af371a] flex items-center gap-1 uppercase tracking-wider"
+              className="px-5 py-2 bg-[#d4af37] text-[#0a0a0a] font-bold font-label-caps text-sm rounded hover:bg-[#e2bd46] transition-all cursor-pointer shadow-md shadow-[#d4af371a] flex items-center gap-1 uppercase tracking-wider"
             >
               <span className="material-symbols-outlined text-sm">rocket</span>
               {isDeploying ? 'Deploying...' : 'Deploy Now'}

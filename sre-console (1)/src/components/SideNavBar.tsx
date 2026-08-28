@@ -26,7 +26,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
   ];
 
   return (
-    <aside className="bg-[#0d0d0d] text-[#f5f5f5] font-code-sm text-xs docked left-0 h-full w-64 border-r border-[#ffffff1a] flex flex-col py-6 shrink-0 hidden md:flex z-30 select-none">
+    <aside className="bg-[#0d0d0d] text-[#f5f5f5] font-code-sm text-sm docked left-0 h-full w-64 border-r border-[#ffffff1a] flex flex-col py-6 shrink-0 hidden md:flex z-30 select-none">
       {/* Operator Admin Box */}
       <div className="px-4 mb-6 flex flex-col gap-2">
         <div className="flex items-center gap-3 p-3 rounded bg-[#141414] border border-[#ffffff0a]">
@@ -39,7 +39,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
             <div className="text-[#f5f5f5] font-sans font-semibold text-sm leading-tight">
               Operator-01
             </div>
-            <div className="text-[#d4af37] font-code-sm text-[10px] tracking-wider uppercase opacity-90 mt-0.5">
+            <div className="text-[#d4af37] font-code-sm text-[12px] tracking-wider uppercase opacity-90 mt-0.5">
               Prod-US-East
             </div>
           </div>
@@ -48,7 +48,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
         {/* Deploy Patch Primary Action */}
         <button
           onClick={onDeployPatch}
-          className="w-full py-2.5 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-sans font-semibold rounded tracking-wider uppercase text-xs transition-all mt-1 flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#d4af371a] active:scale-[0.98]"
+          className="w-full py-2.5 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-sans font-semibold rounded tracking-wider uppercase text-sm transition-all mt-1 flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#d4af371a] active:scale-[0.98]"
         >
           <span className="material-symbols-outlined text-[18px]">rocket_launch</span>
           Deploy Patch
@@ -66,7 +66,7 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`px-3 py-2.5 rounded flex items-center gap-3 transition-all cursor-pointer font-code-sm text-xs ${
+              className={`px-3 py-2.5 rounded flex items-center gap-3 transition-all cursor-pointer font-code-sm text-sm ${
                 isActive
                   ? 'text-[#d4af37] bg-[#141414] border-l-2 border-[#d4af37] font-bold shadow-sm'
                   : 'text-[#a3a3a3] hover:text-[#f5f5f5] hover:bg-[#141414]'
@@ -88,14 +88,14 @@ export const SideNavBar: React.FC<SideNavBarProps> = ({
       <div className="mt-auto flex flex-col gap-1 pt-4 border-t border-[#ffffff1a] mx-4">
         <button
           onClick={onOpenSupport}
-          className="text-[#a3a3a3] hover:text-[#d4af37] hover:bg-[#141414] px-3 py-2 flex items-center gap-3 transition-colors rounded text-xs cursor-pointer text-left w-full"
+          className="text-[#a3a3a3] hover:text-[#d4af37] hover:bg-[#141414] px-3 py-2 flex items-center gap-3 transition-colors rounded text-sm cursor-pointer text-left w-full"
         >
           <span className="material-symbols-outlined text-[18px]">support_agent</span>
           <span>Support</span>
         </button>
         <button
           onClick={onLogout}
-          className="text-[#a3a3a3] hover:text-[#ef4444] hover:bg-[#141414] px-3 py-2 flex items-center gap-3 transition-colors rounded text-xs cursor-pointer text-left w-full"
+          className="text-[#a3a3a3] hover:text-[#ef4444] hover:bg-[#141414] px-3 py-2 flex items-center gap-3 transition-colors rounded text-sm cursor-pointer text-left w-full"
         >
           <span className="material-symbols-outlined text-[18px]">logout</span>
           <span>Logout</span>

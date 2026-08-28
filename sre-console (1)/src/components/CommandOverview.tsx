@@ -24,13 +24,13 @@ export const CommandOverview: React.FC<CommandOverviewProps> = ({ onNavigate, is
       <PortalHero isPipelineRunning={isPipelineRunning} />
 
       {/* Backend Operational Instrument Cards */}
-      <div className="px-6 md:px-12 max-w-7xl mx-auto space-y-8">
+      <div className="px-6 md:px-12 w-full max-w-[1760px] mx-auto space-y-8">
         <div className="flex items-center justify-between border-b border-[#EDE7DC]/13 pb-4">
-          <div className="text-[11px] font-mono text-[#9EA5A8] uppercase tracking-widest flex items-center gap-2">
+          <div className="text-[12px] font-mono text-[#9EA5A8] uppercase tracking-widest flex items-center gap-2">
             <Activity className="w-4 h-4 text-[#2E6B72]" />
             SYSTEM READINESS & BACKEND TELEMETRY
           </div>
-          <div className="text-xs font-mono text-[#2E6B72]">
+          <div className="text-sm font-mono text-[#2E6B72]">
             {healthData ? `SYSTEM: ${healthData.system.toUpperCase()} | OK` : 'BACKEND DISCONNECTED'}
           </div>
         </div>
@@ -47,10 +47,10 @@ export const CommandOverview: React.FC<CommandOverviewProps> = ({ onNavigate, is
               <ArrowRight className="w-4 h-4 text-[#9EA5A8] group-hover:text-[#E8913C] transition-colors" />
             </div>
             <div className="font-display text-lg text-[#EDE7DC]">INCIDENT SIMULATOR</div>
-            <p className="text-xs font-mono text-[#9EA5A8] leading-relaxed">
+            <p className="text-sm font-mono text-[#9EA5A8] leading-relaxed">
               Compose failure symptoms, select severity (P1-P3), and run the multi-agent triage pipeline.
             </p>
-            <div className="text-[10px] font-mono text-[#E8913C] uppercase">POST /api/pipeline/run →</div>
+            <div className="text-[12px] font-mono text-[#E8913C] uppercase">POST /api/pipeline/run →</div>
           </div>
 
           {/* Card 2: Evidence Retrieval */}
@@ -63,10 +63,10 @@ export const CommandOverview: React.FC<CommandOverviewProps> = ({ onNavigate, is
               <ArrowRight className="w-4 h-4 text-[#9EA5A8] group-hover:text-[#2E6B72] transition-colors" />
             </div>
             <div className="font-display text-lg text-[#EDE7DC]">EVIDENCE RETRIEVAL</div>
-            <p className="text-xs font-mono text-[#9EA5A8] leading-relaxed">
+            <p className="text-sm font-mono text-[#9EA5A8] leading-relaxed">
               Query 35 operational runbooks and historical incidents indexed in ChromaDB vector store.
             </p>
-            <div className="text-[10px] font-mono text-[#2E6B72] uppercase">POST /api/rag/retrieve →</div>
+            <div className="text-[12px] font-mono text-[#2E6B72] uppercase">POST /api/rag/retrieve →</div>
           </div>
 
           {/* Card 3: Action Control */}
@@ -79,10 +79,10 @@ export const CommandOverview: React.FC<CommandOverviewProps> = ({ onNavigate, is
               <ArrowRight className="w-4 h-4 text-[#9EA5A8] group-hover:text-[#E8913C] transition-colors" />
             </div>
             <div className="font-display text-lg text-[#EDE7DC]">ACTION CONTROL</div>
-            <p className="text-xs font-mono text-[#9EA5A8] leading-relaxed">
+            <p className="text-sm font-mono text-[#9EA5A8] leading-relaxed">
               Execute controlled remediation actions (restart, scale, rollback) with safety confirmation modals.
             </p>
-            <div className="text-[10px] font-mono text-[#E8913C] uppercase">POST /api/tools/action →</div>
+            <div className="text-[12px] font-mono text-[#E8913C] uppercase">POST /api/tools/action →</div>
           </div>
 
           {/* Card 4: Audit Timeline */}
@@ -95,10 +95,10 @@ export const CommandOverview: React.FC<CommandOverviewProps> = ({ onNavigate, is
               <ArrowRight className="w-4 h-4 text-[#9EA5A8] group-hover:text-[#2E6B72] transition-colors" />
             </div>
             <div className="font-display text-lg text-[#EDE7DC]">AUDIT TIMELINE</div>
-            <p className="text-xs font-mono text-[#9EA5A8] leading-relaxed">
+            <p className="text-sm font-mono text-[#9EA5A8] leading-relaxed">
               Inspect session event timeline and immutable disk logs stored in tools/audit.log.
             </p>
-            <div className="text-[10px] font-mono text-[#2E6B72] uppercase">GET /api/logs/audit →</div>
+            <div className="text-[12px] font-mono text-[#2E6B72] uppercase">GET /api/logs/audit →</div>
           </div>
         </div>
       </div>

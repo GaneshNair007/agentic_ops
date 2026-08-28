@@ -82,11 +82,11 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto flex flex-col gap-8 animate-fadeIn">
+    <div className="w-full max-w-[1760px] mx-auto flex flex-col gap-8 animate-fadeIn">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-[#ffffff1a] pb-6">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Structured Stream</span>
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[#d4af37] font-semibold">Structured Stream</span>
           <h1 className="font-serif text-3xl md:text-4xl text-[#ffffff] font-normal mt-1">
             System Log <span className="italic text-[#d4af37] font-light">Explorer</span>
           </h1>
@@ -98,7 +98,7 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <button
             onClick={() => setIsLiveStreaming(!isLiveStreaming)}
-            className={`flex items-center gap-2 px-4 py-2 rounded text-xs font-code-sm border cursor-pointer transition-all uppercase tracking-wider ${
+            className={`flex items-center gap-2 px-4 py-2 rounded text-sm font-code-sm border cursor-pointer transition-all uppercase tracking-wider ${
               isLiveStreaming
                 ? 'bg-[#141414] border-[#d4af37] text-[#d4af37]'
                 : 'bg-[#141414] border-[#ffffff1a] text-[#a3a3a3]'
@@ -115,7 +115,7 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
           <button
             onClick={handleAiLogAnalysis}
             disabled={isAnalyzing}
-            className="flex items-center gap-2 px-4 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded text-xs font-label-caps transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
+            className="flex items-center gap-2 px-4 py-2 bg-[#d4af37] hover:bg-[#e2bd46] text-[#0a0a0a] font-semibold rounded text-sm font-label-caps transition-all cursor-pointer shadow-md shadow-[#d4af371a] uppercase tracking-wider"
           >
             <span className="material-symbols-outlined text-sm">smart_toy</span>
             {isAnalyzing ? 'Analyzing...' : 'AI Log Audit'}
@@ -129,7 +129,7 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
           <div className="flex items-start gap-3">
             <span className="material-symbols-outlined text-[#d4af37] mt-0.5">smart_toy</span>
             <div>
-              <div className="font-code-sm font-bold text-[#d4af37] text-xs uppercase tracking-wider">
+              <div className="font-code-sm font-bold text-[#d4af37] text-sm uppercase tracking-wider">
                 AI Log Audit Result
               </div>
               <p className="font-body-md text-sm text-[#f5f5f5] mt-1 font-light">{aiAnalysis}</p>
@@ -154,7 +154,7 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
               <button
                 key={lvl}
                 onClick={() => setSelectedLevel(lvl)}
-                className={`px-3 py-1 font-code-sm text-xs rounded transition-all cursor-pointer ${
+                className={`px-3 py-1 font-code-sm text-sm rounded transition-all cursor-pointer ${
                   selectedLevel === lvl
                     ? 'bg-[#d4af37] text-[#0a0a0a] font-bold'
                     : 'text-[#a3a3a3] hover:text-[#f5f5f5]'
@@ -175,13 +175,13 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
               placeholder="Search message, service, or trace-id..."
-              className="input-tactical w-full bg-[#141414] border border-[#ffffff1a] rounded py-1.5 pl-9 pr-3 text-xs font-code-sm text-[#f5f5f5] placeholder-[#a3a3a3]"
+              className="input-tactical w-full bg-[#141414] border border-[#ffffff1a] rounded py-1.5 pl-9 pr-3 text-sm font-code-sm text-[#f5f5f5] placeholder-[#a3a3a3]"
             />
           </div>
         </div>
 
         {/* Log Stream Terminal */}
-        <div className="flex-1 bg-[#0a0a0a] p-4 overflow-y-auto font-code-sm text-xs space-y-2 select-text">
+        <div className="flex-1 bg-[#0a0a0a] p-4 overflow-y-auto font-code-sm text-sm space-y-2 select-text">
           {filteredLogs.map((log) => {
             const levelColor =
               log.level === 'ERROR'
@@ -197,11 +197,11 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
                 key={log.id}
                 className="flex flex-col sm:flex-row items-start sm:items-center gap-2 hover:bg-[#141414] py-1.5 px-3 rounded transition-colors border-b border-[#ffffff0a]"
               >
-                <span className="text-[#a3a3a3] text-[11px] shrink-0 font-mono">
+                <span className="text-[#a3a3a3] text-[12px] shrink-0 font-mono">
                   {log.timestamp}
                 </span>
 
-                <span className={`px-1.5 py-0.5 rounded text-[10px] uppercase shrink-0 ${levelColor} bg-[#141414] border border-[#ffffff1a]`}>
+                <span className={`px-1.5 py-0.5 rounded text-[12px] uppercase shrink-0 ${levelColor} bg-[#141414] border border-[#ffffff1a]`}>
                   {log.level}
                 </span>
 
@@ -214,7 +214,7 @@ export const LogsView: React.FC<LogsViewProps> = ({ logs }) => {
                 </span>
 
                 {log.traceId && (
-                  <span className="text-[#a3a3a3] text-[10px] shrink-0 bg-[#141414] px-2 py-0.5 rounded border border-[#d4af3733]">
+                  <span className="text-[#a3a3a3] text-[12px] shrink-0 bg-[#141414] px-2 py-0.5 rounded border border-[#d4af3733]">
                     {log.traceId}
                   </span>
                 )}

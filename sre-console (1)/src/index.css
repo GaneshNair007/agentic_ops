@@ -188,3 +188,20 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #050505;
 }
+
+@theme {
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 18px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --radius-xl: 8px;
+  --radius-2xl: 8px;
+  --radius-3xl: 8px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}

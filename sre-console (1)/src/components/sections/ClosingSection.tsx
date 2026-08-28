@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Play } from 'lucide-react';
+import { ExternalLink, Power } from 'lucide-react';
 
 export const ClosingSection: React.FC = () => {
   const scrollToSimulator = () => {
@@ -8,56 +8,50 @@ export const ClosingSection: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full min-h-[90vh] bg-[#050505] text-[#F1F1F1] flex flex-col justify-between p-8 md:p-16 lg:p-24 overflow-hidden">
-      {/* Background Full-Colour Infrastructure Photography */}
-      <div className="absolute inset-0 w-full h-full opacity-40 pointer-events-none">
+    <section className="relative w-full h-screen bg-[#050505] text-[#F1F1F1] flex flex-col items-center justify-center overflow-hidden border-t border-[#333]">
+      {/* Background Full-Colour Infrastructure Photography Darkened */}
+      <div className="absolute inset-0 w-full h-full">
         <img
-          src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2000&q=90"
-          alt="Full Color Infrastructure"
-          className="w-full h-full object-cover scale-105"
+          src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2560&q=90"
+          alt="Full Color Server Infrastructure"
+          className="w-full h-full object-cover opacity-30 mix-blend-luminosity scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent" />
+        <div className="absolute inset-0 bg-[#000000] opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
       </div>
 
-      {/* Main Closing Title */}
-      <div className="relative z-10 w-full space-y-8 my-auto">
-        <div className="label-caps text-[#8E8E8E]">// OPERATIONAL MISSION</div>
-        <h2 className="font-display text-5xl md:text-8xl lg:text-9xl font-extrabold leading-none tracking-tight text-[#FFFFFF]">
-          EVIDENCE. <br />
-          CONTROL. <br />
-          ACCOUNTABILITY.
-        </h2>
-
-        <div className="flex flex-col sm:flex-row gap-4 pt-6">
-          <button
-            onClick={scrollToSimulator}
-            className="btn-sre-dark-outline bg-[#FFFFFF] text-[#050505] hover:bg-transparent hover:text-[#FFFFFF] py-4 px-8 text-sm"
-          >
-            <Play className="w-4 h-4 fill-current" /> LAUNCH THE SIMULATOR
-          </button>
-          <a
-            href="https://github.com/arjitujjawal-art/agentic_ops"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-sre-dark-outline py-4 px-8 text-sm"
-          >
-            VIEW GITHUB REPOSITORY <ExternalLink className="w-4 h-4" />
-          </a>
+      {/* Cinematic Main Content */}
+      <div className="relative z-10 w-full px-6 flex flex-col items-center text-center space-y-16">
+        <div>
+          <div className="label-caps text-[#E8913C] mb-6 tracking-[0.5em]">// AI SRE OPERATION COMPLETE</div>
+          <h2 className="font-display text-6xl md:text-8xl lg:text-[140px] font-black leading-[0.85] tracking-tighter text-[#FFFFFF] drop-shadow-2xl">
+            THE END OF<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#FFFFFF] to-[#8E8E8E]">ALERT FATIGUE</span>
+          </h2>
         </div>
+
+        {/* Substantial CTA */}
+        <button
+          onClick={scrollToSimulator}
+          className="group relative inline-flex items-center justify-center bg-[#E8913C] hover:bg-[#FFFFFF] text-[#050505] font-mono font-bold text-xl md:text-2xl uppercase tracking-widest py-6 px-16 transition-all duration-300 shadow-[0_0_50px_rgba(232,145,60,0.3)] hover:shadow-[0_0_80px_rgba(255,255,255,0.5)]"
+        >
+          <Power className="w-8 h-8 mr-4" />
+          DEPLOY ENGINE
+          <div className="absolute inset-0 border-2 border-[#E8913C] scale-110 opacity-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500" />
+        </button>
       </div>
 
-      {/* Footer Details */}
-      <div className="relative z-10 pt-12 border-t border-white/20 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-[#8E8E8E] gap-4">
-        <div>AI SRE // AGENTIC INCIDENT RISK TRIAGE SYSTEM</div>
-        <div>DEVELOPED BY GANESH NAIR</div>
-        <div>FASTAPI · REACT · TYPESCRIPT · CHROMADB</div>
+      {/* Minimal Footer Footer */}
+      <div className="absolute bottom-0 w-full z-10 px-6 py-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-[#8E8E8E] gap-4 tracking-widest">
+        <div>AI SRE // V2.0.0</div>
+        <div>FASTAPI · REACT · CHROMADB</div>
         <a 
-          href="https://github.com/arjitujjawal-art/agentic_ops" 
+          href="https://github.com/GaneshNair007/agentic_ops" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="hover:text-[#FFFFFF] transition-colors"
+          className="hover:text-[#FFFFFF] transition-colors flex items-center gap-2"
         >
-          GITHUB REPOSITORY ↗
+          GITHUB REPOSITORY <ExternalLink className="w-3 h-3" />
         </a>
       </div>
     </section>
