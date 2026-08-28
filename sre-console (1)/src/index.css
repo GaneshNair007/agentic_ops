@@ -1,28 +1,37 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   STRICT MONOCHROME PALETTE & EDITORIAL TYPOGRAPHY SYSTEM
-   Background: Warm White #F3F1EC (70%) | Surface/Black: #090909 / #141414 (30%)
-   Primary Text: #090909 on light, #F3F1EC on dark | Sec Text: #303030 | Meta: #686868
-   Hairline Rules: #D8D6D0 on light, rgba(243,241,236,0.15) on dark
-   Strict Rule: NO colors (no red, amber, teal, green, blue, purple).
-   Status differentiated via typography weight, borders, filled/outlined marks.
+   STRICT MONOCHROME HIGH-CONTRAST DENSE EDITORIAL SYSTEM
+   Readability & Density Rules:
+   - Primary text on white: #050505 (min contrast 18:1)
+   - Secondary text on white: #4A4A4A (min contrast 7:1)
+   - Primary text on black: #FFFFFF
+   - Secondary text on black: #C7C7C7
+   - Rule borders: #D8D6D0 (light), rgba(255,255,255,0.18) (dark)
+   - Minimum desktop body size: 17px (important 18-20px)
+   - Minimum mobile body size: 16px
+   - Minimum label size: 12px
+   - Paragraph max width: 58ch
+   - ZERO colors (100% monochrome)
    ========================================================================== */
 
 @layer base {
   :root {
-    --bg-warm-white: #F3F1EC;
-    --bg-pure-white: #FFFFFF;
-    --bg-primary-black: #090909;
-    --bg-secondary-black: #141414;
-    
-    --color-text-primary: #090909;
-    --color-text-light: #F3F1EC;
-    --color-text-dark-grey: #303030;
-    --color-text-mid-grey: #686868;
-    
+    --bg-light: #F3F1EC;
+    --bg-white: #FFFFFF;
+    --bg-dark: #050505;
+    --bg-dark-sec: #141414;
+
+    --text-dark-primary: #050505;
+    --text-dark-sec: #4A4A4A;
+    --text-meta-grey: #686868;
+
+    --text-light-primary: #FFFFFF;
+    --text-light-sec: #C7C7C7;
+    --text-light-meta: #8E8E8E;
+
     --rule-light: #D8D6D0;
-    --rule-dark: rgba(243, 241, 236, 0.15);
+    --rule-dark: rgba(255, 255, 255, 0.18);
 
     --font-display: 'Syne', sans-serif;
     --font-sans: 'Sora', 'Inter', 'Instrument Sans', sans-serif;
@@ -36,18 +45,18 @@
   }
 
   html {
-    background-color: var(--bg-warm-white);
-    color: var(--color-text-primary);
+    background-color: var(--bg-light);
+    color: var(--text-dark-primary);
     font-family: var(--font-sans);
-    font-size: 16px; /* Minimum body size: 16px */
+    font-size: 17px; /* Desktop Body Min: 17px */
     line-height: 1.6;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
 
   body {
-    background-color: var(--bg-warm-white);
-    color: var(--color-text-primary);
+    background-color: var(--bg-light);
+    color: var(--text-dark-primary);
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -57,7 +66,7 @@
 .font-display {
   font-family: var(--font-display);
   letter-spacing: -0.025em;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
 }
 
@@ -67,41 +76,43 @@
 
 .label-caps {
   font-family: var(--font-sans);
-  font-size: 12px; /* Minimum UI label size: 12px */
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
 
-/* Paragraph max width constraint */
+/* Readable Paragraph Constraint */
 .prose-editorial {
-  max-width: 65ch;
+  max-width: 58ch;
   line-height: 1.65;
+  font-size: 18px;
+  color: var(--text-dark-sec);
 }
 
-/* Monochrome Operational Buttons */
+/* High Contrast Monochrome Buttons */
 .btn-sre-mono {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   padding: 14px 28px;
-  border: 1px solid var(--color-text-primary);
-  background: var(--color-text-primary);
-  color: var(--bg-warm-white);
+  border: 1px solid #050505;
+  background: #050505;
+  color: #FFFFFF;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 14px; /* Minimum UI controls: 14px */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 0px; /* Sharp editorial edges */
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0px;
 }
 
 .btn-sre-mono:hover:not(:disabled) {
   background: transparent;
-  color: var(--color-text-primary);
+  color: #050505;
 }
 
 .btn-sre-outline-mono {
@@ -110,23 +121,23 @@
   justify-content: center;
   gap: 10px;
   padding: 14px 28px;
-  border: 1px solid var(--rule-light);
+  border: 1px solid #D8D6D0;
   background: transparent;
-  color: var(--color-text-primary);
+  color: #050505;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0px;
 }
 
 .btn-sre-outline-mono:hover:not(:disabled) {
-  border-color: var(--color-text-primary);
-  background: var(--color-text-primary);
-  color: var(--bg-warm-white);
+  border-color: #050505;
+  background: #050505;
+  color: #FFFFFF;
 }
 
 .btn-sre-dark-outline {
@@ -135,23 +146,23 @@
   justify-content: center;
   gap: 10px;
   padding: 14px 28px;
-  border: 1px solid var(--rule-dark);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   background: transparent;
-  color: #F3F1EC;
+  color: #FFFFFF;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0px;
 }
 
 .btn-sre-dark-outline:hover:not(:disabled) {
-  border-color: #F3F1EC;
-  background: #F3F1EC;
-  color: #090909;
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+  color: #050505;
 }
 
 /* Custom Scrollbar */
@@ -161,7 +172,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-warm-white);
+  background: #F3F1EC;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -169,5 +180,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #090909;
+  background: #050505;
 }

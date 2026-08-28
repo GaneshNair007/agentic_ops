@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Wrench, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Shield, Wrench, CheckCircle2, ShieldAlert, ArrowRight } from 'lucide-react';
 import { api } from '../../services/api';
 import { ActionDefinition, ActionResponse } from '../../types';
 
@@ -66,6 +66,9 @@ export const SafetyControl: React.FC = () => {
   const [selectedAction, setSelectedAction] = useState<ActionDefinition>(CONTROLLED_ACTIONS[0]);
   const [paramsJson, setParamsJson] = useState(JSON.stringify(CONTROLLED_ACTIONS[0].defaultParams, null, 2));
   
+  const [hoveredAction, setHoveredAction] = useState<string | null>(null);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasConfirmed, setHasConfirmed] = useState(false);
   
@@ -78,6 +81,9 @@ export const SafetyControl: React.FC = () => {
     setParamsJson(JSON.stringify(act.defaultParams, null, 2));
     setError(null);
     setHasConfirmed(false);
+    if (act.category === 'high_impact') {
+      setIsModalOpen(true);
+    }
   };
 
   const executeActionNow = async () => {
@@ -103,152 +109,125 @@ export const SafetyControl: React.FC = () => {
     }
   };
 
-  const handleTriggerAction = () => {
-    if (selectedAction.category === 'high_impact') {
-      setIsModalOpen(true);
-    } else {
-      executeActionNow();
-    }
-  };
-
   return (
-    <section id="safety" className="w-full min-h-screen bg-[#F3F1EC] text-[#090909] py-24 px-6 md:px-12 border-b border-[#D8D6D0]">
-      <div className="max-w-7xl mx-auto space-y-16">
-        
-        {/* Full-Width Monochrome Control Room Hero Photograph */}
-        <div className="relative aspect-[21/9] bg-[#090909] border border-[#D8D6D0] overflow-hidden flex items-center p-8 md:p-16">
-          <img
-            src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=2000&q=90"
-            alt="Monochrome Engineer Terminal Control Room"
-            className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 opacity-30"
-          />
-          <div className="relative z-10 max-w-3xl space-y-4 text-[#F3F1EC]">
-            <div className="label-caps text-[#686868]">// SAFETY BOUNDS & GOVERNANCE</div>
-            <h2 className="font-display text-3xl md:text-5xl font-extrabold leading-tight">
+    <section id="safety" className="w-full bg-[#F3F1EC] text-[#050505] py-24 px-6 md:px-12 border-b border-[#D8D6D0]">
+      <div className="max-w-7xl mx-auto space-y-12">
+        {/* Header */}
+        <div className="border-b border-[#D8D6D0] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="label-caps text-[#686868]">// SAFETY BOUNDS & CONTROLLED ACTIONS</div>
+            <h2 className="font-display text-3xl md:text-5xl font-extrabold text-[#050505] mt-2">
               THE MODEL DOES NOT GET UNRESTRICTED CONTROL.
             </h2>
-            <p className="font-sans text-sm md:text-base text-[#D8D6D0] prose-editorial">
-              Recommendations are mapped to a predefined set of simulated actions. Every action produces a structured result and an audit record.
-            </p>
+          </div>
+          <div className="text-xs font-mono text-[#686868]">
+            8 PREDEFINED REMEDIATION TOOLS // AUDIT LOGGED
           </div>
         </div>
 
-        {/* Ruled Typographic Actions List & Parameter Executor */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Action List */}
-          <div className="lg:col-span-5 space-y-3">
-            <div className="label-caps text-[#686868] mb-2">// PREDEFINED ACTION CATALOGUE</div>
-            {CONTROLLED_ACTIONS.map((act) => {
-              const isSelected = selectedAction.type === act.type;
-              return (
-                <div
-                  key={act.type}
-                  onClick={() => handleSelectAction(act)}
-                  className={`p-4 border transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#090909] text-[#F3F1EC] border-[#090909]'
-                      : 'bg-[#FFFFFF] text-[#090909] border-[#D8D6D0] hover:border-[#090909]'
-                  }`}
-                >
-                  <div className="flex items-center justify-between font-mono text-xs mb-1">
-                    <span className="font-bold">{act.name}</span>
-                    <span className={`text-[9px] px-1.5 py-0.5 border uppercase ${
-                      isSelected ? 'border-[#F3F1EC]/30 text-[#F3F1EC]' : 'border-[#D8D6D0] text-[#686868]'
-                    }`}>
-                      {act.category.replace('_', ' ')}
-                    </span>
-                  </div>
-                  <div className={`text-[11px] font-sans line-clamp-1 ${isSelected ? 'text-[#D8D6D0]' : 'text-[#686868]'}`}>
-                    {act.description}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Action Parameter Editor & Result */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="bg-[#FFFFFF] border border-[#D8D6D0] p-8 space-y-6">
-              <div className="flex items-center justify-between border-b border-[#D8D6D0] pb-4">
-                <div>
-                  <div className="label-caps text-[#686868]">SELECTED ACTION</div>
-                  <div className="font-display text-xl text-[#090909]">{selectedAction.name}</div>
-                </div>
-                <div className="font-mono text-xs border border-[#090909] px-3 py-1 uppercase">
-                  {selectedAction.category}
-                </div>
-              </div>
-
-              <div>
-                <label className="block label-caps text-[#686868] mb-2">ACTION PARAMETERS (JSON)</label>
-                <textarea
-                  value={paramsJson}
-                  onChange={(e) => setParamsJson(e.target.value)}
-                  rows={5}
-                  className="w-full bg-[#F3F1EC] border border-[#D8D6D0] p-4 font-mono text-xs text-[#090909] focus:border-[#090909] outline-none"
-                />
-              </div>
-
-              {error && (
-                <div className="p-3 border border-[#090909] bg-[#090909] text-[#F3F1EC] font-mono text-xs">
-                  [ERROR] {error}
-                </div>
-              )}
-
-              <button
-                onClick={handleTriggerAction}
-                disabled={isLoading}
-                className="w-full btn-sre-mono py-4"
+        {/* Full-Width Ruled Action Rows with Hover Reveal */}
+        <div 
+          className="border-t border-[#D8D6D0] divide-y divide-[#D8D6D0]"
+          onMouseMove={(e) => setCursorPos({ x: e.clientX, y: e.clientY })}
+          onMouseLeave={() => setHoveredAction(null)}
+        >
+          {CONTROLLED_ACTIONS.map((act, idx) => {
+            const isSelected = selectedAction.type === act.type;
+            return (
+              <div
+                key={act.type}
+                onMouseEnter={() => setHoveredAction(act.type)}
+                onClick={() => handleSelectAction(act)}
+                className="py-6 px-4 flex justify-between items-center cursor-pointer group hover:bg-[#050505] hover:text-[#FFFFFF] transition-colors duration-200"
               >
-                EXECUTE CONTROLLED ACTION
-              </button>
-            </div>
-
-            {/* Execution Result Panel */}
-            {lastResponse && (
-              <div className="bg-[#090909] text-[#F3F1EC] border border-[#090909] p-6 space-y-3 font-mono text-xs">
-                <div className="flex justify-between items-center border-b border-[#F3F1EC]/20 pb-3">
-                  <span className="font-bold uppercase text-[#F3F1EC]">// AUDITED ACTION RESPONSE</span>
-                  <span>STATUS: {lastResponse.status.toUpperCase()}</span>
+                <div className="flex items-center gap-6">
+                  <span className="font-mono text-xs text-[#686868] group-hover:text-[#C7C7C7] transition-transform duration-200 group-hover:-translate-x-2">
+                    0{idx + 1}
+                  </span>
+                  <span className="font-display text-xl md:text-2xl font-bold group-hover:translate-x-4 transition-transform duration-200">
+                    {act.name}
+                  </span>
                 </div>
-                <div className="space-y-1 text-[#D8D6D0]">
-                  <div>ACTION ID: {lastResponse.action_id}</div>
-                  <div>MESSAGE: {lastResponse.message}</div>
-                  <div>EXECUTION LATENCY: {lastResponse.execution_time_ms} ms</div>
-                  <div>TIMESTAMP: {lastResponse.timestamp}</div>
+
+                <div className="flex items-center gap-6">
+                  <span className="font-mono text-xs text-[#686868] group-hover:text-[#C7C7C7] uppercase hidden md:inline-block">
+                    {act.description}
+                  </span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-200" />
                 </div>
               </div>
-            )}
-          </div>
+            );
+          })}
         </div>
+
+        {/* Cursor Image Reveal */}
+        {hoveredAction && (
+          <div
+            className="fixed pointer-events-none z-50 w-56 h-36 border border-[#050505] bg-[#050505] overflow-hidden shadow-2xl transition-transform duration-75"
+            style={{
+              left: `${cursorPos.x + 20}px`,
+              top: `${cursorPos.y - 70}px`,
+            }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=600&q=80"
+              alt="Action Control Reveal"
+              className="w-full h-full object-cover grayscale contrast-125"
+            />
+          </div>
+        )}
+
+        {/* Parameter Configuration & Output */}
+        <div className="bg-[#FFFFFF] border border-[#D8D6D0] p-8 space-y-6">
+          <div className="flex justify-between items-center border-b border-[#D8D6D0] pb-4 font-mono text-xs">
+            <div>SELECTED TOOL: <span className="font-bold">{selectedAction.name}</span></div>
+            <div>CATEGORY: <span className="font-bold uppercase">{selectedAction.category}</span></div>
+          </div>
+
+          <div>
+            <label className="block label-caps text-[#686868] mb-2">ACTION PARAMETERS (JSON)</label>
+            <textarea
+              value={paramsJson}
+              onChange={(e) => setParamsJson(e.target.value)}
+              rows={4}
+              className="w-full bg-[#F3F1EC] border border-[#D8D6D0] p-4 font-mono text-xs text-[#050505] focus:border-[#050505] outline-none"
+            />
+          </div>
+
+          <button onClick={executeActionNow} disabled={isLoading} className="btn-sre-mono py-4 w-full">
+            EXECUTE {selectedAction.name.toUpperCase()} NOW
+          </button>
+        </div>
+
+        {/* Response Panel */}
+        {lastResponse && (
+          <div className="bg-[#050505] text-[#FFFFFF] border border-[#050505] p-6 space-y-2 font-mono text-xs">
+            <div className="font-bold border-b border-white/20 pb-2">// AUDIT RECORDED RESPONSE</div>
+            <div>ACTION ID: {lastResponse.action_id}</div>
+            <div>MESSAGE: {lastResponse.message}</div>
+            <div>LATENCY: {lastResponse.execution_time_ms} ms</div>
+            <div>TIMESTAMP: {lastResponse.timestamp}</div>
+          </div>
+        )}
       </div>
 
-      {/* High-Impact Confirmation Modal */}
+      {/* Safety Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-[#090909]/90 z-50 flex items-center justify-center p-4">
-          <div className="bg-[#090909] text-[#F3F1EC] border border-[#F3F1EC] max-w-lg w-full p-8 space-y-6">
-            <div className="space-y-2 border-b border-[#F3F1EC]/20 pb-4">
-              <div className="label-caps text-[#686868]">// HIGH-IMPACT SAFETY CONFIRMATION</div>
-              <h3 className="font-display text-2xl text-[#F3F1EC]">{selectedAction.name}</h3>
+        <div className="fixed inset-0 bg-[#050505]/90 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#050505] text-[#FFFFFF] border border-[#FFFFFF] max-w-lg w-full p-8 space-y-6 font-mono text-xs">
+            <div className="border-b border-white/20 pb-4 font-bold text-base">
+              HIGH-IMPACT ACTION CONFIRMATION: {selectedAction.name}
             </div>
-
-            <div className="font-mono text-xs space-y-2 text-[#D8D6D0]">
-              <div>Targeting high-impact remediation endpoint. Please review action parameters:</div>
-              <pre className="bg-[#141414] p-4 border border-[#F3F1EC]/20 text-[11px]">{paramsJson}</pre>
-            </div>
-
-            <label className="flex items-center gap-3 bg-[#141414] p-4 border border-[#F3F1EC]/20 cursor-pointer">
+            <pre className="bg-[#141414] p-4 border border-white/10 text-[11px]">{paramsJson}</pre>
+            <label className="flex items-center gap-3 bg-[#141414] p-4 border border-white/10 cursor-pointer">
               <input
                 type="checkbox"
                 checked={hasConfirmed}
                 onChange={(e) => setHasConfirmed(e.target.checked)}
-                className="accent-[#F3F1EC] w-4 h-4"
+                className="accent-white w-4 h-4"
               />
-              <span className="font-mono text-xs text-[#F3F1EC]">
-                I understand this is a simulated, predefined remediation action.
-              </span>
+              <span>I understand this is a simulated, predefined remediation action.</span>
             </label>
-
             <div className="flex gap-4">
               <button onClick={() => setIsModalOpen(false)} className="flex-1 btn-sre-dark-outline">
                 CANCEL
@@ -256,7 +235,7 @@ export const SafetyControl: React.FC = () => {
               <button
                 onClick={executeActionNow}
                 disabled={!hasConfirmed || isLoading}
-                className="flex-1 btn-sre-dark-outline bg-[#F3F1EC] text-[#090909] hover:bg-transparent hover:text-[#F3F1EC]"
+                className="flex-1 btn-sre-dark-outline bg-[#FFFFFF] text-[#050505] hover:bg-transparent hover:text-[#FFFFFF]"
               >
                 CONFIRM ACTION
               </button>
