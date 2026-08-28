@@ -1,9 +1,7 @@
 /**
- * AI SRE System — Agentic Incident Risk Triage & Response System
+ * AI SRE — Agentic Incident Risk Triage & Response System
  * Core Data Models & API Interfaces
  */
-
-export type ActiveView = 'overview' | 'simulator' | 'evidence' | 'actions' | 'audit';
 
 export type SeverityLevel = 'P1' | 'P2' | 'P3';
 

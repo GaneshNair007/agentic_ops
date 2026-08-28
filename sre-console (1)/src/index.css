@@ -1,19 +1,32 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   STRICT MONOCHROME PALETTE & EDITORIAL TYPOGRAPHY SYSTEM
+   Background: Warm White #F3F1EC (70%) | Surface/Black: #090909 / #141414 (30%)
+   Primary Text: #090909 on light, #F3F1EC on dark | Sec Text: #303030 | Meta: #686868
+   Hairline Rules: #D8D6D0 on light, rgba(243,241,236,0.15) on dark
+   Strict Rule: NO colors (no red, amber, teal, green, blue, purple).
+   Status differentiated via typography weight, borders, filled/outlined marks.
+   ========================================================================== */
+
 @layer base {
   :root {
-    --bg-ground: #0A0C0E;
-    --bg-surface: #101317;
-    --color-ink: #EDE7DC;
-    --color-ink-sec: #9EA5A8;
-    --color-muted: #6C7378;
-    --accent-amber: #E8913C;
-    --accent-teal: #2E6B72;
-    --accent-danger: #E63946;
-    --hairline: rgba(237, 231, 220, 0.13);
+    --bg-warm-white: #F3F1EC;
+    --bg-pure-white: #FFFFFF;
+    --bg-primary-black: #090909;
+    --bg-secondary-black: #141414;
+    
+    --color-text-primary: #090909;
+    --color-text-light: #F3F1EC;
+    --color-text-dark-grey: #303030;
+    --color-text-mid-grey: #686868;
+    
+    --rule-light: #D8D6D0;
+    --rule-dark: rgba(243, 241, 236, 0.15);
+
     --font-display: 'Syne', sans-serif;
-    --font-sans: 'Sora', sans-serif;
-    --font-mono: 'IBM Plex Mono', 'Roboto Mono', monospace;
+    --font-sans: 'Sora', 'Inter', 'Instrument Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
   }
 
   *, *::before, *::after {
@@ -23,23 +36,24 @@
   }
 
   html {
-    background-color: var(--bg-ground);
-    color: var(--color-ink);
+    background-color: var(--bg-warm-white);
+    color: var(--color-text-primary);
     font-family: var(--font-sans);
-    font-size: 14px;
+    font-size: 16px; /* Minimum body size: 16px */
+    line-height: 1.6;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
 
   body {
-    background-color: var(--bg-ground);
-    color: var(--color-ink);
+    background-color: var(--bg-warm-white);
+    color: var(--color-text-primary);
     min-height: 100vh;
     overflow-x: hidden;
   }
 }
 
-/* Custom Typography & Utility Classes */
+/* Typography Utility Classes */
 .font-display {
   font-family: var(--font-display);
   letter-spacing: -0.025em;
@@ -53,97 +67,107 @@
 
 .label-caps {
   font-family: var(--font-sans);
-  font-size: 10.5px;
+  font-size: 12px; /* Minimum UI label size: 12px */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--color-ink-sec);
 }
 
-.accent-amber {
-  color: var(--accent-amber);
+/* Paragraph max width constraint */
+.prose-editorial {
+  max-width: 65ch;
+  line-height: 1.65;
 }
 
-.accent-teal {
-  color: var(--accent-teal);
-}
-
-.accent-danger {
-  color: var(--accent-danger);
-}
-
-.border-hairline {
-  border-color: var(--hairline);
-}
-
-/* Custom Buttons */
-.btn-sre-outline {
+/* Monochrome Operational Buttons */
+.btn-sre-mono {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border: 1px solid var(--hairline);
-  background: transparent;
-  color: var(--color-ink);
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1px solid var(--color-text-primary);
+  background: var(--color-text-primary);
+  color: var(--bg-warm-white);
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
-  border-radius: 4px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0px; /* Sharp editorial edges */
 }
 
-.btn-sre-outline:hover:not(:disabled) {
-  border-color: var(--accent-amber);
-  color: var(--accent-amber);
+.btn-sre-mono:hover:not(:disabled) {
+  background: transparent;
+  color: var(--color-text-primary);
 }
 
-.btn-sre-outline:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.btn-sre-outline-mono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1px solid var(--rule-light);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0px;
 }
 
-.btn-sre-amber {
-  border-color: var(--accent-amber);
-  color: var(--accent-amber);
+.btn-sre-outline-mono:hover:not(:disabled) {
+  border-color: var(--color-text-primary);
+  background: var(--color-text-primary);
+  color: var(--bg-warm-white);
 }
 
-.btn-sre-teal {
-  border-color: var(--accent-teal);
-  color: var(--accent-teal);
+.btn-sre-dark-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1px solid var(--rule-dark);
+  background: transparent;
+  color: #F3F1EC;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0px;
 }
 
-.btn-sre-danger {
-  border-color: var(--accent-danger);
-  color: var(--accent-danger);
+.btn-sre-dark-outline:hover:not(:disabled) {
+  border-color: #F3F1EC;
+  background: #F3F1EC;
+  color: #090909;
 }
 
-/* Operational Data Card */
-.sre-card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--hairline);
-  border-radius: 4px;
-  padding: 20px;
-}
-
-/* Custom Scrollbars */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-ground);
+  background: var(--bg-warm-white);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(237, 231, 220, 0.2);
-  border-radius: 3px;
+  background: #303030;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-amber);
+  background: #090909;
 }

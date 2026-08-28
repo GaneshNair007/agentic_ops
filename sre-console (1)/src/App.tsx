@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
-import { CommandOverview } from './components/CommandOverview';
-import { IncidentSimulator } from './components/IncidentSimulator';
-import { EvidenceRetrieval } from './components/EvidenceRetrieval';
-import { ActionControl } from './components/ActionControl';
-import { AuditTimeline } from './components/AuditTimeline';
+import { Navbar } from './components/layout/Navbar';
+import { HeroSection } from './components/sections/HeroSection';
+import { ProblemStatement } from './components/sections/ProblemStatement';
+import { SystemWorkflow } from './components/sections/SystemWorkflow';
+import { IncidentSimulator } from './components/sections/IncidentSimulator';
+import { EvidenceRetrieval } from './components/sections/EvidenceRetrieval';
+import { SafetyControl } from './components/sections/SafetyControl';
+import { AuditTimeline } from './components/sections/AuditTimeline';
+import { ArchitectureStory } from './components/sections/ArchitectureStory';
+import { ClosingSection } from './components/sections/ClosingSection';
 import { api } from './services/api';
-import { ActiveView } from './types';
-import { AlertTriangle, Terminal } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 
 export function App() {
-  const [activeView, setActiveView] = useState<ActiveView>('overview');
   const [isBackendOnline, setIsBackendOnline] = useState<boolean>(true);
-  const [isPipelineRunning, setIsPipelineRunning] = useState<boolean>(false);
 
-  // Poll backend health status
+  // Poll FastAPI backend health
   useEffect(() => {
     const checkHealth = async () => {
       try {
@@ -31,64 +32,54 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0A0C0E] text-[#EDE7DC] font-sans antialiased flex flex-col pt-[58px] pb-16 md:pb-8">
-      {/* Navigation Header & Mobile Bar */}
-      <Navbar
-        activeView={activeView}
-        onViewChange={setActiveView}
-        isBackendOnline={isBackendOnline}
-      />
+    <div className="min-h-screen bg-[#F3F1EC] text-[#090909] font-sans antialiased flex flex-col selection:bg-[#090909] selection:text-[#F3F1EC]">
+      {/* Navigation Header */}
+      <Navbar isBackendOnline={isBackendOnline} />
 
       {/* Backend Offline Warning Banner */}
       {!isBackendOnline && (
-        <div className="bg-[#E8913C]/10 border-b border-[#E8913C] px-6 py-3 flex items-center justify-between font-mono text-xs text-[#E8913C] z-40">
+        <div className="fixed top-[58px] left-0 right-0 bg-[#090909] text-[#F3F1EC] px-6 py-2.5 flex items-center justify-between font-mono text-xs z-40 border-b border-[#F3F1EC]/20">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-[#E8913C]" />
-            <span>BACKEND OFFLINE — START <code className="bg-[#0A0C0E] px-1.5 py-0.5 rounded border border-[#E8913C]/40">python api_server.py</code> TO RUN LIVE PIPELINE & RAG RETRIEVAL</span>
+            <AlertTriangle className="w-4 h-4 text-[#F3F1EC]" />
+            <span>BACKEND OFFLINE — START <code className="bg-[#141414] px-1.5 py-0.5 border border-[#F3F1EC]/30">python api_server.py</code> TO RUN PIPELINE & RAG RETRIEVAL</span>
           </div>
-          <div className="text-[10px] uppercase text-[#9EA5A8] hidden md:block">
-            SIMULATION BACKEND PORT 8000
+          <div className="text-[10px] uppercase text-[#686868] hidden md:block">
+            FASTAPI SERVER PORT 8000
           </div>
         </div>
       )}
 
-      {/* Main View Router */}
-      <main className="flex-1 w-full">
-        {activeView === 'overview' && (
-          <CommandOverview
-            onNavigate={setActiveView}
-            isPipelineRunning={isPipelineRunning}
-          />
-        )}
+      {/* Main Single-Page Narrative Experience */}
+      <main className="w-full flex-1">
+        {/* Section 1: Hero */}
+        <HeroSection />
 
-        {activeView === 'simulator' && (
-          <div className="px-6 md:px-12 max-w-7xl mx-auto py-8">
-            <IncidentSimulator
-              onPipelineStarted={() => setIsPipelineRunning(true)}
-              onPipelineCompleted={() => setIsPipelineRunning(false)}
-            />
-          </div>
-        )}
+        {/* Section 2: Problem Statement */}
+        <ProblemStatement />
 
-        {activeView === 'evidence' && (
-          <div className="px-6 md:px-12 max-w-7xl mx-auto py-8">
-            <EvidenceRetrieval />
-          </div>
-        )}
+        {/* Section 3: System Workflow */}
+        <SystemWorkflow />
 
-        {activeView === 'actions' && (
-          <div className="px-6 md:px-12 max-w-7xl mx-auto py-8">
-            <ActionControl />
-          </div>
-        )}
+        {/* Section 4: Live Incident Simulator */}
+        <IncidentSimulator />
 
-        {activeView === 'audit' && (
-          <div className="px-6 md:px-12 max-w-7xl mx-auto py-8">
-            <AuditTimeline />
-          </div>
-        )}
+        {/* Section 5: Evidence Retrieval */}
+        <EvidenceRetrieval />
+
+        {/* Section 6: Safety Control */}
+        <SafetyControl />
+
+        {/* Section 7: Audit Timeline */}
+        <AuditTimeline />
+
+        {/* Section 8: Architecture Story */}
+        <ArchitectureStory />
+
+        {/* Section 9: Closing Section & Footer */}
+        <ClosingSection />
       </main>
     </div>
   );
 }
+
 export default App;
