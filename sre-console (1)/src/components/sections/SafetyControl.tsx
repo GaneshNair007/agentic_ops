@@ -110,13 +110,13 @@ export const SafetyControl: React.FC = () => {
   };
 
   return (
-    <section id="safety" className="w-full bg-[#F3F1EC] text-[#050505] py-24 px-6 md:px-12 border-b border-[#D8D6D0]">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <section id="safety" className="w-full bg-[#F5F3EE] text-[#202020] py-24 border-b border-[#D8D6D0]">
+      <div className="w-full px-6 md:px-16 lg:px-24 space-y-12">
         {/* Header */}
         <div className="border-b border-[#D8D6D0] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="label-caps text-[#686868]">// SAFETY BOUNDS & CONTROLLED ACTIONS</div>
-            <h2 className="font-display text-3xl md:text-5xl font-extrabold text-[#050505] mt-2">
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold text-[#202020] mt-2">
               THE MODEL DOES NOT GET UNRESTRICTED CONTROL.
             </h2>
           </div>
@@ -138,19 +138,19 @@ export const SafetyControl: React.FC = () => {
                 key={act.type}
                 onMouseEnter={() => setHoveredAction(act.type)}
                 onClick={() => handleSelectAction(act)}
-                className="py-6 px-4 flex justify-between items-center cursor-pointer group hover:bg-[#050505] hover:text-[#FFFFFF] transition-colors duration-200"
+                className="py-6 px-4 flex justify-between items-center cursor-pointer group hover:bg-[#050505] hover:text-[#F1F1F1] transition-colors duration-200"
               >
                 <div className="flex items-center gap-6">
-                  <span className="font-mono text-xs text-[#686868] group-hover:text-[#C7C7C7] transition-transform duration-200 group-hover:-translate-x-2">
+                  <span className="font-mono text-xs text-[#686868] group-hover:text-[#C8C8C8] transition-transform duration-200 group-hover:-translate-x-2 font-bold">
                     0{idx + 1}
                   </span>
-                  <span className="font-display text-xl md:text-2xl font-bold group-hover:translate-x-4 transition-transform duration-200">
+                  <span className="font-display text-2xl md:text-3xl font-extrabold group-hover:translate-x-4 transition-transform duration-200">
                     {act.name}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-6">
-                  <span className="font-mono text-xs text-[#686868] group-hover:text-[#C7C7C7] uppercase hidden md:inline-block">
+                  <span className="font-mono text-xs text-[#686868] group-hover:text-[#C8C8C8] uppercase hidden md:inline-block">
                     {act.description}
                   </span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-200" />
@@ -163,16 +163,16 @@ export const SafetyControl: React.FC = () => {
         {/* Cursor Image Reveal */}
         {hoveredAction && (
           <div
-            className="fixed pointer-events-none z-50 w-56 h-36 border border-[#050505] bg-[#050505] overflow-hidden shadow-2xl transition-transform duration-75"
+            className="fixed pointer-events-none z-50 w-64 h-40 border border-[#050505] bg-[#050505] overflow-hidden shadow-2xl transition-transform duration-75"
             style={{
               left: `${cursorPos.x + 20}px`,
-              top: `${cursorPos.y - 70}px`,
+              top: `${cursorPos.y - 80}px`,
             }}
           >
             <img
-              src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=600&q=80"
-              alt="Action Control Reveal"
-              className="w-full h-full object-cover grayscale contrast-125"
+              src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=85"
+              alt="Full Color Control Room"
+              className="w-full h-full object-cover"
             />
           </div>
         )}
@@ -185,23 +185,24 @@ export const SafetyControl: React.FC = () => {
           </div>
 
           <div>
-            <label className="block label-caps text-[#686868] mb-2">ACTION PARAMETERS (JSON)</label>
+            <label htmlFor="action-params-textarea" className="block label-caps text-[#686868] mb-2">ACTION PARAMETERS (JSON)</label>
             <textarea
+              id="action-params-textarea"
               value={paramsJson}
               onChange={(e) => setParamsJson(e.target.value)}
               rows={4}
-              className="w-full bg-[#F3F1EC] border border-[#D8D6D0] p-4 font-mono text-xs text-[#050505] focus:border-[#050505] outline-none"
+              className="w-full bg-[#F5F3EE] border border-[#D8D6D0] p-4 font-mono text-xs text-[#202020] focus:border-[#050505] outline-none"
             />
           </div>
 
-          <button onClick={executeActionNow} disabled={isLoading} className="btn-sre-mono py-4 w-full">
+          <button onClick={executeActionNow} disabled={isLoading} className="btn-sre-mono py-4 w-full text-sm">
             EXECUTE {selectedAction.name.toUpperCase()} NOW
           </button>
         </div>
 
         {/* Response Panel */}
         {lastResponse && (
-          <div className="bg-[#050505] text-[#FFFFFF] border border-[#050505] p-6 space-y-2 font-mono text-xs">
+          <div className="bg-[#050505] text-[#F1F1F1] border border-[#050505] p-6 space-y-2 font-mono text-xs">
             <div className="font-bold border-b border-white/20 pb-2">// AUDIT RECORDED RESPONSE</div>
             <div>ACTION ID: {lastResponse.action_id}</div>
             <div>MESSAGE: {lastResponse.message}</div>
@@ -214,7 +215,7 @@ export const SafetyControl: React.FC = () => {
       {/* Safety Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-[#050505]/90 z-50 flex items-center justify-center p-4">
-          <div className="bg-[#050505] text-[#FFFFFF] border border-[#FFFFFF] max-w-lg w-full p-8 space-y-6 font-mono text-xs">
+          <div className="bg-[#050505] text-[#F1F1F1] border border-[#FFFFFF] max-w-lg w-full p-8 space-y-6 font-mono text-xs">
             <div className="border-b border-white/20 pb-4 font-bold text-base">
               HIGH-IMPACT ACTION CONFIRMATION: {selectedAction.name}
             </div>

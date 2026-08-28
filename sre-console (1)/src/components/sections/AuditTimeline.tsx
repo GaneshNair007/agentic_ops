@@ -23,7 +23,7 @@ export const AuditTimeline: React.FC = () => {
       setAuditLogs(auditRes.logs || []);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch timeline logs');
-    } flex: {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -44,7 +44,7 @@ export const AuditTimeline: React.FC = () => {
 
   return (
     <section id="audit" className="w-full min-h-screen bg-[#050505] text-[#F1F1F1] py-24 border-b border-white/20">
-      <div className="container-full space-y-12">
+      <div className="w-full px-6 md:px-16 lg:px-24 space-y-12">
         {/* Header */}
         <div className="border-b border-white/20 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
