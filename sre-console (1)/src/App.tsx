@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Lenis from 'lenis';
 import { EntryLoader } from './components/sections/EntryLoader';
 import { Navbar } from './components/layout/Navbar';
 import { HeroSection } from './components/sections/HeroSection';
@@ -18,7 +19,27 @@ export function App() {
   const [isLoaderComplete, setIsLoaderComplete] = useState<boolean>(false);
   const [isBackendOnline, setIsBackendOnline] = useState<boolean>(true);
 
-  // Poll backend health status
+  // Initialize Lenis smooth scroll
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
+  // Poll FastAPI backend health
   useEffect(() => {
     const checkHealth = async () => {
       try {
@@ -35,7 +56,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F3F1EC] text-[#050505] font-sans antialiased flex flex-col selection:bg-[#050505] selection:text-[#FFFFFF]">
+    <div className="min-h-screen bg-[#F5F3EE] text-[#202020] font-sans antialiased flex flex-col selection:bg-[#050505] selection:text-[#FFFFFF]">
       {/* Boot Loader Sequence */}
       {!isLoaderComplete && (
         <EntryLoader onComplete={() => setIsLoaderComplete(true)} />
@@ -59,34 +80,34 @@ export function App() {
 
       {/* Main Single-Page Narrative Experience */}
       <main className="w-full flex-1">
-        {/* Section 1: Hero */}
+        {/* Scene 1: Hero */}
         <HeroSection />
 
-        {/* Section 2: Marquee */}
+        {/* Scene 2: Marquee */}
         <IncidentMarquee />
 
-        {/* Section 3: Problem Section */}
+        {/* Scene 3: Problem Section */}
         <ProblemSection />
 
-        {/* Section 4: System Workflow */}
+        {/* Scene 4: System Workflow */}
         <SystemWorkflow />
 
-        {/* Section 5: Live Incident Simulator */}
+        {/* Scene 5: Live Incident Simulator */}
         <IncidentSimulator />
 
-        {/* Section 6: Evidence Retrieval */}
+        {/* Scene 6: Evidence Retrieval */}
         <EvidenceRetrieval />
 
-        {/* Section 7: Safety Control */}
+        {/* Scene 7: Safety Control */}
         <SafetyControl />
 
-        {/* Section 8: Audit Timeline */}
+        {/* Scene 8: Audit Timeline */}
         <AuditTimeline />
 
-        {/* Section 9: Architecture Story */}
+        {/* Scene 9: Architecture Story */}
         <ArchitectureStory />
 
-        {/* Section 10: Closing Section & Footer */}
+        {/* Scene 10: Closing Section & Footer */}
         <ClosingSection />
       </main>
     </div>

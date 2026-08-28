@@ -1,33 +1,29 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   STRICT MONOCHROME HIGH-CONTRAST DENSE EDITORIAL SYSTEM
-   Readability & Density Rules:
-   - Primary text on white: #050505 (min contrast 18:1)
-   - Secondary text on white: #4A4A4A (min contrast 7:1)
-   - Primary text on black: #FFFFFF
-   - Secondary text on black: #C7C7C7
-   - Rule borders: #D8D6D0 (light), rgba(255,255,255,0.18) (dark)
-   - Minimum desktop body size: 17px (important 18-20px)
-   - Minimum mobile body size: 16px
-   - Minimum label size: 12px
-   - Paragraph max width: 58ch
-   - ZERO colors (100% monochrome)
+   FULL-WIDTH CINEMATIC COLOUR-PHOTOGRAPHY DESIGN SYSTEM
+   - 90%+ Viewport Usage on 1920px Displays (1680px-1760px Container Width)
+   - Natural Full-Colour Infrastructure Photography (No Grayscale, No Desaturation)
+   - Disciplined Black/Charcoal/White/Warm White UI
+   - Absolute Readability: Desktop Body 18-20px (min 18px), Line-Height 1.6
+   - Primary Text on White: #202020 | Secondary Text: #4A4A4A
+   - Primary Text on Black: #F1F1F1 | Secondary Text: #C8C8C8
+   - Box Elimination: 80%+ Boxed Cards Removed
    ========================================================================== */
 
 @layer base {
   :root {
-    --bg-light: #F3F1EC;
-    --bg-white: #FFFFFF;
-    --bg-dark: #050505;
-    --bg-dark-sec: #141414;
+    --bg-warm-white: #F5F3EE;
+    --bg-pure-white: #FFFFFF;
+    --bg-black: #050505;
+    --bg-charcoal: #111111;
 
-    --text-dark-primary: #050505;
-    --text-dark-sec: #4A4A4A;
-    --text-meta-grey: #686868;
+    --text-dark-primary: #202020;
+    --text-dark-secondary: #4A4A4A;
+    --text-dark-meta: #686868;
 
-    --text-light-primary: #FFFFFF;
-    --text-light-sec: #C7C7C7;
+    --text-light-primary: #F1F1F1;
+    --text-light-secondary: #C8C8C8;
     --text-light-meta: #8E8E8E;
 
     --rule-light: #D8D6D0;
@@ -45,21 +41,31 @@
   }
 
   html {
-    background-color: var(--bg-light);
+    background-color: var(--bg-warm-white);
     color: var(--text-dark-primary);
     font-family: var(--font-sans);
-    font-size: 17px; /* Desktop Body Min: 17px */
+    font-size: 18px; /* Desktop Body Minimum: 18px */
     line-height: 1.6;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
 
   body {
-    background-color: var(--bg-light);
+    background-color: var(--bg-warm-white);
     color: var(--text-dark-primary);
     min-height: 100vh;
     overflow-x: hidden;
   }
+}
+
+/* Full-Width Container Utility (90%+ viewport coverage) */
+.container-full {
+  width: 100%;
+  max-width: 1720px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 4vw, 64px);
+  padding-right: clamp(20px, 4vw, 64px);
 }
 
 /* Typography Utility Classes */
@@ -76,37 +82,37 @@
 
 .label-caps {
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 13px; /* Metadata / Labels min 13px */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
 
-/* Readable Paragraph Constraint */
+/* Paragraph max width constraint */
 .prose-editorial {
   max-width: 58ch;
-  line-height: 1.65;
-  font-size: 18px;
-  color: var(--text-dark-sec);
+  line-height: 1.62;
+  font-size: 19px;
+  color: var(--text-dark-secondary);
 }
 
-/* High Contrast Monochrome Buttons */
+/* High Contrast Full-Width Buttons */
 .btn-sre-mono {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
+  gap: 12px;
+  padding: 16px 32px;
   border: 1px solid #050505;
   background: #050505;
-  color: #FFFFFF;
+  color: #F1F1F1;
   font-family: var(--font-sans);
-  font-size: 14px; /* Minimum UI controls: 14px */
+  font-size: 15px; /* Buttons min 15px */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0px;
 }
 
@@ -119,43 +125,43 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
+  gap: 12px;
+  padding: 16px 32px;
   border: 1px solid #D8D6D0;
   background: transparent;
-  color: #050505;
+  color: #202020;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0px;
 }
 
 .btn-sre-outline-mono:hover:not(:disabled) {
   border-color: #050505;
   background: #050505;
-  color: #FFFFFF;
+  color: #F1F1F1;
 }
 
 .btn-sre-dark-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
+  gap: 12px;
+  padding: 16px 32px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   background: transparent;
-  color: #FFFFFF;
+  color: #F1F1F1;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0px;
 }
 
@@ -172,11 +178,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F3F1EC;
+  background: #F5F3EE;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #303030;
+  background: #202020;
 }
 
 ::-webkit-scrollbar-thumb:hover {
