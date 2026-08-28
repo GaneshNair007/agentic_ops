@@ -67,7 +67,7 @@ export function App() {
 
       {/* Backend Offline Warning Banner */}
       {!isBackendOnline && (
-        <div className="fixed top-[76px] left-0 right-0 bg-[#050505] text-[#FFFFFF] px-6 py-2.5 flex items-center justify-between font-mono text-xs z-40 border-b border-white/20">
+        <div className="fixed top-[120px] left-0 right-0 bg-[#050505] text-[#FFFFFF] px-6 py-2.5 flex items-center justify-between font-mono text-xs z-40 border-b border-white/20">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-[#FFFFFF]" />
             <span>BACKEND OFFLINE — START <code className="bg-[#141414] px-1.5 py-0.5 border border-white/30">python api_server.py</code> TO RUN PIPELINE & RAG RETRIEVAL</span>
