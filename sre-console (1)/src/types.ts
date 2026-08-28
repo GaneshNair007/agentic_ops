@@ -1,94 +1,88 @@
+/**
+ * AI SRE System — Agentic Incident Risk Triage & Response System
+ * Core Data Models & API Interfaces
+ */
+
+export type ActiveView = 'overview' | 'simulator' | 'evidence' | 'actions' | 'audit';
+
 export type SeverityLevel = 'P1' | 'P2' | 'P3';
-export type IncidentOutcome = 'Resolved' | 'Auto-Resolved' | 'Investigating' | 'Degraded';
-export type ServiceStatus = 'Stable' | 'Degraded' | 'Critical' | 'Maintenance';
 
-export interface ServiceHealthItem {
-  id: string;
-  name: string;
-  rps: number;
-  errorRate: number; // e.g., 0.01 for 0.01%, 2.4 for 2.4%
-  p99LatencyMs: number;
-  status: ServiceStatus;
-  region: string;
-}
+export type ActionCategory = 'neutral' | 'review_required' | 'high_impact';
 
-export interface AutonomousAction {
-  id: string;
-  icon: string;
-  title: string;
-  timeAgo: string;
-  reason: string;
-  type: 'scaling' | 'maintenance' | 'security' | 'failover';
-}
-
-export interface Incident {
-  id: string;
-  service: string;
-  severity: SeverityLevel;
+export interface HealthResponse {
+  status: string;
+  system: string;
   timestamp: string;
-  duration: string;
-  outcome: IncidentOutcome;
-  summary?: string;
-  rootCause?: string;
-  mitigationSteps?: string[];
-  metricsSnapshot?: {
-    rps: number;
-    errorRate: number;
-    latencyMs: number;
-  };
 }
 
-export interface SimulationScenario {
+export interface RagResultItem {
   id: string;
-  code: string;
   title: string;
-  description: string;
-  targetService: string;
-  impactLevel: 'High Impact' | 'Medium Impact' | 'Critical Impact' | 'Low Impact';
-  databaseOrTech: string;
+  score: number;
+  text: string;
+  document_type?: 'incident' | 'runbook' | string;
+  kind?: string;
+  filename?: string;
+  tags?: string[] | string;
+  metadata?: Record<string, any>;
 }
 
-export interface TimelineStage {
-  stage: number;
-  name: string;
-  timeCode: string;
-  status: 'pending' | 'running' | 'completed' | 'failed';
-  details?: Record<string, string | number>;
-  logOutput?: string;
+export interface RagRetrieveResponse {
+  query: string;
+  count: number;
+  results: RagResultItem[];
 }
 
-export interface KnowledgeDoc {
-  id: string;
-  code: string;
-  title: string;
-  lastUpdated: string;
-  updatedBy?: string;
-  docId: string;
-  matchScore: number;
-  source: 'Runbooks' | 'Post-Mortems' | 'Scripts';
-  tags: string[];
-  summary: string;
-  aiRecommendation: string;
-  context: string;
-  prerequisites: string[];
-  codeLanguage: string;
-  codeSnippet: string;
-}
-
-export interface SystemLog {
-  id: string;
-  timestamp: string;
-  level: 'INFO' | 'WARN' | 'ERROR' | 'DEBUG';
-  service: string;
+export interface ActionResponse {
+  action_id: string;
+  action: string;
+  status: 'success' | 'failed' | string;
   message: string;
-  traceId?: string;
+  timestamp: string;
+  execution_time_ms: number;
+  params: Record<string, any>;
 }
 
-export interface KpiMetrics {
-  documentCount: string;
-  documentCountChange: string;
-  avgRetrievalMs: number;
-  p99RetrievalMs: number;
-  executionLatencyMs: number;
-  systemReadiness: string;
+export interface EventItem {
+  event_id?: string;
+  type: string;
+  payload: Record<string, any>;
+  timestamp?: string;
+}
+
+export interface EventListResponse {
+  count: number;
+  events: EventItem[];
+}
+
+export interface AuditLogItem {
+  action_id: string;
+  action: string;
+  status: string;
+  message: string;
+  timestamp: string;
+  execution_time_ms: number;
+  params: Record<string, any>;
+}
+
+export interface AuditLogResponse {
+  count: number;
+  logs: AuditLogItem[];
+}
+
+export interface PipelineRunResponse {
+  status: 'success' | 'failed' | string;
+  service: string;
+  total_duration_sec: number;
+  retrieved_docs: RagResultItem[];
+  action_result: ActionResponse;
+  events: EventItem[];
+}
+
+export interface ActionDefinition {
+  type: string;
+  name: string;
+  description: string;
+  category: ActionCategory;
+  defaultParams: Record<string, any>;
 }
