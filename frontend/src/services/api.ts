@@ -12,7 +12,7 @@ import {
   PipelineRunResponse,
 } from '../types';
 
-const API_BASE = (import.meta.env.VITE_API_URL ?? '') + '/api';
+const API_BASE = (import.meta.env.VITE_API_URL ?? 'https://agentic-ops-1.onrender.com') + '/api';
 
 class ApiClient {
   private async handleError(res: Response, defaultMessage: string): Promise<never> {
