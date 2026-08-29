@@ -1,51 +1,40 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Testing & Coverage
+*.pyo
 .pytest_cache/
 .coverage
-htmlcov/
+*.pyc
+venv/
+.venv/
 
 # Environment
 .env
-venv/
-ENV/
+.env.local
+.env.*.local
 
-# Scratch & IDE
-scratch/
-.vscode/
-.idea/
-*.swp
+# Vector DB (large binary files)
+rag/chroma_db/
+backend/rag/chroma_db/
+
+# Agent workspace files
+.agents/
+skills-lock.json
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Runtime artifacts — generated at run time, not source
-tools/audit.log
-tools/events.jsonl
-data/memory_store.jsonl
-events.log
-
-# Dependency caches
-.pytest_cache/
+# Logs
+*.log
+benchmark_results.jsonl
